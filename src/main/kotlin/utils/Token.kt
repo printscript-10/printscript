@@ -1,6 +1,4 @@
-package org.example.utils
-
-import utils.Position
+package utils
 
 data class Token (
     val type: String,

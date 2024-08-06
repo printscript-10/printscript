@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import utils.Position
-import org.example.utils.Token
-import org.example.utils.TokenRegex
+import utils.Token
+import utils.TokenRegex
 import java.io.File
 
 class Lexer {
@@ -32,7 +32,7 @@ class Lexer {
         return tokens
     }
 
-    private fun getToken(line: Int, position: Int, currentString: String): Token{
+    private fun getToken(line: Int, position: Int, currentString: String): Token {
         for (tokenRegex in tokenRegexes) {
             val matchResult = tokenRegex.regex.toRegex().find(currentString)
 
