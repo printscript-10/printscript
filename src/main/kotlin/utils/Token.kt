@@ -1,15 +1,11 @@
 package org.example.utils
 
+import utils.Position
+
 data class Token (
     val type: String,
     val value: String,
     val position: Position
-)
-
-data class Position (
-    val line: Int,
-    val start: Int,
-    val end: Int,
 )
 
 data class TokenRegex (
