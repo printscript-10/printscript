@@ -1,7 +1,7 @@
 package utils
 
 data class Token (
-    val type: String,
+    val type: TokenType,
     val value: String,
     val position: Position
 )

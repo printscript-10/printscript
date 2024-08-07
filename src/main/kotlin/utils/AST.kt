@@ -6,6 +6,11 @@ sealed interface AST {
     val position: Position
 }
 
+data class PrintFunctionAST(
+    val value: AST,
+    override val position: Position
+) : AST
+
 data class BinaryOperator(
     val right: AST,
     val left: AST,

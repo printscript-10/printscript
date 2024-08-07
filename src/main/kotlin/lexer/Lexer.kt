@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import utils.Position
 import utils.Token
 import utils.TokenRegex
+import utils.TokenType
 import java.io.File
 
 class Lexer {
@@ -22,7 +23,7 @@ class Lexer {
                 val currentLine = line.substring(currentPosition)
                 val token: Token = getToken(index, currentPosition, currentLine)
 
-                if(token.type != "WHITESPACE"){
+                if(token.type != TokenType.WHITESPACE){
                     tokens.add(token)
                 }
 
@@ -40,7 +41,7 @@ class Lexer {
                 val matchedValue = matchResult.value
 
 
-                val token = Token(type= tokenRegex.token , value= matchedValue, position= Position(line, position, position + matchedValue.length))
+                val token = Token(type= TokenType.valueOf(tokenRegex.token) , value= matchedValue, position= Position(line, position, position + matchedValue.length))
                 return token
             }
         }
