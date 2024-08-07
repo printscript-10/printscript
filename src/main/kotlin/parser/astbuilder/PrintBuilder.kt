@@ -2,6 +2,7 @@ package parser.astbuilder
 
 import parser.BuildResult
 import parser.Failure
+import parser.Success
 import utils.Token
 import utils.TokenType
 
@@ -14,6 +15,10 @@ class PrintBuilder: ASTBuilder {
                 position = position
             )
         }
+        return Failure(
+            error = "Expected opening brace at line ${tokens[position + 1].position.line}",
+            position = position
+        )
 
 
     }
