@@ -3,7 +3,7 @@ package utils
 enum class TokenType {
     WHITESPACE,
     STRING,
-    KEYWORD,
+    VARIABLE_DECLARATOR,
     TYPE,
     PRINT,
     IDENTIFIER,

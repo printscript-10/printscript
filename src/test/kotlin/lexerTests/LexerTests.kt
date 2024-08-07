@@ -14,7 +14,7 @@ class LexerTests {
             val input = "let a: string = \"b\";"
             val result = Lexer().tokenize(input)
             val expected = listOf(
-                Token(position = Position(0, 0, 3), type = TokenType.KEYWORD, value = "let"),
+                Token(position = Position(0, 0, 3), type = TokenType.VARIABLE_DECLARATOR, value = "let"),
                 Token(position = Position(0, 4, 5), type = TokenType.IDENTIFIER, value = "a"),
                 Token(position = Position(0, 5, 6), type = TokenType.COLON, value = ":"),
                 Token(position = Position(0, 7, 13), type = TokenType.TYPE, value = "string"),
