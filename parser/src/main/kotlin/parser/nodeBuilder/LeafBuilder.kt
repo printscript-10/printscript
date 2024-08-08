@@ -1,4 +1,4 @@
-package parser.astbuilder
+package parser.nodeBuilder
 
 import parser.BuildResult
 import parser.Success
@@ -7,7 +7,7 @@ import utils.NumberLiteral
 import utils.StringLiteral
 import utils.Token
 
-class StringLiteralBuilder: ASTBuilder {
+class StringLiteralBuilder: ASTNodeBuilder {
 
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val token = tokens[position]
@@ -21,7 +21,7 @@ class StringLiteralBuilder: ASTBuilder {
     }
 }
 
-class NumericLiteralBuilder: ASTBuilder {
+class NumericLiteralBuilder: ASTNodeBuilder {
 
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val token = tokens[position]
@@ -36,7 +36,7 @@ class NumericLiteralBuilder: ASTBuilder {
     }
 }
 
-class IdentifierBuilder: ASTBuilder {
+class IdentifierBuilder: ASTNodeBuilder {
 
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val token = tokens[position]

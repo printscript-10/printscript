@@ -1,5 +1,3 @@
-package lexerTests
-
 import lexer.Lexer
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

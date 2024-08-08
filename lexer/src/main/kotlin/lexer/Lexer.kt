@@ -40,7 +40,6 @@ class Lexer {
             if (matchResult != null && matchResult.range.first == 0) {
                 val matchedValue = matchResult.value
 
-
                 val token = Token(type= TokenType.valueOf(tokenRegex.token) , value= matchedValue, position= Position(line, position, position + matchedValue.length))
                 return token
             }
@@ -49,7 +48,7 @@ class Lexer {
     }
 
     private fun getTokenRegexes(): List<TokenRegex> {
-        return mapper.readValue(File("src/main/resources/tokens.json"))
+        return mapper.readValue(File("resources/tokens.json"))
     }
 
     init {

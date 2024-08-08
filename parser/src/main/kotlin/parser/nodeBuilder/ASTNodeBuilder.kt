@@ -1,9 +1,9 @@
-package parser.astbuilder
+package parser.nodeBuilder
 
 import parser.BuildResult
 import utils.Token
 
-interface ASTBuilder {
+interface ASTNodeBuilder {
 
     fun build(tokens: List<Token>, position: Int): BuildResult
 }

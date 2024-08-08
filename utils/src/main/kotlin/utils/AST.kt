@@ -6,7 +6,7 @@ sealed interface AST {
     val position: Position
 }
 
-data class PrintFunctionAST(
+data class PrintFunction(
     val value: AST,
     override val position: Position
 ) : AST
