@@ -52,6 +52,6 @@ class Lexer {
     }
 
     private fun getTokenRegexes(): List<TokenRegex> {
-        return mapper.readValue(File("resources/tokens.json"))
+        return mapper.readValue(File("lexer/src/main/resources/tokens.json"))
     }
 }
