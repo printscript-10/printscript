@@ -1,21 +1,9 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'printscript-conventions'
 }
 
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
     implementation project(':utils')
-}
-
-test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(21)
 }

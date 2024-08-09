@@ -14,6 +14,10 @@ class Lexer {
     private val mapper: ObjectMapper = jacksonObjectMapper()
     private var tokenRegexes: List<TokenRegex>
 
+    init {
+        this.tokenRegexes = getTokenRegexes()
+    }
+
     fun tokenize(input: String): List<Token> {
         val tokens = mutableListOf<Token>()
         for ((index, line) in input.lines().withIndex()) {
@@ -49,9 +53,5 @@ class Lexer {
 
     private fun getTokenRegexes(): List<TokenRegex> {
         return mapper.readValue(File("resources/tokens.json"))
-    }
-
-    init {
-        this.tokenRegexes = getTokenRegexes()
     }
 }
