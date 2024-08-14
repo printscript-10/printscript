@@ -9,6 +9,28 @@ import utils.TokenType
 
 class PrintBuilder: ASTNodeBuilder {
 
+    override fun build(tokens: List<Token>, position: Int): BuildResult {
+        if(tokens[position + 1].type != TokenType.OPEN_BRACE){
+            return Failure(
+                error = "Expected opening brace at line ${tokens[position + 1].position.line}",
+                position = position
+            )
+        }
+        
+        val closingBracePos = findClosingBracePosition(tokens, position + 1)
+        if(closingBracePos == -1){
+            return Failure(
+                error = "Expected closing brace at line ${tokens[position + 1].position.line}",
+                position = position
+            )
+        }
+
+        val innerTokens = tokens.subList(position + 2, closingBracePos)
+        return Success(
+            result = ASTBuilder().build(innerTokens).first(),
+            position = position
+        )
+    }
 
     private fun findClosingBracePosition(tokens: List<Token>, openingBracePosition: Int): Int {
         var braceBalance = 1
@@ -27,32 +49,6 @@ class PrintBuilder: ASTNodeBuilder {
             currentPosition++
         }
         return -1
-    }
-
-
-    override fun build(tokens: List<Token>, position: Int): BuildResult {
-        if(tokens[position + 1].type != TokenType.OPEN_BRACE){
-            return Failure(
-                error = "Expected opening brace at line ${tokens[position + 1].position.line}",
-                position = position
-            )
-        }
-        val closingBracePos = findClosingBracePosition(tokens, position + 1)
-        if(closingBracePos == -1){
-            return Failure(
-                error = "Expected closing brace at line ${tokens[position + 1].position.line}",
-                position = position
-            )
-        }
-
-        val innerTokens = tokens.subList(position + 2, closingBracePos)
-
-        return Success(
-            result = ASTBuilder().build(innerTokens).first(),
-            position = position
-        )
-
-
     }
 
 }
