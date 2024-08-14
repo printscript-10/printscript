@@ -5,7 +5,9 @@ import parser.nodeBuilder.IdentifierBuilder
 import parser.nodeBuilder.NumericLiteralBuilder
 import parser.nodeBuilder.PrintBuilder
 import parser.nodeBuilder.StringLiteralBuilder
-import utils.*
+import utils.AST
+import utils.Token
+import utils.TokenType
 
 class ASTBuilder {
 

@@ -7,7 +7,6 @@ import utils.Position
 import utils.Token
 import utils.TokenRegex
 import utils.TokenType
-import java.io.File
 
 class Lexer {
 
@@ -57,6 +56,8 @@ class Lexer {
     }
 
     private fun getTokenRegexes(): List<TokenRegex> {
-        return mapper.readValue(File("lexer/src/main/resources/tokens.json"))
+        val resourceStream = this::class.java.classLoader.getResourceAsStream("tokens.json")
+            ?: throw IllegalArgumentException("Resource not found: tokens.json")
+        return mapper.readValue(resourceStream)
     }
 }
