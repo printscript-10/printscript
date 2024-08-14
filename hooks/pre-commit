@@ -2,7 +2,7 @@
 
 echo '-----------------🚀Launching pre-commit hook-----------------'
 
-./gradlew ktlintFormat --daemon
+./gradlew ktlintFormat
 if [ $? -ne 0 ]; then
   echo '❌ ktlintFormat failed. Please fix the issues before committing.'
   exit 1

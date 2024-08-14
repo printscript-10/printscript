@@ -64,6 +64,9 @@ tasks.register("ktlintFormat", JavaExec) {
 task installGitHooks(type: Copy) {
   from new File(rootProject.rootDir, 'hooks/pre-commit')
   into { new File(rootProject.rootDir, '.git/hooks') }
+  doLast {
+    file("${rootProject.rootDir}/.git/hooks/pre-commit").setExecutable(true)
+  }
 }
 
 build.dependsOn installGitHooks
