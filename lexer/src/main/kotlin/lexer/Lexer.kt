@@ -27,7 +27,7 @@ class Lexer {
                 val currentLine = line.substring(currentPosition)
                 val token: Token = getToken(index, currentPosition, currentLine)
 
-                if(token.type != TokenType.WHITESPACE){
+                if (token.type != TokenType.WHITESPACE) {
                     tokens.add(token)
                 }
 
@@ -44,7 +44,12 @@ class Lexer {
             if (matchResult != null && matchResult.range.first == 0) {
                 val matchedValue = matchResult.value
 
-                val token = Token(type= TokenType.valueOf(tokenRegex.token) , value= matchedValue, position= Position(line, position, position + matchedValue.length))
+                val token =
+                    Token(
+                        type = TokenType.valueOf(tokenRegex.token),
+                        value = matchedValue,
+                        position = Position(line, position, position + matchedValue.length),
+                    )
                 return token
             }
         }

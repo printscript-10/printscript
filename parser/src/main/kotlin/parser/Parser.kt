@@ -4,12 +4,9 @@ import utils.Token
 
 class Parser {
 
-    fun buildAST(tokens: List<Token>){
-
+    fun buildAST(tokens: List<Token>) {
     }
 
-    fun checkAST(){
-
+    fun checkAST() {
     }
-
 }

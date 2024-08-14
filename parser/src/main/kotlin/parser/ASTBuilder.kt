@@ -16,27 +16,23 @@ class ASTBuilder {
             TokenType.STRING to StringLiteralBuilder(),
             TokenType.NUMBER to NumericLiteralBuilder(),
             TokenType.IDENTIFIER to IdentifierBuilder(),
-            TokenType.PRINT to PrintBuilder()
+            TokenType.PRINT to PrintBuilder(),
         )
     }
 
-    fun build(tokens: List<Token>): List<AST>{
+    fun build(tokens: List<Token>): List<AST> {
         var result = mutableListOf<AST>()
         var tokenIterator = tokens.listIterator()
-        while(tokenIterator.hasNext()){
+        while (tokenIterator.hasNext()) {
             var currentToken = tokenIterator.next()
             val builder = builders[currentToken.type]
-            if(builder != null){
+            if (builder != null) {
                 val buildResult = (builder.build(tokens, tokenIterator.previousIndex()))
-                if(buildResult is Success) result.add(buildResult.result)
+                if (buildResult is Success) result.add(buildResult.result)
                 // agregar caso de failure
-
             }
             // tirar error si no encuentra builder
-
         }
         return result
     }
-
-
 }

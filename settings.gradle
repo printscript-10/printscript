@@ -1,4 +1,5 @@
 rootProject.name = 'printscript'
 include ('parser', 'utils', 'lexer', 'interpreter')
 include 'main'
+include 'hooks'
 
