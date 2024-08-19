@@ -11,7 +11,7 @@ data class PrintFunction(
     override val position: Position
 ) : AST
 
-data class BinaryOperator(
+data class BinaryOperation(
     val right: AST,
     val left: AST,
     val operator: String,

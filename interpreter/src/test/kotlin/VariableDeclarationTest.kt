@@ -5,12 +5,10 @@ import org.junit.jupiter.api.Test
 import utils.Identifier
 import utils.Position
 import utils.StringLiteral
-import utils.Token
-import utils.TokenType
 import utils.Type
 import utils.VariableDeclaration
 
-class InterpreterTest {
+class VariableDeclarationTest {
 
     @Test
     fun `test simpleVariableDeclaration`() {
