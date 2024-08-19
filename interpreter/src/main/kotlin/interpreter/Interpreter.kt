@@ -1,25 +1,19 @@
 package interpreter
 
-import interpreter.nodeInterpreter.NumericLiteralInterpreter
 import interpreter.nodeInterpreter.PrintInterpreter
-import interpreter.nodeInterpreter.StringLiteralInterpreter
 import interpreter.nodeInterpreter.VariableDeclarationInterpreter
 import utils.*
 
 class Interpreter {
 
-    private val variables: Map<String, Variable> = mapOf()
+    private var variables: Map<String, Variable> = mapOf()
 
     fun interpret(ast: AST){
-        //match interpreters to ast type
         when(ast){
-            is BinaryOperator -> TODO()
-            is Identifier -> TODO()
-            is NumberLiteral -> NumericLiteralInterpreter().execute(ast)
-            is StringLiteral -> StringLiteralInterpreter().execute(ast)
-            is PrintFunction -> PrintInterpreter().execute(ast)
-            is Type -> TODO()
-            is VariableDeclaration -> VariableDeclarationInterpreter(variables).execute(ast)
+            is PrintFunction -> PrintInterpreter(variables).execute(ast)
+            is VariableDeclaration -> variables = VariableDeclarationInterpreter(variables).execute(ast)
+            // is Assignation -> AssignationInterpreter(variables).execute(ast)
+            else-> throw Error("Forget about it cuh")
         }
     }
 }
