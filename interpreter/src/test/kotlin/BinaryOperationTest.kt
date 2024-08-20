@@ -8,7 +8,6 @@ import utils.Position
 import utils.StringLiteral
 
 class BinaryOperationTest {
-
     @Test
     fun `test simpleSum`() {
         val variables: Map<String, Variable> = mapOf();
