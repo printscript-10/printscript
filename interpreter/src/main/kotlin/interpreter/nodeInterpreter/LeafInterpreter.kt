@@ -6,26 +6,26 @@ import utils.Identifier
 import utils.NumberLiteral
 import utils.StringLiteral
 
-class StringLiteralInterpreter: ASTNodeInterpreter<String> {
-    override fun execute(ast: AST): String {
+class StringLiteralInterpreter: ASTNodeInterpreter<Variable> {
+    override fun execute(ast: AST): Variable {
         if (ast !is StringLiteral) {
             throw Exception("AST isn't a StringLiteral")
         }
-        return ast.value
+        return Variable(type = "string",value = ast.value)
     }
 }
 
-class NumericLiteralInterpreter: ASTNodeInterpreter<String> {
-    override fun execute(ast: AST): String {
+class NumericLiteralInterpreter: ASTNodeInterpreter<Variable> {
+    override fun execute(ast: AST): Variable {
         if (ast !is NumberLiteral) {
             throw Exception("AST isn't a NumberLiteral")
         }
-        return ast.value.toString()
+        return Variable(type = "number",value = ast.value.toString())
     }
 }
 
-class IdentifierInterpreter(private val variables:Map<String, Variable>): ASTNodeInterpreter<String> {
-    override fun execute(ast: AST): String {
+class IdentifierInterpreter(private val variables:Map<String, Variable>): ASTNodeInterpreter<Variable> {
+    override fun execute(ast: AST): Variable {
         if (ast !is Identifier) {
             throw Exception("AST isn't an identifier")
         }
@@ -36,7 +36,7 @@ class IdentifierInterpreter(private val variables:Map<String, Variable>): ASTNod
         if(result.value == null){
             throw Exception("Variable ${ast.name} hasnt been initialized")
         }
-        return result.value
+        return Variable(result.type, result.value)
     }
 }
 

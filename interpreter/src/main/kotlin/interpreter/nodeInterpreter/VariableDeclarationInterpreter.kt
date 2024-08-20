@@ -19,7 +19,8 @@ class VariableDeclarationInterpreter(
         if(ast.init != null){
              result = Variable(
                 type = ast.type.name,
-                value = ExpressionInterpreter(variables).execute(ast.init!!)
+                 // double use of !!, this sucks
+                value = ExpressionInterpreter(variables).execute(ast.init!!)!!.value
             )
         }
 
