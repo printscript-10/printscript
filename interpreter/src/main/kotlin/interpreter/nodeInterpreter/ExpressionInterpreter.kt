@@ -8,9 +8,9 @@ import utils.Identifier
 import utils.NumberLiteral
 import utils.StringLiteral
 
-class ExpressionInterpreter(private val variables: Map<String, Variable>): ASTNodeInterpreter<Variable?> {
+class ExpressionInterpreter(private val variables: Map<String, Variable>) : ASTNodeInterpreter<Variable?> {
     override fun execute(ast: AST): Variable? {
-        when(ast){
+        when (ast) {
             is BinaryOperation -> return BinaryOperationInterpreter(variables).execute(ast)
             is NumberLiteral -> return NumericLiteralInterpreter().execute(ast)
             is StringLiteral -> return StringLiteralInterpreter().execute(ast)

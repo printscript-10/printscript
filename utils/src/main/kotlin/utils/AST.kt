@@ -7,7 +7,7 @@ sealed interface AST {
     fun <T> accept(visitor: ASTVisitor<T>): T
 }
 
-sealed interface ASTVisitor<T> {
+interface ASTVisitor<T> {
     fun visitLiteral(literal: Literal): T
     fun visitVariableDeclaration(variableDeclaration: VariableDeclaration): T
     fun visitPrintFunction(printFunction: PrintFunction): T

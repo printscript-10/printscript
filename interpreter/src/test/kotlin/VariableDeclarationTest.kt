@@ -12,8 +12,8 @@ class VariableDeclarationTest {
 
     @Test
     fun `test simpleVariableDeclaration`() {
-        val variables: Map<String, Variable> = mapOf();
-        val position = Position(0, 0, 1);
+        val variables: Map<String, Variable> = mapOf()
+        val position = Position(0, 0, 1)
         val id = Identifier("a", position)
         val value = StringLiteral("a", position)
         val type = Type("string", position)
@@ -26,4 +26,3 @@ class VariableDeclarationTest {
         assertEquals(expected, result)
     }
 }
-

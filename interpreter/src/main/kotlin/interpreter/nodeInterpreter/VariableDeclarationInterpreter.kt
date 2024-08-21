@@ -1,11 +1,11 @@
 package interpreter.nodeInterpreter
 
+import interpreter.Variable
 import utils.AST
 import utils.VariableDeclaration
-import interpreter.Variable
 
 class VariableDeclarationInterpreter(
-    private val variables: Map<String, Variable>
+    private val variables: Map<String, Variable>,
 ) : ASTNodeInterpreter<Map<String, Variable>> {
 
     override fun execute(ast: AST): Map<String, Variable> {
@@ -14,13 +14,13 @@ class VariableDeclarationInterpreter(
         }
         var result = Variable(
             type = ast.type.name,
-            value = null
+            value = null,
         )
-        if(ast.init != null){
-             result = Variable(
+        if (ast.init != null) {
+            result = Variable(
                 type = ast.type.name,
-                 // double use of !!, this sucks
-                value = ExpressionInterpreter(variables).execute(ast.init!!)!!.value
+                // double use of !!, this sucks
+                value = ExpressionInterpreter(variables).execute(ast.init!!)!!.value,
             )
         }
 
@@ -30,5 +30,4 @@ class VariableDeclarationInterpreter(
 
         return updatedVariables.toMap()
     }
-
 }
