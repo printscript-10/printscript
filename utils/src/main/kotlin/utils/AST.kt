@@ -70,6 +70,7 @@ sealed interface Literal: AST {
     override fun <T> accept(visitor: ASTVisitor<T>): T{
         return visitor.visitLiteral(this)
     }
+
 }
 
 data class NumberLiteral(
