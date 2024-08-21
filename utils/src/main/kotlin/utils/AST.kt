@@ -31,7 +31,7 @@ data class Identifier(
 ): AST
 
 data class Type(
-    val name: String,
+    val type: String,
     override val position: Position
 ): AST
 

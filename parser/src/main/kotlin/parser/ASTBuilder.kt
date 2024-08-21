@@ -23,6 +23,9 @@ class ASTBuilder {
     }
 
     fun build(tokens: List<Token>): List<AST> {
+        if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
+            // agregar caso de failure si no termina en ;
+        }
         var result = mutableListOf<AST>()
         var tokenIterator = tokens.listIterator()
         while (tokenIterator.hasNext()) {
