@@ -4,12 +4,30 @@ import utils.Position
 
 sealed interface AST {
     val position: Position
+
+    fun <T> accept(visitor: ASTVisitor<T>): T
 }
+
+// :p
+sealed interface ASTVisitor<T> {
+    fun visitLiteral(literal: Literal): T
+    fun visitVariableDeclaration(variableDeclaration: VariableDeclaration): T
+    fun visitPrintFunction(printFunction: PrintFunction): T
+    fun visitBinaryOperation(binaryOperation: BinaryOperation): T
+    fun visitIdentifier(id: Identifier): T
+}
+
+
 
 data class PrintFunction(
     val value: AST,
     override val position: Position
-) : AST
+) : AST{
+
+    override fun <T> accept(visitor: ASTVisitor<T>): T {
+        return visitor.visitPrintFunction(this)
+    }
+}
 
 data class BinaryOperation(
     val right: AST,
