@@ -5,4 +5,3 @@ include 'interpreter:src:main:test'
 findProject(':interpreter:src:main:test')?.name = 'test'
 include 'interpreter:src:main:test:kotlin'
 findProject(':interpreter:src:main:test:kotlin')?.name = 'kotlin'
-

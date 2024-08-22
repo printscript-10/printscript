@@ -2,7 +2,6 @@ package interpreter.nodeInterpreter.binaryOperationInterpreter
 
 import interpreter.Variable
 
-// este nombre es malisimo
 sealed interface BinaryFunction {
     fun execute(left: Variable, right: Variable): Variable
 }
@@ -24,7 +23,7 @@ class Sum : BinaryFunction {
 class Subtraction : BinaryFunction {
     override fun execute(left: Variable, right: Variable): Variable {
         if (left.value == null || right.value == null) {
-            throw Error("Sum cannot have empty parameters")
+            throw Error("Subtraction cannot have empty parameters")
         }
         if (left.type != "number" && right.type != "number") {
             throw Error("Subtraction can only take numbers")
@@ -36,10 +35,10 @@ class Subtraction : BinaryFunction {
 class Multiplication : BinaryFunction {
     override fun execute(left: Variable, right: Variable): Variable {
         if (left.value == null || right.value == null) {
-            throw Error("Sum cannot have empty parameters")
+            throw Error("Multiplication cannot have empty parameters")
         }
         if (left.type != "number" && right.type != "number") {
-            throw Error("Subtraction can only take numbers")
+            throw Error("Multiplication can only take numbers")
         }
         return Variable(type = "number", value = (left.value.toDouble() * right.value.toDouble()).toString())
     }
@@ -48,10 +47,10 @@ class Multiplication : BinaryFunction {
 class Division : BinaryFunction {
     override fun execute(left: Variable, right: Variable): Variable {
         if (left.value == null || right.value == null) {
-            throw Error("Sum cannot have empty parameters")
+            throw Error("Division cannot have empty parameters")
         }
         if (left.type != "number" && right.type != "number") {
-            throw Error("Subtraction can only take numbers")
+            throw Error("Division can only take numbers")
         }
         return Variable(type = "number", value = (left.value.toDouble() / right.value.toDouble()).toString())
     }
