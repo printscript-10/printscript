@@ -56,7 +56,7 @@ class TypeBuilder : ASTNodeBuilder {
         val token = tokens[position]
         return Success(
             result = Type(
-                type = token.value,
+                name = token.value,
                 position = token.position,
             ),
             position = position,

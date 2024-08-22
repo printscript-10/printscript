@@ -4,6 +4,7 @@ import parser.BuildResult
 import parser.Failure
 import parser.Success
 import utils.Identifier
+import utils.Literal
 import utils.Token
 import utils.TokenType
 import utils.Type
@@ -33,7 +34,7 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
 //                is Failure -> return initBuild
 //            }
 //        } else null
-        val init = StringLiteralBuilder().build(tokens, position + 5).result
+        val init = StringLiteralBuilder().build(tokens, position + 5).result as Literal
 
         return Success(
             result = VariableDeclaration(

@@ -1,52 +1,29 @@
 package utils
 
-import utils.Position
-
 sealed interface AST {
     val position: Position
-    fun <T> accept(visitor: ASTVisitor<T>): T
 }
 
-interface ASTVisitor<T> {
+sealed interface Expression: AST{
+    fun <T> accept(visitor: ASTExpressionVisitor<T>): T
+}
+
+interface ASTExpressionVisitor<T>{
     fun visitLiteral(literal: Literal): T
-    fun visitVariableDeclaration(variableDeclaration: VariableDeclaration): T
-    fun visitPrintFunction(printFunction: PrintFunction): T
     fun visitBinaryOperation(binaryOperation: BinaryOperation): T
     fun visitIdentifier(id: Identifier): T
-    fun visitType(type: Type): T
 }
-
 data class PrintFunction(
-    val value: AST,
+    val value: Expression,
     override val position: Position
-) : AST{
-
-    override fun <T> accept(visitor: ASTVisitor<T>): T {
-        return visitor.visitPrintFunction(this)
-    }
-}
-
-data class BinaryOperation(
-    val right: AST,
-    val left: AST,
-    val operator: String,
-    override val position: Position
-): AST {
-    override fun <T> accept(visitor: ASTVisitor<T>): T{
-        return visitor.visitBinaryOperation(this)
-    }
-}
+) : AST
 
 data class VariableDeclaration(
     val id: Identifier,
     val type: Type,
-    val init: AST?,
+    val init: Expression?,
     override val position: Position
-): AST {
-    override fun <T> accept(visitor: ASTVisitor<T>): T{
-        return visitor.visitVariableDeclaration(this)
-    }
-}
+): AST
 
 data class VariableAssignation(
     val id: Identifier,
@@ -54,29 +31,35 @@ data class VariableAssignation(
     override val position: Position
 ): AST
 
+data class Type(
+    val name: String,
+    override val position: Position
+): AST
+
+data class BinaryOperation(
+    val right: Expression,
+    val left: Expression,
+    val operator: String,
+    override val position: Position
+): Expression {
+    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
+        return visitor.visitBinaryOperation(this)
+    }
+}
+
 data class Identifier(
     val name: String,
     override val position: Position,
-): AST {
-    override fun <T> accept(visitor: ASTVisitor<T>): T{
+): Expression  {
+    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
         return visitor.visitIdentifier(this)
     }
 }
 
-data class Type(
-    val type: String,
-    override val position: Position
-): AST {
-    override fun <T> accept(visitor: ASTVisitor<T>): T{
-        return visitor.visitType(this)
-    }
-}
-
-sealed interface Literal: AST {
-    override fun <T> accept(visitor: ASTVisitor<T>): T{
+sealed interface Literal: Expression {
+    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T{
         return visitor.visitLiteral(this)
     }
-
 }
 
 data class NumberLiteral(

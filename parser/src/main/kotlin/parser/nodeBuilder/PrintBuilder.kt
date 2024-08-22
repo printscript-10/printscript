@@ -3,6 +3,7 @@ package parser.nodeBuilder
 import parser.BuildResult
 import parser.Failure
 import parser.Success
+import utils.Literal
 import utils.PrintFunction
 import utils.Token
 import utils.TokenType
@@ -22,7 +23,7 @@ class PrintBuilder : ASTNodeBuilder {
 //            is Success -> (valueBuild.result)
 //            is Failure -> return valueBuild
 //        }
-        val value = StringLiteralBuilder().build(tokens, openBraceIndex + 1).result
+        val value = StringLiteralBuilder().build(tokens, openBraceIndex + 1).result as Literal
 
         return Success(
             result = PrintFunction(
