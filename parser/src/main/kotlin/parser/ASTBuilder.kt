@@ -1,10 +1,9 @@
 package parser
 
 import parser.nodeBuilder.ASTNodeBuilder
-import parser.nodeBuilder.IdentifierBuilder
-import parser.nodeBuilder.NumericLiteralBuilder
 import parser.nodeBuilder.PrintBuilder
-import parser.nodeBuilder.StringLiteralBuilder
+import parser.nodeBuilder.VariableAssignationBuilder
+import parser.nodeBuilder.VariableDeclarationBuilder
 import utils.AST
 import utils.Token
 import utils.TokenType
@@ -15,29 +14,28 @@ class ASTBuilder {
 
     init {
         builders = mapOf(
-            TokenType.STRING to StringLiteralBuilder(),
-            TokenType.NUMBER to NumericLiteralBuilder(),
-            TokenType.IDENTIFIER to IdentifierBuilder(),
+            TokenType.VARIABLE_DECLARATOR to VariableDeclarationBuilder(),
+            TokenType.IDENTIFIER to VariableAssignationBuilder(),
             TokenType.PRINT to PrintBuilder(),
         )
     }
 
     fun build(tokens: List<Token>): List<AST> {
         if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
-            // agregar caso de failure si no termina en ;
+            print("Tiene q terminar con ; viste cra")
         }
-        var result = mutableListOf<AST>()
-        var tokenIterator = tokens.listIterator()
-        while (tokenIterator.hasNext()) {
-            var currentToken = tokenIterator.next()
-            val builder = builders[currentToken.type]
-            if (builder != null) {
-                val buildResult = (builder.build(tokens, tokenIterator.previousIndex()))
-                if (buildResult is Success) result.add(buildResult.result)
-                // agregar caso de failure
+        val result = mutableListOf<AST>()
+        val builder = builders[tokens[0].type]
+        if (builder != null) {
+            val buildResult = (builder.build(tokens, 0))
+            if (buildResult is Success) {
+                result.add(buildResult.result)
+            } else {
+                print((buildResult as Failure).error)
             }
-            // tirar error si no encuentra builder
         }
+        print("Invalid line start")
+
         return result
     }
 }

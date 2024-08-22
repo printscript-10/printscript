@@ -11,37 +11,36 @@ import utils.VariableDeclaration
 
 class VariableDeclarationBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
-        val declaratorIndex = position
         val idIndex = position + 1
-        val semicolonIndex = position + 2
         val typeIndex = position + 3
         if (
-            (tokens[declaratorIndex].type != TokenType.VARIABLE_DECLARATOR) &&
-            (tokens[idIndex].type != TokenType.IDENTIFIER) &&
-            (tokens[semicolonIndex].type != TokenType.SEMICOLON) &&
+            (tokens[position].type != TokenType.VARIABLE_DECLARATOR) ||
+            (tokens[idIndex].type != TokenType.IDENTIFIER) ||
+            (tokens[position + 2].type != TokenType.COLON) ||
             (tokens[typeIndex].type != TokenType.TYPE)
         ) {
             return Failure(
-                error = "Invalid Declaration format",
-                position = position,
-            )
-        }
-        if (tokens[position + 4].type != TokenType.SEMICOLON) {
-            return Failure(
-                error = "Expected semicolon at line ${tokens[position + 2].position.line}",
+                error = "Invalid variable declaration format",
                 position = position,
             )
         }
 
         val identifier = IdentifierBuilder().build(tokens, idIndex).result as Identifier
         val type = TypeBuilder().build(tokens, typeIndex).result as Type
+//        val init = if (tokens[position + 4].type == TokenType.ASSIGN) {
+//            when(val initBuild: BuildResult = ExpressionBuilder().build(tokens, position + 5)) {
+//                is Success -> initBuild.result
+//                is Failure -> return initBuild
+//            }
+//        } else null
+        val init = StringLiteralBuilder().build(tokens, position + 5).result
 
         return Success(
             result = VariableDeclaration(
                 id = identifier,
                 type = type,
-                position = tokens[declaratorIndex].position,
-                init = null,
+                init = init,
+                position = tokens[position].position,
             ),
             position = position,
         )
