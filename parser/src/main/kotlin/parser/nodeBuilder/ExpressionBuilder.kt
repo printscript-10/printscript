@@ -1,5 +1,6 @@
 package parser.nodeBuilder
 
+import parser.semanticAnalizer.Success
 import utils.BinaryOperation
 import utils.Expression
 import utils.Identifier
@@ -28,17 +29,18 @@ class ExpressionBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val output = mutableListOf<Expression>()
         val operators = mutableListOf<Token>()
+        var tokenIndex = 0;
 
         for (token in tokens) {
             when (token.type) {
                 TokenType.NUMBER -> {
-                    output.add(NumberLiteral(token.value.toDouble(), token.position))
+                    output.add(NumericLiteralBuilder().build(tokens, tokenIndex).result as Expression)
                 }
                 TokenType.IDENTIFIER -> {
-                    output.add(Identifier(token.value, token.position)) // x2
+                    output.add(IdentifierBuilder().build(tokens, tokenIndex).result as Expression)
                 }
                 TokenType.STRING -> {
-                    output.add(StringLiteral(token.value, token.position)) // x2
+                    output.add(StringLiteralBuilder().build(tokens, tokenIndex).result as Expression)
                 }
                 TokenType.BINARY_OPERATOR -> {
                     while (operators.isNotEmpty() && shouldPopOperator(operators.last(), token)) {
@@ -59,10 +61,13 @@ class ExpressionBuilder : ASTNodeBuilder {
                         return BuildFailure("Mismatched parentheses", position)
                     }
                 }
+
                 else -> {
                     return BuildFailure("Invalid token type: ${token.type} in expression", position)
                 }
             }
+            tokenIndex++
+
         }
         while (operators.isNotEmpty()) {
             popOperatorToOutput(operators, output, position)

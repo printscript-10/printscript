@@ -1,2 +1,2 @@
 let a: string = "test";
-println(a + 2);
+println(a + (3 + 3));

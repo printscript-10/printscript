@@ -8,7 +8,6 @@ sealed interface BinaryFunction {
 
 class Sum : BinaryFunction {
     override fun execute(left: Variable, right: Variable): Variable {
-        // hay q validar esto? en teoria ya deberia validarse en el Lexeo/Parseo
         if (left.value == null || right.value == null) {
             throw Error("Sum cannot have empty parameters")
         }
