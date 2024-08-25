@@ -13,7 +13,7 @@ class ASTBuilder {
 
     fun build(tokens: List<Token>): BuildResult {
         if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
-            print("Tiene q terminar con ; viste cra")
+            return BuildFailure("Tiene q terminar con ; viste cra", tokens.size - 1)
         }
         val builder = builders[tokens[0].type]
         if (builder != null) {

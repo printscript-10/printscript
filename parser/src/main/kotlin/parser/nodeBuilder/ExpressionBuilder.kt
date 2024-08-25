@@ -32,13 +32,13 @@ class ExpressionBuilder : ASTNodeBuilder {
         for (token in tokens) {
             when (token.type) {
                 TokenType.NUMBER -> {
-                    output.add(NumberLiteral(token.value.toDouble(), Position(position, 0, 0))) // cambiar ese 0 0
+                    output.add(NumberLiteral(token.value.toDouble(), token.position))
                 }
                 TokenType.IDENTIFIER -> {
-                    output.add(Identifier(token.value, Position(position, 0, 0))) // x2
+                    output.add(Identifier(token.value, token.position)) // x2
                 }
                 TokenType.STRING -> {
-                    output.add(StringLiteral(token.value, Position(position, 0, 0))) // x2
+                    output.add(StringLiteral(token.value, token.position)) // x2
                 }
                 TokenType.BINARY_OPERATOR -> {
                     while (operators.isNotEmpty() && shouldPopOperator(operators.last(), token)) {
@@ -81,6 +81,6 @@ class ExpressionBuilder : ASTNodeBuilder {
         val operator = operators.removeAt(operators.lastIndex)
         val right = output.removeAt(output.lastIndex)
         val left = output.removeAt(output.lastIndex)
-        output.add(BinaryOperation(left, right, operator.value, Position(position, 0, 0))) // x3
+        output.add(BinaryOperation(right, left, operator.value, operator.position))
     }
 }

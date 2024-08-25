@@ -41,13 +41,18 @@ class Lexer {
             val matchResult = tokenRegex.regex.toRegex().find(currentString)
 
             if (matchResult != null && matchResult.range.first == 0) {
-                val matchedValue = matchResult.value
+                val matchedLenght = matchResult.value.length
+                var matchedValue = matchResult.value
+
+                if (tokenRegex.token == "STRING") {
+                    matchedValue = matchedValue.substring(1, matchedValue.length - 1)
+                }
 
                 val token =
                     Token(
                         type = TokenType.valueOf(tokenRegex.token),
                         value = matchedValue,
-                        position = Position(line, position, position + matchedValue.length),
+                        position = Position(line, position, position + matchedLenght),
                     )
                 return token
             }

@@ -45,8 +45,8 @@ class ExpressionBuilderTest {
         )
         val result = ExpressionBuilder().build(tokens, 0)
         val expectedResult = BinaryOperation(
-            right = NumberLiteral(value = 2.0, dummyPosition),
-            left = NumberLiteral(value = 3.0, dummyPosition),
+            right = NumberLiteral(value = 3.0, dummyPosition),
+            left = NumberLiteral(value = 2.0, dummyPosition),
             operator = "+",
             position = dummyPosition,
         )
@@ -65,15 +65,15 @@ class ExpressionBuilderTest {
             Token(type = TokenType.NUMBER, value = "4", dummyPosition),
         )
         val result = ExpressionBuilder().build(tokens, 0)
-        val expectedRight = BinaryOperation(
-            right = NumberLiteral(value = 2.0, dummyPosition),
-            left = NumberLiteral(value = 3.0, dummyPosition),
+        val expectedLeft = BinaryOperation(
+            right = NumberLiteral(value = 3.0, dummyPosition),
+            left = NumberLiteral(value = 2.0, dummyPosition),
             operator = "+",
             position = dummyPosition,
         )
         val expectedResult = BinaryOperation(
-            right = expectedRight,
-            left = NumberLiteral(value = 4.0, dummyPosition),
+            right = NumberLiteral(value = 4.0, dummyPosition),
+            left = expectedLeft,
             operator = "+",
             position = dummyPosition,
         )

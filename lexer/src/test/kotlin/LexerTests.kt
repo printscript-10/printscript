@@ -17,7 +17,7 @@ class LexerTests {
             Token(position = Position(0, 5, 6), type = TokenType.COLON, value = ":"),
             Token(position = Position(0, 7, 13), type = TokenType.TYPE, value = "string"),
             Token(position = Position(0, 14, 15), type = TokenType.ASSIGN, value = "="),
-            Token(position = Position(0, 16, 19), type = TokenType.STRING, value = "\"b\""),
+            Token(position = Position(0, 16, 19), type = TokenType.STRING, value = "b"),
             Token(position = Position(0, 19, 20), type = TokenType.SEMICOLON, value = ";"),
         )
 
