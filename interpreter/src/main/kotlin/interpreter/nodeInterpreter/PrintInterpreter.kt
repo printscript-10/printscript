@@ -11,7 +11,8 @@ class PrintInterpreter(private val variables: Map<String, Variable>) : ASTNodeIn
         if (ast !is PrintFunction) {
             throw Error("Expected printAST at ${ast.position}")
         }
-        val value = ExpressionInterpreter(variables).execute(ast.value)
+        // sacar el !! q es un asco y usar results (mas results chii)
+        val value = ExpressionInterpreter(variables).execute(ast.value)!!.value
 
         println(value)
         return

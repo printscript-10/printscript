@@ -36,6 +36,6 @@ class IdentifierInterpreter(private val variables: Map<String, Variable>) : ASTN
         if (result.value == null) {
             throw Exception("Variable ${ast.name} hasnt been initialized")
         }
-        return Variable(result.type, result.value)
+        return result
     }
 }

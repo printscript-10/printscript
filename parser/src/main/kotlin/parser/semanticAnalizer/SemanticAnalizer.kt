@@ -6,7 +6,7 @@ import utils.VariableDeclaration
 
 class SemanticAnalizer {
 
-    var variables: Map<String, String> = mapOf()
+    var variables: MutableMap<String, String> = mutableMapOf()
 
     fun analize(ast: AST): SemanticAnalizerResult {
         when (ast) {
@@ -27,6 +27,7 @@ class SemanticAnalizer {
         }
         val expressionType = ast.init!!.accept(TypeVisitor(variables))
         if (expressionType is Success && type.name == expressionType.type) {
+            variables[ast.id.name] = ast.type.name
             return Success(type.name)
         }
         if (expressionType is Success) {
