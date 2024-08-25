@@ -1,14 +1,10 @@
 package parser.nodeBuilder
 
-import parser.BuildResult
-import parser.Failure
-import parser.Success
+import utils.Expression
 import utils.Identifier
-import utils.Literal
 import utils.Token
 import utils.TokenType
-import utils.Type
-import utils.VariableDeclaration
+import utils.VariableAssignation
 
 class VariableDeclarationBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
@@ -20,27 +16,23 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
             (tokens[position + 2].type != TokenType.COLON) ||
             (tokens[typeIndex].type != TokenType.TYPE)
         ) {
-            return Failure(
+            return BuildFailure(
                 error = "Invalid variable declaration format",
                 position = position,
             )
         }
 
         val identifier = IdentifierBuilder().build(tokens, idIndex).result as Identifier
-        val type = TypeBuilder().build(tokens, typeIndex).result as Type
-//        val init = if (tokens[position + 4].type == TokenType.ASSIGN) {
-//            when(val initBuild: BuildResult = ExpressionBuilder().build(tokens, position + 5)) {
-//                is Success -> initBuild.result
-//                is Failure -> return initBuild
-//            }
-//        } else null
-        val init = StringLiteralBuilder().build(tokens, position + 5).result as Literal
-
-        return Success(
-            result = VariableDeclaration(
+        // esto es igual al variableAssignation
+        val expressionResult = ExpressionBuilder().build(tokens, position)
+        if (expressionResult is BuildFailure) {
+            return expressionResult
+        }
+        val value = (expressionResult as BuildSuccess).result as Expression
+        return BuildSuccess(
+            result = VariableAssignation(
                 id = identifier,
-                type = type,
-                init = init,
+                value = value,
                 position = tokens[position].position,
             ),
             position = position,

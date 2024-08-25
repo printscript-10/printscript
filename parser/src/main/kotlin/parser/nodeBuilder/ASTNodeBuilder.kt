@@ -1,6 +1,5 @@
 package parser.nodeBuilder
 
-import parser.BuildResult
 import utils.Token
 
 interface ASTNodeBuilder {

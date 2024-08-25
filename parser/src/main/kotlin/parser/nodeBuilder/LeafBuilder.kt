@@ -1,6 +1,5 @@
 package parser.nodeBuilder
 
-import parser.Success
 import utils.Identifier
 import utils.NumberLiteral
 import utils.StringLiteral
@@ -9,9 +8,9 @@ import utils.Type
 
 class StringLiteralBuilder : ASTNodeBuilder {
 
-    override fun build(tokens: List<Token>, position: Int): Success {
+    override fun build(tokens: List<Token>, position: Int): BuildSuccess {
         val token = tokens[position]
-        return Success(
+        return BuildSuccess(
             result = StringLiteral(
                 value = token.value,
                 position = token.position,
@@ -23,10 +22,10 @@ class StringLiteralBuilder : ASTNodeBuilder {
 
 class NumericLiteralBuilder : ASTNodeBuilder {
 
-    override fun build(tokens: List<Token>, position: Int): Success {
+    override fun build(tokens: List<Token>, position: Int): BuildSuccess {
         val token = tokens[position]
         val num: Number = if (token.value.contains('.')) { token.value.toDouble() } else { token.value.toInt() }
-        return Success(
+        return BuildSuccess(
             result = NumberLiteral(
                 value = num,
                 position = token.position,
@@ -38,9 +37,9 @@ class NumericLiteralBuilder : ASTNodeBuilder {
 
 class IdentifierBuilder : ASTNodeBuilder {
 
-    override fun build(tokens: List<Token>, position: Int): Success {
+    override fun build(tokens: List<Token>, position: Int): BuildSuccess {
         val token = tokens[position]
-        return Success(
+        return BuildSuccess(
             result = Identifier(
                 name = token.value,
                 position = token.position,
@@ -52,9 +51,9 @@ class IdentifierBuilder : ASTNodeBuilder {
 
 class TypeBuilder : ASTNodeBuilder {
 
-    override fun build(tokens: List<Token>, position: Int): Success {
+    override fun build(tokens: List<Token>, position: Int): BuildSuccess {
         val token = tokens[position]
-        return Success(
+        return BuildSuccess(
             result = Type(
                 name = token.value,
                 position = token.position,

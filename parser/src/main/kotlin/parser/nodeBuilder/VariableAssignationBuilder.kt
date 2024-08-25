@@ -1,8 +1,6 @@
 package parser.nodeBuilder
 
-import parser.BuildResult
-import parser.Failure
-import parser.Success
+import utils.Expression
 import utils.Identifier
 import utils.Token
 import utils.TokenType
@@ -14,20 +12,19 @@ class VariableAssignationBuilder : ASTNodeBuilder {
             (tokens[position].type != TokenType.IDENTIFIER) ||
             (tokens[position + 1].type != TokenType.ASSIGN)
         ) {
-            return Failure(
+            return BuildFailure(
                 error = "Invalid variable assignation format",
                 position = position,
             )
         }
 
         val identifier = IdentifierBuilder().build(tokens, position).result as Identifier
-//        val value = when(val valueBuild = ExpressionBuilder().build(tokens, position + 2)) {
-//            is Success -> valueBuild.result
-//            is Failure -> return valueBuild
-//        }
-        val value = StringLiteralBuilder().build(tokens, position + 2).result
-
-        return Success(
+        val expressionResult = ExpressionBuilder().build(tokens, position)
+        if (expressionResult is BuildFailure) {
+            return expressionResult
+        }
+        val value = (expressionResult as BuildSuccess).result as Expression
+        return BuildSuccess(
             result = VariableAssignation(
                 id = identifier,
                 value = value,

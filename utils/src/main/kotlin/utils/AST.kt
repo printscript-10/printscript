@@ -25,6 +25,12 @@ data class VariableDeclaration(
     override val position: Position
 ): AST
 
+data class VariableAssignation(
+    val id: Identifier,
+    val value: Expression,
+    override val position: Position
+): AST
+
 data class Type(
     val name: String,
     override val position: Position

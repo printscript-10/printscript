@@ -8,20 +8,30 @@ class SemanticAnalizer {
 
     var variables: Map<String, String> = mapOf()
 
-    fun analize(ast: AST): Boolean {
+    fun analize(ast: AST): SemanticAnalizerResult {
         when (ast) {
             is VariableDeclaration -> return checkVariableDeclaration(ast)
-            is PrintFunction -> checkPrintFunction(ast)
-            else -> return false
+            is PrintFunction -> return checkPrintFunction(ast)
+            else -> return Failure("Declaration must be a variable declaration, assignation or printfunction")
         }
     }
 
-    private fun checkVariableDeclaration(ast: VariableDeclaration): Boolean {
+    private fun checkPrintFunction(printFunction: PrintFunction): SemanticAnalizerResult {
+        return printFunction.value.accept(TypeVisitor(variables))
+    }
+
+    private fun checkVariableDeclaration(ast: VariableDeclaration): SemanticAnalizerResult {
         val type = ast.type
         if (ast.init == null) {
-            return true
+            return Success("null")
         }
         val expressionType = ast.init!!.accept(TypeVisitor(variables))
-        return expressionType == ast.type.name
+        if (expressionType is Success && type.name == expressionType.type) {
+            return Success(type.name)
+        }
+        if (expressionType is Success) {
+            return Failure("Cannot assign a ${expressionType.type} to a ${type.name}")
+        }
+        return expressionType
     }
 }

@@ -1,8 +1,5 @@
 package parser.nodeBuilder
 
-import parser.BuildResult
-import parser.Failure
-import parser.Success
 import utils.Literal
 import utils.PrintFunction
 import utils.Token
@@ -13,7 +10,7 @@ class PrintBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val openBraceIndex = position + 1
         if (tokens[openBraceIndex].type != TokenType.OPEN_BRACE) {
-            return Failure(
+            return BuildFailure(
                 error = "Invalid print function format",
                 position = position,
             )
@@ -25,7 +22,7 @@ class PrintBuilder : ASTNodeBuilder {
 //        }
         val value = StringLiteralBuilder().build(tokens, openBraceIndex + 1).result as Literal
 
-        return Success(
+        return BuildSuccess(
             result = PrintFunction(
                 value = value,
                 position = tokens[position].position,
