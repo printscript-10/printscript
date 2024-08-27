@@ -1,12 +1,7 @@
 package parser.nodeBuilder
 
-import parser.semanticAnalizer.Success
 import utils.BinaryOperation
 import utils.Expression
-import utils.Identifier
-import utils.NumberLiteral
-import utils.Position
-import utils.StringLiteral
 import utils.Token
 import utils.TokenType
 
@@ -29,7 +24,7 @@ class ExpressionBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val output = mutableListOf<Expression>()
         val operators = mutableListOf<Token>()
-        var tokenIndex = 0;
+        var tokenIndex = 0
 
         for (token in tokens) {
             when (token.type) {
@@ -67,7 +62,6 @@ class ExpressionBuilder : ASTNodeBuilder {
                 }
             }
             tokenIndex++
-
         }
         while (operators.isNotEmpty()) {
             popOperatorToOutput(operators, output, position)

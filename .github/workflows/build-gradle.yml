@@ -1,0 +1,32 @@
+name: Build Gradle
+
+on:
+  push:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build the project
+        run: ./gradlew build
+
+      - name: Run tests with coverage
+        run: ./gradlew test jacocoTestReport jacocoTestCoverageVerification
+
+      - name: Run linter
+        run: ./gradlew ktlintCheck
+
+      - name: Check code formatting
+        run: ./gradlew check
