@@ -21,12 +21,3 @@ jobs:
 
       - name: Build the project
         run: ./gradlew build
-
-      - name: Run tests with coverage
-        run: ./gradlew test jacocoTestReport jacocoTestCoverageVerification
-
-      - name: Run linter
-        run: ./gradlew ktlintCheck
-
-      - name: Check code formatting
-        run: ./gradlew check
