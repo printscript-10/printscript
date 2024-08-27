@@ -1,13 +1,9 @@
 package parser.nodeBuilder
 
 import utils.Expression
-import utils.Identifier
-import utils.Literal
 import utils.PrintFunction
 import utils.Token
 import utils.TokenType
-import utils.Type
-import utils.VariableDeclaration
 
 class PrintBuilder : ASTNodeBuilder {
 
@@ -21,8 +17,8 @@ class PrintBuilder : ASTNodeBuilder {
         }
 
         val expressionTokens = getExpression(tokens)
-        if(expressionTokens == null){
-            return BuildFailure("Empty expression at ${position}", position)
+        if (expressionTokens == null) {
+            return BuildFailure("Empty expression at $position", position)
         }
         val expressionResult = ExpressionBuilder().build(expressionTokens, position)
         if (expressionResult is BuildFailure) {
@@ -33,16 +29,16 @@ class PrintBuilder : ASTNodeBuilder {
         return BuildSuccess(
             result = PrintFunction(
                 value = expression,
-                position = tokens[position].position
+                position = tokens[position].position,
             ),
             position = position,
         )
     }
 
-    private fun getExpression(tokens: List<Token>): List<Token>?{
+    private fun getExpression(tokens: List<Token>): List<Token>? {
         val openBraceIndex = tokens.indexOfFirst { it.type == TokenType.OPEN_BRACE }
         val closingBraceIndex = tokens.indexOfFirst { it.type == TokenType.CLOSE_BRACE }
-        if(openBraceIndex == -1 || closingBraceIndex == -1){
+        if (openBraceIndex == -1 || closingBraceIndex == -1) {
             return null
         }
         return tokens.subList(openBraceIndex + 1, closingBraceIndex)

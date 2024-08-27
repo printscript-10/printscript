@@ -5,7 +5,6 @@ import utils.Identifier
 import utils.Token
 import utils.TokenType
 import utils.Type
-import utils.VariableAssignation
 import utils.VariableDeclaration
 
 class VariableDeclarationBuilder : ASTNodeBuilder {
@@ -27,7 +26,7 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
         val identifier = IdentifierBuilder().build(tokens, idIndex).result as Identifier
         val expressionTokens = getExpression(tokens)
         var value: Expression? = null
-        if(expressionTokens != null){
+        if (expressionTokens != null) {
             val expressionResult = ExpressionBuilder().build(expressionTokens, position)
             if (expressionResult is BuildFailure) {
                 return expressionResult
@@ -46,10 +45,10 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
         )
     }
 
-    private fun getExpression(tokens: List<Token>): List<Token>?{
+    private fun getExpression(tokens: List<Token>): List<Token>? {
         val equalSignIndex = tokens.indexOfFirst { it.type == TokenType.ASSIGN }
         val semicolonIndex = tokens.indexOfFirst { it.type == TokenType.SEMICOLON }
-        if(equalSignIndex == -1 || semicolonIndex == -1){
+        if (equalSignIndex == -1 || semicolonIndex == -1) {
             return null
         }
         return tokens.subList(equalSignIndex + 1, semicolonIndex)

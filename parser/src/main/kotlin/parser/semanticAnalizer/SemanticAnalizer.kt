@@ -40,7 +40,7 @@ class SemanticAnalizer {
 
     private fun checkVariableAssignation(ast: VariableAssignation): SemanticAnalizerResult {
         val type = variables[ast.id.name]
-        if(type == null){
+        if (type == null) {
             return Failure("${ast.id.name} hasnt been declared")
         }
         val expressionType = ast.value!!.accept(TypeVisitor(variables))
@@ -48,7 +48,7 @@ class SemanticAnalizer {
             return Success(type)
         }
         if (expressionType is Success) {
-            return Failure("Cannot assign a ${expressionType.type} to a ${type}")
+            return Failure("Cannot assign a ${expressionType.type} to a $type")
         }
         return expressionType
     }

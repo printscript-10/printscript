@@ -20,7 +20,7 @@ class VariableAssignationBuilder : ASTNodeBuilder {
 
         val identifier = IdentifierBuilder().build(tokens, position).result as Identifier
         val expressionTokens = getExpression(tokens)
-        if(expressionTokens == null){
+        if (expressionTokens == null) {
             return BuildFailure(error = "Assignation cannot be empty", position = position)
         }
         val expressionResult = ExpressionBuilder().build(expressionTokens, position)
@@ -37,10 +37,10 @@ class VariableAssignationBuilder : ASTNodeBuilder {
             position = position,
         )
     }
-    private fun getExpression(tokens: List<Token>): List<Token>?{
+    private fun getExpression(tokens: List<Token>): List<Token>? {
         val equalSignIndex = tokens.indexOfFirst { it.type == TokenType.ASSIGN }
         val semicolonIndex = tokens.indexOfFirst { it.type == TokenType.SEMICOLON }
-        if(equalSignIndex == -1 || semicolonIndex == -1){
+        if (equalSignIndex == -1 || semicolonIndex == -1) {
             return null
         }
         return tokens.subList(equalSignIndex + 1, semicolonIndex)

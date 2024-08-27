@@ -28,8 +28,8 @@ class VariableDeclarationBuilderTest {
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
             Type(name = "string", dummyPosition),
-            StringLiteral(value= "b", dummyPosition),
-            dummyPosition
+            StringLiteral(value = "b", dummyPosition),
+            dummyPosition,
         )
         val expected = BuildSuccess(result = expectedResult, 0)
         assertEquals(expected, result)
