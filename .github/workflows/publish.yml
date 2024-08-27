@@ -1,12 +1,11 @@
-name: Build Gradle
+name: Publish packages
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-
 jobs:
-  build-and-test:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,5 +17,12 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build the project
+      - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Publish package
+        run: gradle publish
+        env:
+          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
