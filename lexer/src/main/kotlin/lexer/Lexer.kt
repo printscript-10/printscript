@@ -17,31 +17,30 @@ class Lexer {
         this.tokenRegexes = getTokenRegexes()
     }
 
-    fun tokenize(input: String): List<Token> {
+    fun tokenize(input: String, line: Int): LexingResult {
         val tokens = mutableListOf<Token>()
-        for ((index, line) in input.lines().withIndex()) {
-            var currentPosition = 0
+        var currentPosition = 0
 
-            while (currentPosition < line.length) {
-                val currentLine = line.substring(currentPosition)
-                val token: Token = getToken(index, currentPosition, currentLine)
-
-                if (token.type != TokenType.WHITESPACE) {
-                    tokens.add(token)
-                }
-
-                currentPosition = token.position.end
+        while (currentPosition < input.length) {
+            val currentLine = input.substring(currentPosition)
+            val token: Token = getToken(line, currentPosition, currentLine) ?: return LexingFailure(
+                "Unexpected token at ($currentLine:$currentPosition)",
+            )
+            if (token.type != TokenType.WHITESPACE) {
+                tokens.add(token)
             }
+
+            currentPosition = token.position.end
         }
-        return tokens
+        return LexingSuccess(tokens)
     }
 
-    private fun getToken(line: Int, position: Int, currentString: String): Token {
+    private fun getToken(line: Int, position: Int, currentString: String): Token? {
         for (tokenRegex in tokenRegexes) {
             val matchResult = tokenRegex.regex.toRegex().find(currentString)
 
             if (matchResult != null && matchResult.range.first == 0) {
-                val matchedLenght = matchResult.value.length
+                val matchedLength = matchResult.value.length
                 var matchedValue = matchResult.value
 
                 if (tokenRegex.token == "STRING") {
@@ -52,17 +51,16 @@ class Lexer {
                     Token(
                         type = TokenType.valueOf(tokenRegex.token),
                         value = matchedValue,
-                        position = Position(line, position, position + matchedLenght),
+                        position = Position(line, position, position + matchedLength),
                     )
                 return token
             }
         }
-        error("Unexpected token at ($line:$position)")
+        return null
     }
 
     private fun getTokenRegexes(): List<TokenRegex> {
-        val resourceStream = this::class.java.classLoader.getResourceAsStream("tokens.json")
-            ?: throw IllegalArgumentException("Resource not found: tokens.json")
+        val resourceStream = this::class.java.classLoader.getResourceAsStream("tokens.json")!!
         return mapper.readValue(resourceStream)
     }
 }

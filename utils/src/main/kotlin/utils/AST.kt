@@ -4,9 +4,11 @@ sealed interface AST {
     val position: Position
 }
 
-sealed interface Expression: AST{
+sealed interface Expression: AST {
     fun <T> accept(visitor: ASTExpressionVisitor<T>): T
 }
+
+sealed interface Declaration: AST
 
 interface ASTExpressionVisitor<T>{
     fun visitLiteral(literal: Literal): T
@@ -16,30 +18,30 @@ interface ASTExpressionVisitor<T>{
 data class PrintFunction(
     val value: Expression,
     override val position: Position
-) : AST
+) : Declaration
 
 data class VariableDeclaration(
     val id: Identifier,
     val type: Type,
     val init: Expression?,
     override val position: Position
-): AST
+): Declaration
 
 data class VariableAssignation(
     val id: Identifier,
     val value: Expression,
     override val position: Position
-): AST
+): Declaration
 
 data class Type(
-    val name: String,
+    val name: VariableType,
     override val position: Position
 ): AST
 
 data class BinaryOperation(
     val right: Expression,
     val left: Expression,
-    val operator: String,
+    val operator: BinaryOperators,
     override val position: Position
 ): Expression {
     override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {

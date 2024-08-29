@@ -9,6 +9,7 @@ import utils.Token
 import utils.TokenType
 import utils.Type
 import utils.VariableDeclaration
+import utils.VariableType
 
 class VariableDeclarationBuilderTest {
 
@@ -27,7 +28,7 @@ class VariableDeclarationBuilderTest {
         val result = VariableDeclarationBuilder().build(tokens, 0)
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
-            Type(name = "string", dummyPosition),
+            Type(name = VariableType.STRING, dummyPosition),
             StringLiteral(value = "b", dummyPosition),
             dummyPosition,
         )

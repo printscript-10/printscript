@@ -2,39 +2,39 @@ package parser.semanticAnalizer
 
 import utils.ASTExpressionVisitor
 import utils.BinaryOperation
+import utils.BinaryOperators
 import utils.Identifier
 import utils.Literal
 import utils.NumberLiteral
+import utils.VariableType
 
-class TypeVisitor(private val variables: Map<String, String>) : ASTExpressionVisitor<SemanticAnalizerResult> {
-    override fun visitLiteral(literal: Literal): SemanticAnalizerResult {
-        if (literal is NumberLiteral) {
-            return Success("number")
-        }
-        return Success("string")
+class TypeVisitor(private val variables: Map<String, VariableType>) : ASTExpressionVisitor<SemanticAnalyzerResult> {
+    override fun visitLiteral(literal: Literal): SemanticAnalyzerResult {
+        if (literal is NumberLiteral) return VisitSuccess(VariableType.NUMBER)
+
+        return VisitSuccess(VariableType.STRING)
     }
 
-    override fun visitBinaryOperation(binaryOperation: BinaryOperation): SemanticAnalizerResult {
+    override fun visitBinaryOperation(binaryOperation: BinaryOperation): SemanticAnalyzerResult {
         val left = binaryOperation.left.accept(this)
         val right = binaryOperation.right.accept(this)
 
-        if (!(left is Success)) return left
-        if (!(right is Success)) return right
+        if (left !is VisitSuccess) return left
+        if (right !is VisitSuccess) return right
 
-        if (left.type == "number" && right.type == "number") {
-            return Success("number")
+        if (left.type == VariableType.NUMBER && right.type == VariableType.NUMBER) {
+            return VisitSuccess(VariableType.NUMBER)
         }
-        if (binaryOperation.operator != "+") {
+
+        if (binaryOperation.operator != BinaryOperators.PLUS) {
             return Failure("${binaryOperation.operator} can only be used with numbers")
         }
-        return Success("string")
+
+        return VisitSuccess(VariableType.STRING)
     }
 
-    override fun visitIdentifier(id: Identifier): SemanticAnalizerResult {
-        val variableType = variables[id.name]
-        if (variableType == null) {
-            return Failure("${id.name} hasn't been declared")
-        }
-        return Success(variableType)
+    override fun visitIdentifier(id: Identifier): SemanticAnalyzerResult {
+        val variableType = variables[id.name] ?: return Failure("${id.name} hasn't been declared")
+        return VisitSuccess(variableType)
     }
 }

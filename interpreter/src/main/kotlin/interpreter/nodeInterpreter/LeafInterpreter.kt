@@ -1,41 +1,26 @@
 package interpreter.nodeInterpreter
 
+import interpreter.NumericVariable
+import interpreter.StringVariable
 import interpreter.Variable
-import utils.AST
 import utils.Identifier
 import utils.NumberLiteral
 import utils.StringLiteral
 
-class StringLiteralInterpreter : ASTNodeInterpreter<Variable> {
-    override fun execute(ast: AST): Variable {
-        if (ast !is StringLiteral) {
-            throw Exception("AST isn't a StringLiteral")
-        }
-        return Variable(type = "string", value = ast.value)
+class StringLiteralInterpreter : ASTExpressionInterpreter<StringLiteral> {
+    override fun execute(ast: StringLiteral): Variable {
+        return StringVariable(ast.value)
     }
 }
 
-class NumericLiteralInterpreter : ASTNodeInterpreter<Variable> {
-    override fun execute(ast: AST): Variable {
-        if (ast !is NumberLiteral) {
-            throw Exception("AST isn't a NumberLiteral")
-        }
-        return Variable(type = "number", value = ast.value.toString())
+class NumericLiteralInterpreter : ASTExpressionInterpreter<NumberLiteral> {
+    override fun execute(ast: NumberLiteral): Variable {
+        return NumericVariable(ast.value)
     }
 }
 
-class IdentifierInterpreter(private val variables: Map<String, Variable>) : ASTNodeInterpreter<Variable> {
-    override fun execute(ast: AST): Variable {
-        if (ast !is Identifier) {
-            throw Exception("AST isn't an identifier")
-        }
-        val result = variables[ast.name]
-        if (result == null) {
-            throw Exception("AST isn't a identifier ${ast.name}")
-        }
-        if (result.value == null) {
-            throw Exception("Variable ${ast.name} hasnt been initialized")
-        }
-        return result
+class IdentifierInterpreter(private val variables: Map<String, Variable>) : ASTExpressionInterpreter<Identifier> {
+    override fun execute(ast: Identifier): Variable {
+        return variables[ast.name]!!
     }
 }

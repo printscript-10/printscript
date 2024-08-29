@@ -5,6 +5,7 @@ import utils.NumberLiteral
 import utils.StringLiteral
 import utils.Token
 import utils.Type
+import utils.VariableType
 
 class StringLiteralBuilder : ASTNodeBuilder {
 
@@ -55,7 +56,7 @@ class TypeBuilder : ASTNodeBuilder {
         val token = tokens[position]
         return BuildSuccess(
             result = Type(
-                name = token.value,
+                name = VariableType.valueOf(token.value.toUpperCase()),
                 position = token.position,
             ),
             position = position,

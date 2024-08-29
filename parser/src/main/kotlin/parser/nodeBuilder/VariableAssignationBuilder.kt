@@ -8,9 +8,10 @@ import utils.VariableAssignation
 
 class VariableAssignationBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
+        val assignIndex = position + 1
         if (
             (tokens[position].type != TokenType.IDENTIFIER) ||
-            (tokens[position + 1].type != TokenType.ASSIGN)
+            (tokens[assignIndex].type != TokenType.ASSIGN)
         ) {
             return BuildFailure(
                 error = "Invalid variable assignation format",
@@ -19,14 +20,12 @@ class VariableAssignationBuilder : ASTNodeBuilder {
         }
 
         val identifier = IdentifierBuilder().build(tokens, position).result as Identifier
-        val expressionTokens = getExpression(tokens)
-        if (expressionTokens == null) {
-            return BuildFailure(error = "Assignation cannot be empty", position = position)
-        }
+        val expressionTokens = tokens.subList(assignIndex + 1, tokens.size - 1)
+        if (expressionTokens.isEmpty()) return BuildFailure(error = "Assignation cannot be empty", position = position)
+
         val expressionResult = ExpressionBuilder().build(expressionTokens, position)
-        if (expressionResult is BuildFailure) {
-            return expressionResult
-        }
+        if (expressionResult is BuildFailure) return expressionResult
+
         val value = (expressionResult as BuildSuccess).result as Expression
         return BuildSuccess(
             result = VariableAssignation(
@@ -36,13 +35,5 @@ class VariableAssignationBuilder : ASTNodeBuilder {
             ),
             position = position,
         )
-    }
-    private fun getExpression(tokens: List<Token>): List<Token>? {
-        val equalSignIndex = tokens.indexOfFirst { it.type == TokenType.ASSIGN }
-        val semicolonIndex = tokens.indexOfFirst { it.type == TokenType.SEMICOLON }
-        if (equalSignIndex == -1 || semicolonIndex == -1) {
-            return null
-        }
-        return tokens.subList(equalSignIndex + 1, semicolonIndex)
     }
 }

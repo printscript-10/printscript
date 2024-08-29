@@ -1,3 +1,2 @@
-let a: string = "test";
-a = "b";
-println(a + 3);
+let a: number = ((4+2/4)*2/(2+6)+4);
+println(a);

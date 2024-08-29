@@ -1,29 +1,33 @@
 package interpreter.nodeInterpreter
 
+import interpreter.InterpretResult
+import interpreter.InterpretSuccess
+import interpreter.NumericVariable
+import interpreter.StringVariable
 import interpreter.Variable
-import utils.AST
 import utils.VariableAssignation
 
 class VariableAssignationInterpreter(
     private val variables: Map<String, Variable>,
-) : ASTNodeInterpreter<Map<String, Variable>> {
-    override fun execute(ast: AST): Map<String, Variable> {
-        if (ast !is VariableAssignation) {
-            return variables
+) : ASTDeclarationInterpreter<VariableAssignation> {
+    override fun execute(ast: VariableAssignation): InterpretResult {
+        val currentVariable = variables[ast.id.name]!!
+
+        val result = when (currentVariable) {
+            is NumericVariable -> {
+                val value = ExpressionInterpreter(variables).execute(ast.value).value as Number
+                NumericVariable(value)
+            }
+            is StringVariable -> {
+                val value = ExpressionInterpreter(variables).execute(ast.value).value as String
+                StringVariable(value)
+            }
         }
-        val currentVariable = variables[ast.id.name]
-        if (currentVariable == null) {
-            // TODO: cambiar esto por result
-            return variables
-        }
-        val result = Variable(
-            type = currentVariable.type,
-            value = ExpressionInterpreter(variables).execute(ast.value)!!.value,
+
+        return InterpretSuccess(
+            variables.toMutableMap().apply {
+                this[ast.id.name] = result
+            }.toMap(),
         )
-
-        val updatedVariables = variables.toMutableMap()
-        updatedVariables[ast.id.name] = result
-
-        return updatedVariables.toMap()
     }
 }

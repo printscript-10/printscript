@@ -11,6 +11,7 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val idIndex = position + 1
         val typeIndex = position + 3
+        val assignIndex = position + 4
         if (
             (tokens[position].type != TokenType.VARIABLE_DECLARATOR) ||
             (tokens[idIndex].type != TokenType.IDENTIFIER) ||
@@ -22,15 +23,27 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
                 position = position,
             )
         }
-        val type = TypeBuilder().build(tokens, typeIndex).result as Type
+
         val identifier = IdentifierBuilder().build(tokens, idIndex).result as Identifier
-        val expressionTokens = getExpression(tokens)
+        val type = TypeBuilder().build(tokens, typeIndex).result as Type
         var value: Expression? = null
-        if (expressionTokens != null) {
-            val expressionResult = ExpressionBuilder().build(expressionTokens, position)
-            if (expressionResult is BuildFailure) {
-                return expressionResult
+
+        val expressionTokens =
+            if (tokens[assignIndex].type == TokenType.ASSIGN) {
+                tokens.subList(assignIndex + 1, tokens.size - 1)
+            } else {
+                listOf()
             }
+        if (tokens[assignIndex].type == TokenType.ASSIGN && expressionTokens.isEmpty()) {
+            return BuildFailure(
+                error = "Expression cannot be empty",
+                position = position,
+            )
+        }
+
+        if (expressionTokens.isNotEmpty()) {
+            val expressionResult = ExpressionBuilder().build(expressionTokens, position)
+            if (expressionResult is BuildFailure) return expressionResult
             value = (expressionResult as BuildSuccess).result as Expression
         }
 

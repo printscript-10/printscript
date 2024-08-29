@@ -1,32 +1,25 @@
 package parser.nodeBuilder
 
 import utils.BinaryOperation
+import utils.BinaryOperators
 import utils.Expression
 import utils.Token
 import utils.TokenType
 
 class ExpressionBuilder : ASTNodeBuilder {
 
-    val precedence = mapOf(
-        "+" to 1,
-        "-" to 1,
-        "*" to 2,
-        "/" to 2,
-    )
-
-    val associativity = mapOf(
-        "+" to "left",
-        "-" to "left",
-        "*" to "left",
-        "/" to "left",
+    private val precedence = mapOf(
+        BinaryOperators.PLUS to 1,
+        BinaryOperators.MINUS to 1,
+        BinaryOperators.TIMES to 2,
+        BinaryOperators.DIV to 2,
     )
 
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val output = mutableListOf<Expression>()
         val operators = mutableListOf<Token>()
-        var tokenIndex = 0
 
-        for (token in tokens) {
+        for ((tokenIndex, token) in tokens.withIndex()) {
             when (token.type) {
                 TokenType.NUMBER -> {
                     output.add(NumericLiteralBuilder().build(tokens, tokenIndex).result as Expression)
@@ -39,7 +32,7 @@ class ExpressionBuilder : ASTNodeBuilder {
                 }
                 TokenType.BINARY_OPERATOR -> {
                     while (operators.isNotEmpty() && shouldPopOperator(operators.last(), token)) {
-                        popOperatorToOutput(operators, output, position)
+                        popOperatorToOutput(operators, output)
                     }
                     operators.add(token)
                 }
@@ -48,7 +41,7 @@ class ExpressionBuilder : ASTNodeBuilder {
                 }
                 TokenType.CLOSE_BRACE -> {
                     while (operators.isNotEmpty() && operators.last().type != TokenType.OPEN_BRACE) {
-                        popOperatorToOutput(operators, output, position)
+                        popOperatorToOutput(operators, output)
                     }
                     if (operators.isNotEmpty() && operators.last().type == TokenType.OPEN_BRACE) {
                         operators.removeAt(operators.lastIndex)
@@ -61,25 +54,33 @@ class ExpressionBuilder : ASTNodeBuilder {
                     return BuildFailure("Invalid token type: ${token.type} in expression", position)
                 }
             }
-            tokenIndex++
         }
+
         while (operators.isNotEmpty()) {
-            popOperatorToOutput(operators, output, position)
+            if (operators.last().type == TokenType.OPEN_BRACE) {
+                return BuildFailure("Mismatched parentheses", position)
+            }
+            popOperatorToOutput(operators, output)
         }
-        // otra cosa q no sea first
+
         return BuildSuccess(output.first(), position)
     }
 
     private fun shouldPopOperator(op1: Token, op2: Token): Boolean {
-        val precedence1 = precedence[op1.value] ?: throw IllegalArgumentException("Unknown operator: ${op1.value}")
-        val precedence2 = precedence[op2.value] ?: throw IllegalArgumentException("Unknown operator: ${op2.value}")
-        return precedence1 > precedence2 || (precedence1 == precedence2 && associativity[op2.value] == "left")
+        if (op1.type == TokenType.OPEN_BRACE || op2.type == TokenType.OPEN_BRACE) return false
+        val precedence1 = precedence[BinaryOperators.fromSymbol(op1.value)] ?: throw IllegalArgumentException(
+            "Unknown operator: ${op1.value}",
+        )
+        val precedence2 = precedence[BinaryOperators.fromSymbol(op2.value)] ?: throw IllegalArgumentException(
+            "Unknown operator: ${op2.value}",
+        )
+        return precedence1 > precedence2 || (precedence1 == precedence2)
     }
 
-    private fun popOperatorToOutput(operators: MutableList<Token>, output: MutableList<Expression>, position: Int) {
+    private fun popOperatorToOutput(operators: MutableList<Token>, output: MutableList<Expression>) {
         val operator = operators.removeAt(operators.lastIndex)
         val right = output.removeAt(output.lastIndex)
         val left = output.removeAt(output.lastIndex)
-        output.add(BinaryOperation(right, left, operator.value, operator.position))
+        output.add(BinaryOperation(right, left, BinaryOperators.fromSymbol(operator.value)!!, operator.position))
     }
 }

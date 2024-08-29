@@ -7,28 +7,29 @@ import parser.semanticAnalizer.Failure
 import parser.semanticAnalizer.ParseFailure
 import parser.semanticAnalizer.ParseSuccess
 import parser.semanticAnalizer.ParsingResult
-import parser.semanticAnalizer.SemanticAnalizer
+import parser.semanticAnalizer.SemanticAnalyzer
+import parser.semanticAnalizer.Success
 import utils.AST
 import utils.Token
+import utils.VariableType
 
-class Parser {
+class Parser(variables: Map<String, VariableType>) {
 
-    // un asco todos los results pero es lo que hay
-    private val semanticAnalizer = SemanticAnalizer()
+    private val semanticAnalyzer = SemanticAnalyzer(variables)
 
     fun buildAST(tokens: List<Token>): ParsingResult {
-        val astResult = ASTBuilder().build(tokens)
-        if (astResult is BuildSuccess) {
-            return checkAST(astResult.result)
+        return when (val astResult = ASTBuilder().build(tokens)) {
+            is BuildFailure -> ParseFailure(astResult.error)
+            is BuildSuccess -> checkAST(astResult.result)
         }
-        return ParseFailure((astResult as BuildFailure).error)
     }
 
-    fun checkAST(ast: AST): ParsingResult {
-        val semanticAnalizerResult = semanticAnalizer.analize(ast)
-        if (semanticAnalizerResult is Failure) {
-            return ParseFailure(semanticAnalizerResult.error)
+    private fun checkAST(ast: AST): ParsingResult {
+        val semanticAnalyzerResult = semanticAnalyzer.analyze(ast)
+        return if (semanticAnalyzerResult is Failure) {
+            ParseFailure(semanticAnalyzerResult.error)
+        } else {
+            ParseSuccess(ast, (semanticAnalyzerResult as Success).variables)
         }
-        return ParseSuccess(ast)
     }
 }

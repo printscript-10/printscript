@@ -13,13 +13,14 @@ class ASTBuilder {
 
     fun build(tokens: List<Token>): BuildResult {
         if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
-            return BuildFailure("Tiene q terminar con ; viste cra", tokens.size - 1)
-        }
-        val builder = builders[tokens[0].type]
-        if (builder != null) {
-            return (builder.build(tokens, 0))
+            return BuildFailure(
+                "Line must finish with ;",
+                tokens.size - 1,
+            )
         }
 
-        return BuildFailure("Unrecognized token", tokens.first().position.line)
+        val builder = builders[tokens[0].type] ?: return BuildFailure("Invalid line", tokens.first().position.line)
+
+        return (builder.build(tokens, 0))
     }
 }

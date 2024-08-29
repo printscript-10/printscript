@@ -1,3 +1,4 @@
+import interpreter.StringVariable
 import interpreter.Variable
 import interpreter.nodeInterpreter.VariableDeclarationInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -7,18 +8,19 @@ import utils.Position
 import utils.StringLiteral
 import utils.Type
 import utils.VariableDeclaration
+import utils.VariableType
 
 class VariableDeclarationTest {
 
     @Test
     fun `test simpleVariableDeclaration`() {
-        val variables: Map<String, Variable> = mapOf()
+        val variables: MutableMap<String, Variable> = mutableMapOf()
         val position = Position(0, 0, 1)
         val id = Identifier("a", position)
         val value = StringLiteral("a", position)
-        val type = Type("string", position)
+        val type = Type(VariableType.STRING, position)
         val astNodeVariable = VariableDeclaration(id, type, value, position)
-        val expectedVariable = Variable(type.name, value.value)
+        val expectedVariable = StringVariable(value.value)
         val expected = mapOf(id.name to expectedVariable)
 
         val result = VariableDeclarationInterpreter(variables).execute(astNodeVariable)

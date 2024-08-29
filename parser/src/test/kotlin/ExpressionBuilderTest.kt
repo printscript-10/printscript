@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildSuccess
 import parser.nodeBuilder.ExpressionBuilder
 import utils.BinaryOperation
+import utils.BinaryOperators
 import utils.NumberLiteral
 import utils.Position
 import utils.StringLiteral
@@ -47,7 +48,7 @@ class ExpressionBuilderTest {
         val expectedResult = BinaryOperation(
             right = NumberLiteral(value = 3, dummyPosition),
             left = NumberLiteral(value = 2, dummyPosition),
-            operator = "+",
+            operator = BinaryOperators.PLUS,
             position = dummyPosition,
         )
         val expected = BuildSuccess(result = expectedResult, 0)
@@ -68,13 +69,13 @@ class ExpressionBuilderTest {
         val expectedLeft = BinaryOperation(
             right = NumberLiteral(value = 3, dummyPosition),
             left = NumberLiteral(value = 2, dummyPosition),
-            operator = "+",
+            operator = BinaryOperators.PLUS,
             position = dummyPosition,
         )
         val expectedResult = BinaryOperation(
             right = NumberLiteral(value = 4, dummyPosition),
             left = expectedLeft,
-            operator = "+",
+            operator = BinaryOperators.PLUS,
             position = dummyPosition,
         )
         val expected = BuildSuccess(result = expectedResult, 0)

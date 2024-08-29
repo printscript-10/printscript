@@ -8,15 +8,14 @@ import utils.PrintFunction
 import utils.VariableAssignation
 import utils.VariableDeclaration
 
-class Interpreter {
-    private var variables: Map<String, Variable> = mapOf()
+class Interpreter(private var variables: Map<String, Variable>) {
 
-    fun interpret(ast: AST) {
-        when (ast) {
+    fun interpret(ast: AST): InterpretResult {
+        return when (ast) {
             is PrintFunction -> PrintInterpreter(variables).execute(ast)
-            is VariableDeclaration -> variables = VariableDeclarationInterpreter(variables).execute(ast)
-            is VariableAssignation -> variables = VariableAssignationInterpreter(variables).execute(ast)
-            else -> throw Error("Forget about it cuh")
+            is VariableDeclaration -> VariableDeclarationInterpreter(variables).execute(ast)
+            is VariableAssignation -> VariableAssignationInterpreter(variables).execute(ast)
+            else -> return InterpretFailure("Invalid AST node type")
         }
     }
 }
