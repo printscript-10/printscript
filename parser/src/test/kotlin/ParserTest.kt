@@ -16,12 +16,12 @@ import utils.VariableType
 class ParserTest {
 
     @Test
-    fun `test variableDeclaration`(){
+    fun `test variableDeclaration`() {
         val variableName = "a"
         val dummyPosition = Position(0, 0, 0)
         val variables: Map<String, VariableType> = mapOf()
         val updatedVariables = mapOf(
-            variableName to VariableType.STRING
+            variableName to VariableType.STRING,
         )
         val tokens = listOf<Token>(
             Token(type = TokenType.VARIABLE_DECLARATOR, value = "let", dummyPosition),
@@ -44,11 +44,11 @@ class ParserTest {
     }
 
     @Test
-    fun `test variableAssignation`(){
+    fun `test variableAssignation`() {
         val variableName = "a"
         val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
-            variableName to VariableType.STRING
+            variableName to VariableType.STRING,
         )
         val tokens = listOf<Token>(
             Token(type = TokenType.IDENTIFIER, value = "a", dummyPosition),
@@ -67,11 +67,11 @@ class ParserTest {
     }
 
     @Test
-    fun `test printDeclaration`(){
+    fun `test printDeclaration`() {
         val variableName = "a"
         val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
-            variableName to VariableType.STRING
+            variableName to VariableType.STRING,
         )
         val tokens = listOf<Token>(
             Token(type = TokenType.PRINT, value = "println", dummyPosition),

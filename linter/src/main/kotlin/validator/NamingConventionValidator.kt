@@ -4,11 +4,11 @@ import lexer.LintingError
 import utils.AST
 import utils.VariableDeclaration
 
-class NamingConventionValidator(private val namingConvention: String): Validator {
+class NamingConventionValidator(private val namingConvention: String) : Validator {
     override fun validate(ast: AST): LintingError? {
-        if(ast is VariableDeclaration){
-            if(!checkNamingConvention(ast.id.name)){
-                return LintingError("Identifier does not match ${namingConvention}", position = ast.position)
+        if (ast is VariableDeclaration) {
+            if (!checkNamingConvention(ast.id.name)) {
+                return LintingError("Identifier does not match $namingConvention", position = ast.position)
             }
         }
         return null
@@ -20,7 +20,7 @@ class NamingConventionValidator(private val namingConvention: String): Validator
                 val camelCaseRegex = Regex("\\b[a-z]+(?:[A-Z][a-z]*)*\\b")
                 camelCaseRegex.matches(value)
             }
-            "snake_case"-> {
+            "snake_case" -> {
                 val snakeCaseRegex = Regex("\\b[a-z]+(?:_[a-z]+)*\\b")
                 snakeCaseRegex.matches(value)
             }

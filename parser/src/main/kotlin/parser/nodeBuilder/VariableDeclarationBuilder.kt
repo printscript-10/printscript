@@ -6,7 +6,7 @@ import utils.Token
 import utils.TokenType
 import utils.Type
 import utils.VariableDeclaration
-
+// manuel
 class VariableDeclarationBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): BuildResult {
         val idIndex = position + 1

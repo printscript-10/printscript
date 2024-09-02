@@ -12,10 +12,10 @@ import validator.NamingConventionValidator
 class ValidatorTest {
 
     @Test
-    fun `test validCamelCaseReturnsNull`(){
+    fun `test validCamelCaseReturnsNull`() {
         val namingConvention = "camel_case"
         val namingConventionValidator = NamingConventionValidator(namingConvention)
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("camelCase", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
         val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)
@@ -27,10 +27,10 @@ class ValidatorTest {
     }
 
     @Test
-    fun `test invalidCamelCaseReturnsError`(){
+    fun `test invalidCamelCaseReturnsError`() {
         val namingConvention = "camel_case"
         val namingConventionValidator = NamingConventionValidator(namingConvention)
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("camel_case", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
         val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)
@@ -41,10 +41,10 @@ class ValidatorTest {
     }
 
     @Test
-    fun `test validSnakeCaseReturnsNull`(){
+    fun `test validSnakeCaseReturnsNull`() {
         val namingConvention = "snake_case"
         val namingConventionValidator = NamingConventionValidator(namingConvention)
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("snake_case_identifier", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
         val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)
@@ -56,10 +56,10 @@ class ValidatorTest {
     }
 
     @Test
-    fun `test invalidSnakeCaseReturnsError`(){
+    fun `test invalidSnakeCaseReturnsError`() {
         val namingConvention = "snake_case"
         val namingConventionValidator = NamingConventionValidator(namingConvention)
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("snakeCase", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
         val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)

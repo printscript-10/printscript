@@ -3,17 +3,13 @@ import interpreter.NumericVariable
 import interpreter.StringVariable
 import interpreter.Variable
 import interpreter.nodeInterpreter.VariableAssignationInterpreter
-import interpreter.nodeInterpreter.VariableDeclarationInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import utils.Identifier
 import utils.NumberLiteral
 import utils.Position
 import utils.StringLiteral
-import utils.Type
 import utils.VariableAssignation
-import utils.VariableDeclaration
-import utils.VariableType
 
 class VariableAssignationTest {
 
@@ -21,7 +17,7 @@ class VariableAssignationTest {
     fun `test simpleStringVariableAssignation`() {
         val identifierName = "a"
         val variables: MutableMap<String, Variable> = mutableMapOf(
-            identifierName to StringVariable(null)
+            identifierName to StringVariable(null),
         )
         val position = Position(0, 0, 1)
         val id = Identifier(identifierName, position)
@@ -39,7 +35,7 @@ class VariableAssignationTest {
     fun `test simpleNumberVariableAssignation`() {
         val identifierName = "a"
         val variables: MutableMap<String, Variable> = mutableMapOf(
-            identifierName to NumericVariable(2)
+            identifierName to NumericVariable(2),
         )
         val position = Position(0, 0, 1)
         val id = Identifier(identifierName, position)

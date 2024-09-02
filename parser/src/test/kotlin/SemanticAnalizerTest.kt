@@ -19,11 +19,11 @@ import kotlin.test.assertEquals
 class SemanticAnalizerTest {
 
     @Test
-    fun `test noViolationsReturnsSuccess`(){
+    fun `test noViolationsReturnsSuccess`() {
         val variableName = "a"
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
-            variableName to VariableType.STRING
+            variableName to VariableType.STRING,
         )
         val semanticAnalyzer = SemanticAnalyzer(variables)
         val identifier = Identifier(variableName, dummyPosition)
@@ -37,11 +37,11 @@ class SemanticAnalizerTest {
     }
 
     @Test
-    fun `test typeViolationReturnsFailure`(){
+    fun `test typeViolationReturnsFailure`() {
         val variableName = "a"
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
-            variableName to VariableType.NUMBER
+            variableName to VariableType.NUMBER,
         )
         val semanticAnalyzer = SemanticAnalyzer(variables)
         val identifier = Identifier(variableName, dummyPosition)
@@ -54,12 +54,12 @@ class SemanticAnalizerTest {
     }
 
     @Test
-    fun `test variableDeclaration`(){
+    fun `test variableDeclaration`() {
         val variableName = "a"
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val variables: Map<String, VariableType> = mapOf()
         val updatedVariables = mapOf(
-            variableName to VariableType.STRING
+            variableName to VariableType.STRING,
         )
         val semanticAnalyzer = SemanticAnalyzer(variables)
         val identifier = Identifier(variableName, dummyPosition)
@@ -74,11 +74,11 @@ class SemanticAnalizerTest {
     }
 
     @Test
-    fun `test printDeclaration`(){
+    fun `test printDeclaration`() {
         val variableName = "a"
-        val dummyPosition = Position(0,0,0)
+        val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
-            variableName to VariableType.STRING
+            variableName to VariableType.STRING,
         )
         val semanticAnalyzer = SemanticAnalyzer(variables)
         val identifier = Identifier(variableName, dummyPosition)
@@ -91,13 +91,13 @@ class SemanticAnalizerTest {
     }
 
     @Test
-    fun `test invalidBinaryOperationReturnsError`(){
-        val dummyPosition = Position(0,0,0)
+    fun `test invalidBinaryOperationReturnsError`() {
+        val dummyPosition = Position(0, 0, 0)
         val binaryOperation = BinaryOperation(
             right = NumberLiteral(2, dummyPosition),
             left = StringLiteral("test", dummyPosition),
             operator = BinaryOperators.MINUS,
-            position = dummyPosition
+            position = dummyPosition,
         )
         val variables: Map<String, VariableType> = mapOf()
         val semanticAnalyzer = SemanticAnalyzer(variables)
@@ -107,6 +107,4 @@ class SemanticAnalizerTest {
 
         assertTrue(result is Failure)
     }
-
-
 }
