@@ -1,6 +1,8 @@
 import lexer.Lexer
+import lexer.LexingFailure
 import lexer.LexingSuccess
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import utils.Position
 import utils.Token
@@ -25,5 +27,13 @@ class LexerTests {
         )
 
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun `test unknownTokenReturnsFailure`() {
+        val input = "let a: string = &%&;"
+        val result = Lexer().tokenize(input, 0)
+
+        assertTrue(result is LexingFailure)
     }
 }

@@ -12,8 +12,8 @@ class PrintBuilder : ASTNodeBuilder {
         val closingBraceIndex = tokens.size - 2
         if (
             (tokens[position].type != TokenType.PRINT) ||
-            (tokens[openBraceIndex].type != TokenType.OPEN_BRACE) ||
-            (tokens[closingBraceIndex].type != TokenType.CLOSE_BRACE)
+            (tokens[openBraceIndex].type != TokenType.OPEN_BRACKET) ||
+            (tokens[closingBraceIndex].type != TokenType.CLOSE_BRACKET)
         ) {
             return BuildFailure(
                 error = "Invalid print function format",

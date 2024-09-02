@@ -6,7 +6,6 @@ import java.io.File
 const val filePath = "cli/src/main/resources/test.txt"
 
 fun main() {
-
     val runner = Runner()
     val errorHandler = CLIErrorHandler()
     val version = "1.0"
@@ -18,8 +17,9 @@ fun main() {
             "1" -> {
                 val file = File(filePath)
                 runner.run(file.inputStream(), errorHandler)
-                if (errorHandler.errorMessage.isNullOrBlank()) println("\u001B[32m✓ File Ran successfully\u001B[0m")
-                else {
+                if (errorHandler.errorMessage.isNullOrBlank()) {
+                    println("\u001B[32m✓ File Ran successfully\u001B[0m")
+                } else {
                     printlnRed(errorHandler.errorMessage.toString())
                     errorHandler.errorMessage = null
                 }
