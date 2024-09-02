@@ -73,4 +73,32 @@ class BinaryOperationTest {
         val result = ExpressionInterpreter(variables).execute(sum)
         assertEquals(expected, result)
     }
+
+    @Test
+    fun `test simpleMultiplication`() {
+        val variables: Map<String, Variable> = mapOf()
+        val position = Position(0, 0, 1)
+        val left = NumberLiteral(3, position)
+        val right = NumberLiteral(4, position)
+        val operator = BinaryOperators.TIMES
+        val sum = BinaryOperation(right, left, operator, position)
+        val expected = NumericVariable(value = 12)
+
+        val result = ExpressionInterpreter(variables).execute(sum)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `test simpleDivision`() {
+        val variables: Map<String, Variable> = mapOf()
+        val position = Position(0, 0, 1)
+        val left = NumberLiteral(4, position)
+        val right = NumberLiteral(2, position)
+        val operator = BinaryOperators.DIV
+        val sum = BinaryOperation(right, left, operator, position)
+        val expected = NumericVariable(value = 2)
+
+        val result = ExpressionInterpreter(variables).execute(sum)
+        assertEquals(expected, result)
+    }
 }
