@@ -41,9 +41,5 @@ class Runner {
                 lineCounter++
             }
         }
-
-        printlnGreen("✓ File validated successfully")
     }
-
-    private fun printlnGreen(message: String) = println("\r\u001B[32m${message}\u001B[0m")
 }
