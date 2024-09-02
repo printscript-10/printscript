@@ -19,7 +19,7 @@ class BinaryOperationTest {
         val right = NumberLiteral(4, position)
         val operator = BinaryOperators.PLUS
         val sum = BinaryOperation(right, left, operator, position)
-        val expected = NumericVariable(value = 7.0)
+        val expected = NumericVariable(value = 7)
 
         val result = ExpressionInterpreter(variables).execute(sum)
         assertEquals(expected, result)
@@ -39,7 +39,7 @@ class BinaryOperationTest {
         val sumOperator = BinaryOperators.MINUS
         val sum = BinaryOperation(sub, leftSum, sumOperator, position)
 
-        val expected = NumericVariable(value = 4.0)
+        val expected = NumericVariable(value = 2)
         val result = ExpressionInterpreter(variables).execute(sum)
         assertEquals(expected, result)
     }

@@ -24,7 +24,6 @@ class Linter {
     init{
         config = loadConfig()
     }
-    // Recibe error handler?
     fun execute(ast: AST): LinterResult {
         val validators = getValidators()
         var errors: MutableList<LintingError> = ArrayList<LintingError>()
