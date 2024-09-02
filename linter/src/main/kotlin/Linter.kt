@@ -1,4 +1,3 @@
-import utils.ErrorHandler
 import com.fasterxml.jackson.module.kotlin.*
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
 import lexer.LinterFailure
@@ -7,14 +6,11 @@ import lexer.LinterSuccess
 import lexer.LintingError
 import utils.AST
 import validator.ExpressionInPrintValidator
-import validator.NamingConvetionValidator
+import validator.NamingConventionValidator
 import validator.Validator
 import java.io.File
 
 val configPath = "src/main/resources/linter.config.yml"
-
-//"camelCaseRegex": "\\b[a-z]+(?:[A-Z][a-z]*)*\\b",
-//"snakeCaseRegex": "\\b[a-z]+(?:_[a-z]+)*\\b"
 
 data class Config(
     val allow_expression_in_println: Boolean,
@@ -45,7 +41,7 @@ class Linter {
         if(!config.allow_expression_in_println) {
             result.add(ExpressionInPrintValidator())
         }
-        result.add(NamingConvetionValidator(config.naming_convention))
+        result.add(NamingConventionValidator(config.naming_convention))
         return result
     }
 
