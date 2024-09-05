@@ -12,7 +12,7 @@ class Linter(private val config: LinterConfig) {
 
     fun execute(ast: AST): LinterResult {
         val validators = getValidators()
-        var errors: MutableList<LintingError> = ArrayList<LintingError>()
+        val errors: MutableList<LintingError> = ArrayList<LintingError>()
         for (validator in validators) {
             val validationError = validator.validate(ast)
             if (validationError != null) errors.add(validationError)
@@ -22,7 +22,7 @@ class Linter(private val config: LinterConfig) {
     }
 
     private fun getValidators(): List<Validator> {
-        var result = ArrayList<Validator>()
+        val result = ArrayList<Validator>()
         if (!config.allow_expression_in_println) {
             result.add(ExpressionInPrintValidator())
         }

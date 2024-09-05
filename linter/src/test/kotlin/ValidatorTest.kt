@@ -36,7 +36,6 @@ class ValidatorTest {
         val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)
 
         val result = namingConventionValidator.validate(variableDeclaration)
-        // usar is en vez de comparacion con mensaje de error?
         assertTrue(result is LintingError)
     }
 
