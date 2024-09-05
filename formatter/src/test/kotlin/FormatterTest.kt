@@ -1,3 +1,4 @@
+import formatter.FormatSuccess
 import formatter.Formatter
 import formatter.FormatterConfig
 import org.junit.jupiter.api.Test
@@ -25,7 +26,7 @@ class FormatterTest {
             declaration_colon_leading_whitespaces = true,
             declaration_colon_trailing_whitespaces = true,
             assignation_equal_wrap_whitespaces = true,
-            println_trailing_linejump = 1,
+            println_trailing_line_jump = 1,
         )
         val formatter = Formatter(config)
         val tokens = listOf(
@@ -43,8 +44,8 @@ class FormatterTest {
             StringLiteral(value = "b", dummyPosition),
             dummyPosition,
         )
-        val result = formatter.format(tokens, ast)
-        val expected = "let a : string=\"b\";\n"
+        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val expected = "let a : string = \"b\";\n"
         assertEquals(expected, result)
     }
 
@@ -55,7 +56,7 @@ class FormatterTest {
             declaration_colon_leading_whitespaces = false,
             declaration_colon_trailing_whitespaces = true,
             assignation_equal_wrap_whitespaces = true,
-            println_trailing_linejump = 1,
+            println_trailing_line_jump = 1,
         )
         val formatter = Formatter(config)
         val tokens = listOf(
@@ -73,8 +74,8 @@ class FormatterTest {
             StringLiteral(value = "b", dummyPosition),
             dummyPosition,
         )
-        val result = formatter.format(tokens, ast)
-        val expected = "let a :string=\"b\";\n"
+        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val expected = "let a :string = \"b\";\n"
         assertEquals(expected, result)
     }
 
@@ -85,7 +86,7 @@ class FormatterTest {
             declaration_colon_leading_whitespaces = true,
             declaration_colon_trailing_whitespaces = false,
             assignation_equal_wrap_whitespaces = true,
-            println_trailing_linejump = 1,
+            println_trailing_line_jump = 1,
         )
         val formatter = Formatter(config)
         val tokens = listOf(
@@ -103,8 +104,8 @@ class FormatterTest {
             StringLiteral(value = "b", dummyPosition),
             dummyPosition,
         )
-        val result = formatter.format(tokens, ast)
-        val expected = "let a: string=\"b\";\n"
+        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val expected = "let a: string = \"b\";\n"
         assertEquals(expected, result)
     }
 
@@ -115,7 +116,7 @@ class FormatterTest {
             declaration_colon_leading_whitespaces = true,
             declaration_colon_trailing_whitespaces = false,
             assignation_equal_wrap_whitespaces = true,
-            println_trailing_linejump = 1,
+            println_trailing_line_jump = 1,
         )
         val formatter = Formatter(config)
         val tokens = listOf(
@@ -129,7 +130,7 @@ class FormatterTest {
             value = StringLiteral("b", dummyPosition),
             dummyPosition,
         )
-        val result = formatter.format(tokens, ast)
+        val result = (formatter.format(tokens, ast) as FormatSuccess).result
         val expected = "a = \"b\";\n"
         assertEquals(expected, result)
     }
@@ -141,7 +142,7 @@ class FormatterTest {
             declaration_colon_leading_whitespaces = true,
             declaration_colon_trailing_whitespaces = false,
             assignation_equal_wrap_whitespaces = true,
-            println_trailing_linejump = 2,
+            println_trailing_line_jump = 2,
         )
         val formatter = Formatter(config)
         val tokens = listOf<Token>(
@@ -155,7 +156,7 @@ class FormatterTest {
             value = StringLiteral("b", dummyPosition),
             dummyPosition,
         )
-        val result = formatter.format(tokens, ast)
+        val result = (formatter.format(tokens, ast) as FormatSuccess).result
         val expected = "\n\nprintln(\"b\");\n"
         assertEquals(expected, result)
     }
@@ -167,7 +168,7 @@ class FormatterTest {
             declaration_colon_leading_whitespaces = true,
             declaration_colon_trailing_whitespaces = false,
             assignation_equal_wrap_whitespaces = true,
-            println_trailing_linejump = 2,
+            println_trailing_line_jump = 2,
         )
         val formatter = Formatter(config)
         val tokens = listOf<Token>(
@@ -192,7 +193,7 @@ class FormatterTest {
             operator = BinaryOperators.PLUS,
             position = dummyPosition,
         )
-        val result = formatter.format(tokens, ast)
+        val result = (formatter.format(tokens, ast) as FormatSuccess).result
         val expected = "(2 + 3) + 4;\n"
         assertEquals(expected, result)
     }

@@ -1,33 +1,43 @@
 package formatter
 
-import formatter.formatApplicator.AssignationEqualWrapWhistepaces
+import formatter.formatApplicator.AssignationEqualWrapWhitespacesApplicator
 import formatter.formatApplicator.BinaryOperatorWrapWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonLeadingWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonTrailingWhitespacesApplicator
 import formatter.formatApplicator.MandatoryWhitespaceApplicator
-import formatter.formatApplicator.PrintTrailingLinejumpApplicator
+import formatter.formatApplicator.PrintTrailingLineJumpApplicator
 import utils.AST
+import utils.Result
 import utils.Token
 import utils.TokenType
 
 class Formatter(private val config: FormatterConfig) {
 
     private val formatters = listOf(
-        AssignationEqualWrapWhistepaces(),
-        DeclarationColonLeadingWhitespacesApplicator(),
-        DeclarationColonTrailingWhitespacesApplicator(),
-        PrintTrailingLinejumpApplicator(),
-        MandatoryWhitespaceApplicator(),
-        BinaryOperatorWrapWhitespacesApplicator(),
+        AssignationEqualWrapWhitespacesApplicator(config),
+        DeclarationColonLeadingWhitespacesApplicator(config),
+        DeclarationColonTrailingWhitespacesApplicator(config),
+        PrintTrailingLineJumpApplicator(config),
+        MandatoryWhitespaceApplicator(config),
+        BinaryOperatorWrapWhitespacesApplicator(config),
     )
 
-    fun format(tokens: List<Token>, ast: AST): String {
+    fun format(tokens: List<Token>, ast: AST): Result {
         var result = tokens
-        for (formatter in formatters) { result = formatter.apply(result, ast, config) }
-        return concatenateTokenValues(result)
+        val errors: MutableList<FormatApplicatorError> = mutableListOf()
+        for (formatter in formatters) {
+            val formatResult = formatter.apply(result, ast)
+            if (formatResult is FormatApplicatorSuccess) {
+                result = formatResult.tokens
+            } else if (formatResult is FormatApplicatorError) {
+                errors.add(formatResult)
+            }
+        }
+        if (errors.isNotEmpty()) return FormatFailure(errors.joinToString("\n") { it.message })
+        return FormatSuccess(concatenateTokenValues(result))
     }
 
-    fun concatenateTokenValues(tokens: List<Token>): String {
+    private fun concatenateTokenValues(tokens: List<Token>): String {
         return tokens.joinToString("") { token ->
             if (token.type == TokenType.STRING) {
                 "\"${token.value}\""

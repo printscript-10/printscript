@@ -2,12 +2,13 @@ package parser.nodeBuilder
 
 import utils.Expression
 import utils.Identifier
+import utils.Result
 import utils.Token
 import utils.TokenType
 import utils.VariableAssignation
 
 class VariableAssignationBuilder : ASTNodeBuilder {
-    override fun build(tokens: List<Token>, position: Int): BuildResult {
+    override fun build(tokens: List<Token>, position: Int): Result {
         val assignIndex = position + 1
         if (
             (tokens[position].type != TokenType.IDENTIFIER) ||

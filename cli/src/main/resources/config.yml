@@ -1,0 +1,11 @@
+formatter:
+  rules:
+    declaration_colon_trailing_whitespaces: true
+    declaration_colon_leading_whitespaces: true
+    assignation_equal_wrap_whitespaces: true
+    println_trailing_line_jump: 2
+
+linter:
+  rules:
+    allow_expression_in_println: false
+    naming_convention: snake_case

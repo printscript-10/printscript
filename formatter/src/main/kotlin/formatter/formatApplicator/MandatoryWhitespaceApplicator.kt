@@ -1,16 +1,17 @@
 package formatter.formatApplicator
 
+import formatter.FormatApplicatorSuccess
 import formatter.FormatterConfig
 import utils.AST
 import utils.Token
 import utils.TokenType
 
-class MandatoryWhitespaceApplicator : FormatApplicator {
+class MandatoryWhitespaceApplicator(private val config: FormatterConfig) : FormatApplicator {
 
     private val mandatoryWhitespacePairs: List<Pair<TokenType, TokenType>> = listOf(
         Pair(TokenType.VARIABLE_DECLARATOR, TokenType.IDENTIFIER),
     )
-    override fun apply(tokens: List<Token>, ast: AST, config: FormatterConfig): List<Token> {
+    override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
         val resultTokens = tokens.toMutableList()
 
         for (i in 0 until tokens.size - 1) {
@@ -24,6 +25,6 @@ class MandatoryWhitespaceApplicator : FormatApplicator {
             }
         }
 
-        return resultTokens
+        return FormatApplicatorSuccess(resultTokens)
     }
 }

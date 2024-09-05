@@ -1,12 +1,13 @@
 package formatter.formatApplicator
 
+import formatter.FormatApplicatorSuccess
 import formatter.FormatterConfig
 import utils.AST
 import utils.Token
 import utils.TokenType
 
-class BinaryOperatorWrapWhitespacesApplicator : FormatApplicator {
-    override fun apply(tokens: List<Token>, ast: AST, config: FormatterConfig): List<Token> {
+class BinaryOperatorWrapWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
+    override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
         val resultTokens = tokens.toMutableList()
         var i = 0
         while (i < resultTokens.size) {
@@ -33,6 +34,6 @@ class BinaryOperatorWrapWhitespacesApplicator : FormatApplicator {
             }
             i++
         }
-        return resultTokens
+        return FormatApplicatorSuccess(resultTokens)
     }
 }

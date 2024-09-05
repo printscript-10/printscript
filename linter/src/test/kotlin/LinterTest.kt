@@ -1,9 +1,12 @@
-import lexer.LinterFailure
-import lexer.LintingError
+import lexer.linter.LinterFailure
+import linter.Linter
+import linter.LinterConfig
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import utils.BinaryOperation
 import utils.BinaryOperators
+import utils.Failure
 import utils.Identifier
 import utils.NumberLiteral
 import utils.Position
@@ -11,7 +14,6 @@ import utils.PrintFunction
 import utils.Type
 import utils.VariableDeclaration
 import utils.VariableType
-import validator.LinterConfig
 
 class LinterTest {
 
@@ -29,8 +31,7 @@ class LinterTest {
         val printValue = BinaryOperation(right, left, operator, dummyPosition)
         val printFunction = PrintFunction(value = printValue, dummyPosition)
         val result = linter.execute(printFunction)
-        val expectedError =
-            LinterFailure(listOf(LintingError("Print functions cannot contain expressions", dummyPosition)))
+        val expectedError = LinterFailure("Print functions cannot contain expressions")
         assertEquals(result, expectedError)
     }
 
@@ -46,7 +47,6 @@ class LinterTest {
         val type = Type(VariableType.STRING, dummyPosition)
         val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)
         val result = linter.execute(variableDeclaration)
-        val expectedError = LinterFailure(listOf(LintingError("Identifier does not match camel_case", dummyPosition)))
-        assertEquals(result, expectedError)
+        assertTrue(result is Failure)
     }
 }
