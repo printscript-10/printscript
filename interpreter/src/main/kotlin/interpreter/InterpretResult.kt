@@ -1,7 +1,6 @@
 package interpreter
 
-import utils.Failure
-import utils.Success
+sealed interface InterpretResult
 
-data class InterpretSuccess(val result: Map<String, Variable>) : Success
-data class InterpretFailure(override val error: String) : Failure
+data class InterpretSuccess(val result: Map<String, Variable>) : InterpretResult
+data class InterpretFailure(val error: String) : InterpretResult

@@ -4,8 +4,7 @@ enum class BinaryOperators(val symbol: String) {
     PLUS("+"),
     MINUS("-"),
     TIMES("*"),
-    DIV("/"),
-    ;
+    DIV("/");
 
     companion object {
         private val map = entries.associateBy(BinaryOperators::symbol)

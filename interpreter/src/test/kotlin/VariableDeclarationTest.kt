@@ -1,4 +1,3 @@
-import interpreter.InterpretSuccess
 import interpreter.StringVariable
 import interpreter.Variable
 import interpreter.nodeInterpreter.VariableDeclarationInterpreter
@@ -22,7 +21,7 @@ class VariableDeclarationTest {
         val type = Type(VariableType.STRING, position)
         val astNodeVariable = VariableDeclaration(id, type, value, position)
         val expectedVariable = StringVariable(value.value)
-        val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
+        val expected = mapOf(id.name to expectedVariable)
 
         val result = VariableDeclarationInterpreter(variables).execute(astNodeVariable)
 

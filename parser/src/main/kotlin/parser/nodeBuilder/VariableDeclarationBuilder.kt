@@ -2,14 +2,13 @@ package parser.nodeBuilder
 
 import utils.Expression
 import utils.Identifier
-import utils.Result
 import utils.Token
 import utils.TokenType
 import utils.Type
 import utils.VariableDeclaration
-// manuel
+
 class VariableDeclarationBuilder : ASTNodeBuilder {
-    override fun build(tokens: List<Token>, position: Int): Result {
+    override fun build(tokens: List<Token>, position: Int): BuildResult {
         val idIndex = position + 1
         val typeIndex = position + 3
         val assignIndex = position + 4
@@ -57,5 +56,14 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
             ),
             position = position,
         )
+    }
+
+    private fun getExpression(tokens: List<Token>): List<Token>? {
+        val equalSignIndex = tokens.indexOfFirst { it.type == TokenType.ASSIGN }
+        val semicolonIndex = tokens.indexOfFirst { it.type == TokenType.SEMICOLON }
+        if (equalSignIndex == -1 || semicolonIndex == -1) {
+            return null
+        }
+        return tokens.subList(equalSignIndex + 1, semicolonIndex)
     }
 }

@@ -1,17 +1,17 @@
 package interpreter.nodeInterpreter
 
+import interpreter.InterpretResult
 import interpreter.InterpretSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
 import interpreter.Variable
-import utils.Result
 import utils.VariableDeclaration
 import utils.VariableType
 
 class VariableDeclarationInterpreter(
     private val variables: Map<String, Variable>,
 ) : ASTDeclarationInterpreter<VariableDeclaration> {
-    override fun execute(ast: VariableDeclaration): Result {
+    override fun execute(ast: VariableDeclaration): InterpretResult {
         val initValue = ast.init?.let {
             ExpressionInterpreter(variables).execute(it).value
         }
