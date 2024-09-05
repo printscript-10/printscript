@@ -13,5 +13,5 @@ enum class TokenType {
     OPEN_BRACKET,
     CLOSE_BRACKET,
     BINARY_OPERATOR,
-    ASSIGN
+    ASSIGN,
 }

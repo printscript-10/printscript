@@ -1,9 +1,9 @@
-package parser.semanticAnalizer
+package parser
 
 import utils.AST
+import utils.Failure
+import utils.Success
 import utils.VariableType
 
-sealed interface ParsingResult
-
-data class ParseSuccess(val result: AST, val variables: Map<String, VariableType>) : ParsingResult
-data class ParseFailure(val error: String) : ParsingResult
+data class ParseSuccess(val result: AST, val variables: Map<String, VariableType>) : Success
+data class ParseFailure(override val error: String) : Failure

@@ -1,6 +1,6 @@
-package validator
+package linter.validator
 
-import lexer.LintingError
+import lexer.linter.LintingError
 import utils.AST
 
 interface Validator {

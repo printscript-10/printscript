@@ -3,6 +3,7 @@ package parser.nodeBuilder
 import utils.BinaryOperation
 import utils.BinaryOperators
 import utils.Expression
+import utils.Result
 import utils.Token
 import utils.TokenType
 
@@ -15,7 +16,7 @@ class ExpressionBuilder : ASTNodeBuilder {
         BinaryOperators.DIV to 2,
     )
 
-    override fun build(tokens: List<Token>, position: Int): BuildResult {
+    override fun build(tokens: List<Token>, position: Int): Result {
         val output = mutableListOf<Expression>()
         val operators = mutableListOf<Token>()
 

@@ -2,12 +2,13 @@ package parser.nodeBuilder
 
 import utils.Expression
 import utils.PrintFunction
+import utils.Result
 import utils.Token
 import utils.TokenType
 
 class PrintBuilder : ASTNodeBuilder {
 
-    override fun build(tokens: List<Token>, position: Int): BuildResult {
+    override fun build(tokens: List<Token>, position: Int): Result {
         val openBraceIndex = position + 1
         val closingBraceIndex = tokens.size - 2
         if (

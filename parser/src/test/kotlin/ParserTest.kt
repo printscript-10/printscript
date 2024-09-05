@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import parser.ParseSuccess
 import parser.Parser
-import parser.semanticAnalizer.ParseSuccess
 import utils.Identifier
 import utils.Position
 import utils.PrintFunction

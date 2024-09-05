@@ -1,5 +1,6 @@
 package parser.nodeBuilder
 
+import utils.Result
 import utils.Token
 import utils.TokenType
 
@@ -11,7 +12,7 @@ class ASTBuilder {
         TokenType.PRINT to PrintBuilder(),
     )
 
-    fun build(tokens: List<Token>): BuildResult {
+    fun build(tokens: List<Token>): Result {
         if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
             return BuildFailure(
                 "Line must finish with ;",

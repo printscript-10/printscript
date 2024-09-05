@@ -1,19 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+  id 'printscript-conventions'
 }
 
-repositories {
-  mavenCentral()
-}
-
-configurations {
-    ktlint
-}
+version = '1.0.0'
 
 dependencies {}
-
-kotlin {
-    jvmToolchain(21)
-}
-
-version = '1.0-SNAPSHOT'
