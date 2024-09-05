@@ -1,29 +1,15 @@
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import lexer.LinterFailure
 import lexer.LinterResult
 import lexer.LinterSuccess
 import lexer.LintingError
 import utils.AST
 import validator.ExpressionInPrintValidator
+import validator.LinterConfig
 import validator.NamingConventionValidator
 import validator.Validator
-import java.io.File
 
-val configPath = "src/main/resources/linter.config.yml"
+class Linter(private val config: LinterConfig) {
 
-data class Config(
-    val allow_expression_in_println: Boolean,
-    val naming_convention: String,
-)
-
-class Linter {
-
-    private var config: Config
-
-    init {
-        config = loadConfig()
-    }
     fun execute(ast: AST): LinterResult {
         val validators = getValidators()
         var errors: MutableList<LintingError> = ArrayList<LintingError>()
@@ -42,14 +28,5 @@ class Linter {
         }
         result.add(NamingConventionValidator(config.naming_convention))
         return result
-    }
-
-    private fun loadConfig(): Config {
-        val file = File(configPath)
-        val yamlConfig = file.readText()
-
-        val mapper = YAMLMapper().registerKotlinModule()
-        val config: Config = mapper.readValue(yamlConfig, Config::class.java)
-        return config
     }
 }

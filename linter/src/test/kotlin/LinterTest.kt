@@ -11,13 +11,17 @@ import utils.PrintFunction
 import utils.Type
 import utils.VariableDeclaration
 import utils.VariableType
+import validator.LinterConfig
 
-// TODO; los tests estos dependen del linter.config.yml q no pinta nada asiq hay q cambiar eso
 class LinterTest {
 
     @Test
     fun `test expressionInPrinterReturnsError`() {
-        val linter = Linter()
+        val linterConfig = LinterConfig(
+            allow_expression_in_println = false,
+            naming_convention = "camel_case",
+        )
+        val linter = Linter(linterConfig)
         val dummyPosition = Position(0, 0, 0)
         val left = NumberLiteral(3, dummyPosition)
         val right = NumberLiteral(4, dummyPosition)
@@ -32,7 +36,11 @@ class LinterTest {
 
     @Test
     fun `test violationInNamingConvetionReturnsError`() {
-        val linter = Linter()
+        val linterConfig = LinterConfig(
+            allow_expression_in_println = false,
+            naming_convention = "camel_case",
+        )
+        val linter = Linter(linterConfig)
         val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("snake_case", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
