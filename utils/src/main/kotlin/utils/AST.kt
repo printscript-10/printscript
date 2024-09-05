@@ -4,46 +4,46 @@ sealed interface AST {
     val position: Position
 }
 
-sealed interface Expression: AST {
+sealed interface Expression : AST {
     fun <T> accept(visitor: ASTExpressionVisitor<T>): T
 }
 
-sealed interface Declaration: AST
+sealed interface Declaration : AST
 
-interface ASTExpressionVisitor<T>{
+interface ASTExpressionVisitor<T> {
     fun visitLiteral(literal: Literal): T
     fun visitBinaryOperation(binaryOperation: BinaryOperation): T
     fun visitIdentifier(id: Identifier): T
 }
 data class PrintFunction(
     val value: Expression,
-    override val position: Position
+    override val position: Position,
 ) : Declaration
 
 data class VariableDeclaration(
     val id: Identifier,
     val type: Type,
     val init: Expression?,
-    override val position: Position
-): Declaration
+    override val position: Position,
+) : Declaration
 
 data class VariableAssignation(
     val id: Identifier,
     val value: Expression,
-    override val position: Position
-): Declaration
+    override val position: Position,
+) : Declaration
 
 data class Type(
     val name: VariableType,
-    override val position: Position
-): AST
+    override val position: Position,
+) : AST
 
 data class BinaryOperation(
     val right: Expression,
     val left: Expression,
     val operator: BinaryOperators,
-    override val position: Position
-): Expression {
+    override val position: Position,
+) : Expression {
     override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
         return visitor.visitBinaryOperation(this)
     }
@@ -52,14 +52,14 @@ data class BinaryOperation(
 data class Identifier(
     val name: String,
     override val position: Position,
-): Expression  {
+) : Expression {
     override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
         return visitor.visitIdentifier(this)
     }
 }
 
-sealed interface Literal: Expression {
-    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T{
+sealed interface Literal : Expression {
+    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
         return visitor.visitLiteral(this)
     }
 }
@@ -67,9 +67,9 @@ sealed interface Literal: Expression {
 data class NumberLiteral(
     val value: Number,
     override val position: Position,
-): Literal
+) : Literal
 
 data class StringLiteral(
     val value: String,
-    override val position: Position
-): Literal
+    override val position: Position,
+) : Literal

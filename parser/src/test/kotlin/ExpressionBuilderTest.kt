@@ -59,9 +59,11 @@ class ExpressionBuilderTest {
     fun `test compositeSumExpression`() {
         val dummyPosition = Position(0, 0, 0)
         val tokens = listOf<Token>(
+            Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
             Token(type = TokenType.NUMBER, value = "2", dummyPosition),
             Token(type = TokenType.BINARY_OPERATOR, value = "+", dummyPosition),
             Token(type = TokenType.NUMBER, value = "3", dummyPosition),
+            Token(type = TokenType.CLOSE_BRACKET, value = ")", dummyPosition),
             Token(type = TokenType.BINARY_OPERATOR, value = "+", dummyPosition),
             Token(type = TokenType.NUMBER, value = "4", dummyPosition),
         )
@@ -70,6 +72,33 @@ class ExpressionBuilderTest {
             right = NumberLiteral(value = 3, dummyPosition),
             left = NumberLiteral(value = 2, dummyPosition),
             operator = BinaryOperators.PLUS,
+            position = dummyPosition,
+        )
+        val expectedResult = BinaryOperation(
+            right = NumberLiteral(value = 4, dummyPosition),
+            left = expectedLeft,
+            operator = BinaryOperators.PLUS,
+            position = dummyPosition,
+        )
+        val expected = BuildSuccess(result = expectedResult, 0)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `test compositeMultiplicationExpression`() {
+        val dummyPosition = Position(0, 0, 0)
+        val tokens = listOf<Token>(
+            Token(type = TokenType.NUMBER, value = "2", dummyPosition),
+            Token(type = TokenType.BINARY_OPERATOR, value = "*", dummyPosition),
+            Token(type = TokenType.NUMBER, value = "3", dummyPosition),
+            Token(type = TokenType.BINARY_OPERATOR, value = "+", dummyPosition),
+            Token(type = TokenType.NUMBER, value = "4", dummyPosition),
+        )
+        val result = ExpressionBuilder().build(tokens, 0)
+        val expectedLeft = BinaryOperation(
+            right = NumberLiteral(value = 3, dummyPosition),
+            left = NumberLiteral(value = 2, dummyPosition),
+            operator = BinaryOperators.TIMES,
             position = dummyPosition,
         )
         val expectedResult = BinaryOperation(

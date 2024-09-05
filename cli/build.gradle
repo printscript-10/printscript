@@ -1,0 +1,13 @@
+plugins {
+  id 'printscript-conventions'
+}
+
+version = '1.0.0'
+
+dependencies {
+    implementation("org.yaml:snakeyaml:2.0")
+    implementation project(':runner')
+    implementation project(':linter')
+    implementation project(':formatter')
+    implementation project(':utils')
+}

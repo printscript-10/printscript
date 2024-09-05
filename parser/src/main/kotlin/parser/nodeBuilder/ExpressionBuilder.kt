@@ -3,6 +3,7 @@ package parser.nodeBuilder
 import utils.BinaryOperation
 import utils.BinaryOperators
 import utils.Expression
+import utils.Result
 import utils.Token
 import utils.TokenType
 
@@ -15,7 +16,7 @@ class ExpressionBuilder : ASTNodeBuilder {
         BinaryOperators.DIV to 2,
     )
 
-    override fun build(tokens: List<Token>, position: Int): BuildResult {
+    override fun build(tokens: List<Token>, position: Int): Result {
         val output = mutableListOf<Expression>()
         val operators = mutableListOf<Token>()
 
@@ -36,14 +37,14 @@ class ExpressionBuilder : ASTNodeBuilder {
                     }
                     operators.add(token)
                 }
-                TokenType.OPEN_BRACE -> {
+                TokenType.OPEN_BRACKET -> {
                     operators.add(token)
                 }
-                TokenType.CLOSE_BRACE -> {
-                    while (operators.isNotEmpty() && operators.last().type != TokenType.OPEN_BRACE) {
+                TokenType.CLOSE_BRACKET -> {
+                    while (operators.isNotEmpty() && operators.last().type != TokenType.OPEN_BRACKET) {
                         popOperatorToOutput(operators, output)
                     }
-                    if (operators.isNotEmpty() && operators.last().type == TokenType.OPEN_BRACE) {
+                    if (operators.isNotEmpty() && operators.last().type == TokenType.OPEN_BRACKET) {
                         operators.removeAt(operators.lastIndex)
                     } else {
                         return BuildFailure("Mismatched parentheses", position)
@@ -57,7 +58,7 @@ class ExpressionBuilder : ASTNodeBuilder {
         }
 
         while (operators.isNotEmpty()) {
-            if (operators.last().type == TokenType.OPEN_BRACE) {
+            if (operators.last().type == TokenType.OPEN_BRACKET) {
                 return BuildFailure("Mismatched parentheses", position)
             }
             popOperatorToOutput(operators, output)
@@ -67,7 +68,7 @@ class ExpressionBuilder : ASTNodeBuilder {
     }
 
     private fun shouldPopOperator(op1: Token, op2: Token): Boolean {
-        if (op1.type == TokenType.OPEN_BRACE || op2.type == TokenType.OPEN_BRACE) return false
+        if (op1.type == TokenType.OPEN_BRACKET || op2.type == TokenType.OPEN_BRACKET) return false
         val precedence1 = precedence[BinaryOperators.fromSymbol(op1.value)] ?: throw IllegalArgumentException(
             "Unknown operator: ${op1.value}",
         )

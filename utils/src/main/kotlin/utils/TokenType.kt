@@ -10,8 +10,8 @@ enum class TokenType {
     NUMBER,
     COLON,
     SEMICOLON,
-    OPEN_BRACE,
-    CLOSE_BRACE,
+    OPEN_BRACKET,
+    CLOSE_BRACKET,
     BINARY_OPERATOR,
-    ASSIGN
+    ASSIGN,
 }

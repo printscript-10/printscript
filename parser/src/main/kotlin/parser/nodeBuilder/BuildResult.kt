@@ -1,7 +1,8 @@
 package parser.nodeBuilder
 
 import utils.AST
+import utils.Failure
+import utils.Success
 
-sealed interface BuildResult
-data class BuildSuccess(val result: AST, val position: Int) : BuildResult
-data class BuildFailure(val error: String, val position: Int) : BuildResult
+data class BuildSuccess(val result: AST, val position: Int) : Success
+data class BuildFailure(override val error: String, val position: Int) : Failure

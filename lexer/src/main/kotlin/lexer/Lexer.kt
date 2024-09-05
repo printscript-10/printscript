@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import utils.Position
+import utils.Result
 import utils.Token
 import utils.TokenRegex
 import utils.TokenType
@@ -11,13 +12,13 @@ import utils.TokenType
 class Lexer {
 
     private val mapper: ObjectMapper = jacksonObjectMapper()
-    private var tokenRegexes: List<TokenRegex>
+    private val tokenRegexes: List<TokenRegex>
 
     init {
         this.tokenRegexes = getTokenRegexes()
     }
 
-    fun tokenize(input: String, line: Int): LexingResult {
+    fun tokenize(input: String, line: Int): Result {
         val tokens = mutableListOf<Token>()
         var currentPosition = 0
 
