@@ -1,6 +1,7 @@
 package formatter
 
-import formatter.formatApplicator.AssignationEqualWrapWhitespaces
+import formatter.formatApplicator.AssignationEqualWrapWhitespacesApplicator
+import formatter.formatApplicator.BinaryOperatorWrapWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonLeadingWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonTrailingWhitespacesApplicator
 import formatter.formatApplicator.MandatoryWhitespaceApplicator
@@ -13,11 +14,12 @@ import utils.TokenType
 class Formatter(private val config: FormatterConfig) {
 
     private val formatters = listOf(
-        AssignationEqualWrapWhitespaces(config),
+        AssignationEqualWrapWhitespacesApplicator(config),
         DeclarationColonLeadingWhitespacesApplicator(config),
         DeclarationColonTrailingWhitespacesApplicator(config),
         PrintTrailingLineJumpApplicator(config),
         MandatoryWhitespaceApplicator(config),
+        BinaryOperatorWrapWhitespacesApplicator(config),
     )
 
     fun format(tokens: List<Token>, ast: AST): Result {

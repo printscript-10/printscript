@@ -7,12 +7,10 @@ import utils.Token
 import utils.TokenType
 import utils.VariableAssignation
 
-class AssignationEqualWrapWhitespaces(private val config: FormatterConfig) : FormatApplicator {
+class AssignationEqualWrapWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
-        if (ast !is VariableAssignation || !config.assignation_equal_wrap_whitespaces) {
-            return FormatApplicatorSuccess(
-                tokens,
-            )
+        if (ast !is VariableAssignation && !config.assignation_equal_wrap_whitespaces) {
+            return FormatApplicatorSuccess(tokens)
         }
 
         val resultTokens = tokens.toMutableList()
