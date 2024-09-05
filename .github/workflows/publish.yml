@@ -23,6 +23,6 @@ jobs:
       - name: Publish package
         run: gradle publish
         env:
-          GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ secrets.ACTOR }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
