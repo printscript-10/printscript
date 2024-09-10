@@ -23,6 +23,8 @@ class VariableDeclarationInterpreter(
             VariableType.STRING -> {
                 StringVariable(initValue as String)
             }
+
+            VariableType.BOOLEAN -> TODO()
         }
 
         return InterpretSuccess(

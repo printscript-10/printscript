@@ -17,6 +17,7 @@ class ParserTest {
 
     @Test
     fun `test variableDeclaration`() {
+        val version = "1.0"
         val variableName = "a"
         val dummyPosition = Position(0, 0, 0)
         val variables: Map<String, VariableType> = mapOf()
@@ -32,7 +33,7 @@ class ParserTest {
             Token(type = TokenType.STRING, value = "b", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = Parser(variables).buildAST(tokens)
+        val result = Parser(variables, version).buildAST(tokens)
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
@@ -45,6 +46,7 @@ class ParserTest {
 
     @Test
     fun `test variableAssignation`() {
+        val version = "1.0"
         val variableName = "a"
         val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
@@ -56,7 +58,7 @@ class ParserTest {
             Token(type = TokenType.STRING, value = "b", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = Parser(variables).buildAST(tokens)
+        val result = Parser(variables, version).buildAST(tokens)
         val expectedResult = VariableAssignation(
             Identifier(name = "a", dummyPosition),
             value = StringLiteral("b", dummyPosition),
@@ -68,6 +70,7 @@ class ParserTest {
 
     @Test
     fun `test printDeclaration`() {
+        val version = "1.0"
         val variableName = "a"
         val dummyPosition = Position(0, 0, 0)
         val variables = mapOf(
@@ -80,7 +83,7 @@ class ParserTest {
             Token(type = TokenType.CLOSE_BRACKET, value = ")", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = Parser(variables).buildAST(tokens)
+        val result = Parser(variables, version).buildAST(tokens)
         val expectedResult = PrintFunction(
             value = StringLiteral("b", dummyPosition),
             dummyPosition,

@@ -32,11 +32,11 @@ data class VariableAssignation(
     val value: Expression,
     override val position: Position,
 ) : Declaration
-
+//TODO : cambiar thenStatements a list de Declaration
 data class IfStatement(
     val condition: Expression,
-    val thenStatements: List<Declaration>,
-    val elseStatements: List<Declaration>,
+    val thenStatements: List<AST>,
+    val elseStatements: List<AST>?,
     override val position: Position,
 ) : Declaration
 
