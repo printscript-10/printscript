@@ -1,0 +1,70 @@
+[
+  {
+    "token":"WHITESPACE",
+    "regex": "\\s+"
+  },
+  {
+    "token": "STRING",
+    "regex": "\"[^\"]*\"|'[^']*'"
+  },
+  {
+    "token": "VARIABLE_DECLARATOR",
+    "regex": "\\b(let|const)\\b"
+  },
+  {
+    "token": "TYPE",
+    "regex": "\\b(string|number)\\b"
+  },
+  {
+    "token": "PRINT",
+    "regex": "\\b(println)\\b"
+  },
+  {
+    "token": "IF",
+    "regex": "\\b(if)\\b"
+  },
+  {
+    "token": "ELSE",
+    "regex": "\\b(ELSE)\\b"
+  },
+  {
+    "token": "IDENTIFIER",
+    "regex": "[a-zA-Z_][a-zA-Z0-9_]*"
+  },
+  {
+    "token": "NUMBER",
+    "regex": "\\b-?\\d+(\\.\\d+)?\\b"
+  },
+  {
+    "token": "COLON",
+    "regex": ":"
+  },
+  {
+    "token": "SEMICOLON",
+    "regex": ";"
+  },
+  {
+    "token": "OPEN_BRACKET",
+    "regex": "\\("
+  },
+  {
+    "token": "CLOSE_BRACKET",
+    "regex": "\\)"
+  },
+  {
+    "token": "OPEN_BRACE",
+    "regex": "\\{"
+  },
+  {
+    "token": "CLOSE_BRACE",
+    "regex": "\\}"
+  },
+  {
+    "token": "BINARY_OPERATOR",
+    "regex": "\\+|\\-|\\*|\\/"
+  },
+  {
+    "token": "ASSIGN",
+    "regex": "="
+  }
+]

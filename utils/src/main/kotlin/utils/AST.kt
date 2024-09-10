@@ -33,6 +33,13 @@ data class VariableAssignation(
     override val position: Position,
 ) : Declaration
 
+data class IfStatement(
+    val condition: Expression,
+    val thenStatements: List<Declaration>,
+    val elseStatements: List<Declaration>,
+    override val position: Position,
+) : Declaration
+
 data class Type(
     val name: VariableType,
     override val position: Position,

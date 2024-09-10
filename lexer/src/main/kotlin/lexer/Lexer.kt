@@ -9,7 +9,7 @@ import utils.Token
 import utils.TokenRegex
 import utils.TokenType
 
-class Lexer {
+class Lexer(private val version: String) {
 
     private val mapper: ObjectMapper = jacksonObjectMapper()
     private val tokenRegexes: List<TokenRegex>
@@ -61,7 +61,8 @@ class Lexer {
     }
 
     private fun getTokenRegexes(): List<TokenRegex> {
-        val resourceStream = this::class.java.classLoader.getResourceAsStream("tokens.json")!!
+        val resourceStream = this::class.java.classLoader.getResourceAsStream("tokens-$version.json")!!
+
         return mapper.readValue(resourceStream)
     }
 }

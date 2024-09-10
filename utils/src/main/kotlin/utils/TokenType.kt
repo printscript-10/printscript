@@ -14,4 +14,6 @@ enum class TokenType {
     CLOSE_BRACKET,
     BINARY_OPERATOR,
     ASSIGN,
+    IF,
+    ELSE,
 }
