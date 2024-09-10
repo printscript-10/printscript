@@ -7,6 +7,8 @@ sealed class Variable {
 
 data class StringVariable(override val value: String?, override val isFinal: Boolean) : Variable()
 
+data class BooleanVariable(override val value: Boolean?, override val isFinal: Boolean) : Variable()
+
 data class NumericVariable(override val value: Number?, override val isFinal: Boolean) : Variable() {
     operator fun plus(other: NumericVariable): NumericVariable {
         val result = (this.value?.toDouble() ?: 0.0) + (other.value?.toDouble() ?: 0.0)

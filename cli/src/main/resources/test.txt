@@ -1,3 +1,8 @@
-let notSnake : number = (2 + 8) * 4 / (2 * 4 + (2 - 1)); println(notSnake);
+let a: string = "b";
+let b: boolean = false;
 
-if (){dasljkdajsd;akjsdlkasd;a;dssad;}
+if(b){a = "manu";}else{a = "manucin";};
+
+println(a);
+
+

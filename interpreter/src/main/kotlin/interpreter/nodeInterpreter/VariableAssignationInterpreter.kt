@@ -1,5 +1,6 @@
 package interpreter.nodeInterpreter
 
+import interpreter.BooleanVariable
 import interpreter.InterpretSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
@@ -16,11 +17,15 @@ class VariableAssignationInterpreter(
         val result = when (currentVariable) {
             is NumericVariable -> {
                 val value = ExpressionInterpreter(variables).execute(ast.value).value as Number
-                NumericVariable(value)
+                NumericVariable(value, false)
             }
             is StringVariable -> {
                 val value = ExpressionInterpreter(variables).execute(ast.value).value as String
-                StringVariable(value)
+                StringVariable(value, false)
+            }
+            is BooleanVariable -> {
+                val value = ExpressionInterpreter(variables).execute(ast.value).value as Boolean
+                BooleanVariable(value, false)
             }
         }
 

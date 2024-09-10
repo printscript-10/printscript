@@ -1,5 +1,6 @@
 package interpreter.nodeInterpreter
 
+import interpreter.BooleanVariable
 import interpreter.InterpretSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
@@ -18,13 +19,14 @@ class VariableDeclarationInterpreter(
 
         val result = when (ast.type.name) {
             VariableType.NUMBER -> {
-                NumericVariable(initValue as Number)
+                NumericVariable(initValue as Number, false)
             }
             VariableType.STRING -> {
-                StringVariable(initValue as String)
+                StringVariable(initValue as String, false)
             }
-
-            VariableType.BOOLEAN -> TODO()
+            VariableType.BOOLEAN -> {
+                BooleanVariable(initValue as Boolean, false)
+            }
         }
 
         return InterpretSuccess(

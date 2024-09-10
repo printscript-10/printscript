@@ -4,6 +4,10 @@
     "regex": "\\s+"
   },
   {
+    "token": "BOOLEAN",
+    "regex": "\\b(true|false)\\b"
+  },
+  {
     "token": "STRING",
     "regex": "\"[^\"]*\"|'[^']*'"
   },
@@ -13,7 +17,7 @@
   },
   {
     "token": "TYPE",
-    "regex": "\\b(string|number)\\b"
+    "regex": "\\b(string|number|boolean)\\b"
   },
   {
     "token": "PRINT",
@@ -25,7 +29,7 @@
   },
   {
     "token": "ELSE",
-    "regex": "\\b(ELSE)\\b"
+    "regex": "\\b(else)\\b"
   },
   {
     "token": "IDENTIFIER",

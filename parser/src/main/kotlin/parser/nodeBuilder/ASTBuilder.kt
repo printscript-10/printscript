@@ -17,12 +17,12 @@ class ASTBuilder(val version: String) {
             TokenType.IDENTIFIER to VariableAssignationBuilder(),
             TokenType.PRINT to PrintBuilder(),
             TokenType.IF to IfStatementBuilder(),
-        )
+        ),
     )
 
     fun build(tokens: List<Token>): Result {
         val astBuilders = builders[version]
-        if(astBuilders == null) throw Error("Unsupported version ${version}")
+        if (astBuilders == null) throw Error("Unsupported version $version")
         if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
             return BuildFailure(
                 "Line must finish with ;",

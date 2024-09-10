@@ -17,13 +17,13 @@ class VariableAssignationTest {
     fun `test simpleStringVariableAssignation`() {
         val identifierName = "a"
         val variables: MutableMap<String, Variable> = mutableMapOf(
-            identifierName to StringVariable(null),
+            identifierName to StringVariable(null, false),
         )
         val position = Position(0, 0, 1)
         val id = Identifier(identifierName, position)
         val value = StringLiteral(identifierName, position)
         val astNodeVariable = VariableAssignation(id, value, position)
-        val expectedVariable = StringVariable(value.value)
+        val expectedVariable = StringVariable(value.value, false)
         val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
 
         val result = VariableAssignationInterpreter(variables).execute(astNodeVariable)
@@ -35,13 +35,13 @@ class VariableAssignationTest {
     fun `test simpleNumberVariableAssignation`() {
         val identifierName = "a"
         val variables: MutableMap<String, Variable> = mutableMapOf(
-            identifierName to NumericVariable(2),
+            identifierName to NumericVariable(2, false),
         )
         val position = Position(0, 0, 1)
         val id = Identifier(identifierName, position)
         val value = NumberLiteral(4, position)
         val astNodeVariable = VariableAssignation(id, value, position)
-        val expectedVariable = NumericVariable(value.value)
+        val expectedVariable = NumericVariable(value.value, false)
         val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
 
         val result = VariableAssignationInterpreter(variables).execute(astNodeVariable)

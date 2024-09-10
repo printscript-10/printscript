@@ -7,7 +7,7 @@ import utils.Result
 import utils.Token
 import utils.TokenType
 
-class IfStatementBuilder: ASTNodeBuilder {
+class IfStatementBuilder : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {
         val openBracketIndex = position + 1
         val closingBracketIndex = position + 3
@@ -21,7 +21,7 @@ class IfStatementBuilder: ASTNodeBuilder {
         ) {
             return BuildFailure(
                 error = "Invalid if statement format",
-                position = position
+                position = position,
             )
         }
         val expressionTokens = tokens.subList(openBracketIndex + 1, closingBracketIndex)
@@ -33,14 +33,23 @@ class IfStatementBuilder: ASTNodeBuilder {
 
         while (tokens[currentIndex].type != TokenType.CLOSE_BRACE) {
             val statementTokens = extractStatement(tokens, currentIndex)
-            //TODO sacar el 1.1 ese
+            // TODO sacar el 1.1 ese
             val thenStatementResult = ASTBuilder("1.1").build(statementTokens)
 
             if (thenStatementResult is BuildFailure) {
-                return BuildFailure(error = "Invalid then statement: ${thenStatementResult.error}", position = currentIndex)
+                return BuildFailure(
+                    error = "Invalid then statement: ${thenStatementResult.error}",
+                    position = currentIndex,
+                )
             }
             thenStatements.add((thenStatementResult as BuildSuccess).result)
-            currentIndex += statementTokens.size + 1
+            currentIndex += statementTokens.size
+        }
+        if (thenStatements.isEmpty()) {
+            return BuildFailure(
+                error = "If statement cannot have empty body",
+                position = currentIndex,
+            )
         }
 
         currentIndex++
@@ -50,7 +59,7 @@ class IfStatementBuilder: ASTNodeBuilder {
             if (tokens[currentIndex].type != TokenType.OPEN_BRACE) {
                 return BuildFailure(
                     error = "Invalid else statement format",
-                    position = currentIndex
+                    position = currentIndex,
                 )
             }
             currentIndex++
@@ -60,11 +69,14 @@ class IfStatementBuilder: ASTNodeBuilder {
                 val elseStatementResult = ASTBuilder("1.1").build(statementTokens)
 
                 if (elseStatementResult is BuildFailure) {
-                    return BuildFailure(error = "Invalid else statement: ${elseStatementResult.error}", position = currentIndex)
+                    return BuildFailure(
+                        error = "Invalid else statement: ${elseStatementResult.error}",
+                        position = currentIndex,
+                    )
                 }
 
                 elseStatements.add((elseStatementResult as BuildSuccess).result)
-                currentIndex += statementTokens.size + 1
+                currentIndex += statementTokens.size
             }
         }
 
@@ -73,9 +85,9 @@ class IfStatementBuilder: ASTNodeBuilder {
                 condition = (expressionResult as BuildSuccess).result as Expression,
                 thenStatements = thenStatements,
                 elseStatements = elseStatements,
-                position = tokens[position].position
+                position = tokens[position].position,
             ),
-            position = position
+            position = position,
         )
     }
 
@@ -83,12 +95,16 @@ class IfStatementBuilder: ASTNodeBuilder {
         val statementTokens = mutableListOf<Token>()
         var index = startIndex
 
-        while (index < tokens.size && tokens[index].type != TokenType.SEMICOLON && tokens[index].type != TokenType.CLOSE_BRACE) {
+        while (
+            index < tokens.size && tokens[index].type != TokenType.SEMICOLON &&
+            tokens[index].type != TokenType.CLOSE_BRACE
+        ) {
             statementTokens.add(tokens[index])
             index++
         }
+        if (index < tokens.size && tokens[index].type == TokenType.SEMICOLON) {
+            statementTokens.add(tokens[index])
+        }
         return statementTokens
     }
-
-
 }
