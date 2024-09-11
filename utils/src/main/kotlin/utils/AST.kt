@@ -24,6 +24,7 @@ data class VariableDeclaration(
     val id: Identifier,
     val type: Type,
     val init: Expression?,
+    val isFinal: Boolean,
     override val position: Position,
 ) : Declaration
 

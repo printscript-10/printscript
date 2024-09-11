@@ -34,6 +34,7 @@ class VariableDeclarationBuilderTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
             StringLiteral(value = "b", dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val expected = BuildSuccess(result = expectedResult, 0)
@@ -57,6 +58,7 @@ class VariableDeclarationBuilderTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.NUMBER, dummyPosition),
             NumberLiteral(value = 2, dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val expected = BuildSuccess(result = expectedResult, 0)
@@ -80,6 +82,7 @@ class VariableDeclarationBuilderTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.BOOLEAN, dummyPosition),
             BooleanLiteral(value = true, dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val expected = BuildSuccess(result = expectedResult, 0)

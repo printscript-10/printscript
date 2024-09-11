@@ -19,13 +19,13 @@ class VariableDeclarationInterpreter(
 
         val result = when (ast.type.name) {
             VariableType.NUMBER -> {
-                NumericVariable(initValue as Number, false)
+                NumericVariable(initValue as Number, ast.isFinal)
             }
             VariableType.STRING -> {
-                StringVariable(initValue as String, false)
+                StringVariable(initValue as String, ast.isFinal)
             }
             VariableType.BOOLEAN -> {
-                BooleanVariable(initValue as Boolean, false)
+                BooleanVariable(initValue as Boolean, ast.isFinal)
             }
         }
 

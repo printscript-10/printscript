@@ -38,6 +38,7 @@ class ParserTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
             StringLiteral(value = "b", dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val expected = ParseSuccess(result = expectedResult, updatedVariables)

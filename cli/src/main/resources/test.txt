@@ -1,8 +1,5 @@
-let a: string = "b";
-let b: boolean = false;
-
-if(b){a = "manu";}else{a = "manucin";};
-
+const a: string = "manu";
+a = "manuel";
 println(a);
 
 

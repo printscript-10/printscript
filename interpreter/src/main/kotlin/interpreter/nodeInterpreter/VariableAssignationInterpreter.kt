@@ -1,6 +1,7 @@
 package interpreter.nodeInterpreter
 
 import interpreter.BooleanVariable
+import interpreter.InterpretFailure
 import interpreter.InterpretSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
@@ -13,6 +14,8 @@ class VariableAssignationInterpreter(
 ) : ASTDeclarationInterpreter<VariableAssignation> {
     override fun execute(ast: VariableAssignation): Result {
         val currentVariable = variables[ast.id.name]!!
+
+        if (currentVariable.isFinal) return InterpretFailure("${ast.id.name} cannot be reassigned")
 
         val result = when (currentVariable) {
             is NumericVariable -> {

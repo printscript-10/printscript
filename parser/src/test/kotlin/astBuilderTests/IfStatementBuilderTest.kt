@@ -40,6 +40,7 @@ class IfStatementBuilderTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "b", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -87,6 +88,7 @@ class IfStatementBuilderTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "b", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -95,6 +97,7 @@ class IfStatementBuilderTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "c", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )

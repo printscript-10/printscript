@@ -24,7 +24,7 @@ class VariableDeclarationTest {
         val identifier = Identifier(variableName, dummyPosition)
         val value = StringLiteral("random value", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
-        val variableDeclaration = VariableDeclaration(identifier, type, value, dummyPosition)
+        val variableDeclaration = VariableDeclaration(identifier, type, value, isFinal = false, dummyPosition)
         val expectedResult = Success(updatedVariables)
 
         val result = semanticAnalyzer.analyze(variableDeclaration)

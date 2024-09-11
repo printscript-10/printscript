@@ -20,7 +20,7 @@ class VariableDeclarationTest {
         val id = Identifier("a", position)
         val value = StringLiteral("a", position)
         val type = Type(VariableType.STRING, position)
-        val astNodeVariable = VariableDeclaration(id, type, value, position)
+        val astNodeVariable = VariableDeclaration(id, type, value, isFinal = false, position)
         val expectedVariable = StringVariable(value.value, false)
         val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
 

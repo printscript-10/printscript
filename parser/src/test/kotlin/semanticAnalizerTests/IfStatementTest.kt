@@ -23,6 +23,7 @@ class IfStatementTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "b", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -31,6 +32,7 @@ class IfStatementTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "c", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -56,6 +58,7 @@ class IfStatementTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "b", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -64,6 +67,7 @@ class IfStatementTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "c", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -92,6 +96,7 @@ class IfStatementTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "b", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -100,6 +105,7 @@ class IfStatementTest {
                 Identifier(name = "b", dummyPosition),
                 Type(name = VariableType.NUMBER, dummyPosition),
                 StringLiteral(value = "c", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -125,6 +131,7 @@ class IfStatementTest {
                 Identifier(name = "declaredVariable", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "b", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
@@ -133,6 +140,7 @@ class IfStatementTest {
                 Identifier(name = "declaredVariable", dummyPosition),
                 Type(name = VariableType.STRING, dummyPosition),
                 StringLiteral(value = "c", dummyPosition),
+                isFinal = false,
                 dummyPosition,
             ),
         )
