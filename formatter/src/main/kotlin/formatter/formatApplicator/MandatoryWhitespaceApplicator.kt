@@ -1,12 +1,11 @@
 package formatter.formatApplicator
 
 import formatter.FormatApplicatorSuccess
-import formatter.FormatterConfig
 import utils.AST
 import utils.Token
 import utils.TokenType
 
-class MandatoryWhitespaceApplicator(private val config: FormatterConfig) : FormatApplicator {
+class MandatoryWhitespaceApplicator : FormatApplicator {
 
     private val mandatoryWhitespacePairs: List<Pair<TokenType, TokenType>> = listOf(
         Pair(TokenType.VARIABLE_DECLARATOR, TokenType.IDENTIFIER),

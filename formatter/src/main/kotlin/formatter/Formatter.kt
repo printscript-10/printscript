@@ -4,6 +4,8 @@ import formatter.formatApplicator.AssignationEqualWrapWhitespacesApplicator
 import formatter.formatApplicator.BinaryOperatorWrapWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonLeadingWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonTrailingWhitespacesApplicator
+import formatter.formatApplicator.FormatApplicator
+import formatter.formatApplicator.IfBlockIndentApplicator
 import formatter.formatApplicator.MandatoryWhitespaceApplicator
 import formatter.formatApplicator.PrintTrailingLineJumpApplicator
 import utils.AST
@@ -13,14 +15,16 @@ import utils.TokenType
 
 class Formatter(private val config: FormatterConfig) {
 
-    private val formatters = listOf(
-        AssignationEqualWrapWhitespacesApplicator(config),
-        DeclarationColonLeadingWhitespacesApplicator(config),
-        DeclarationColonTrailingWhitespacesApplicator(config),
-        PrintTrailingLineJumpApplicator(config),
-        MandatoryWhitespaceApplicator(config),
-        BinaryOperatorWrapWhitespacesApplicator(config),
-    )
+    private val formatters: List<FormatApplicator> by lazy {
+        listOf(
+            AssignationEqualWrapWhitespacesApplicator(config),
+            DeclarationColonLeadingWhitespacesApplicator(config),
+            DeclarationColonTrailingWhitespacesApplicator(config),
+            PrintTrailingLineJumpApplicator(config),
+            MandatoryWhitespaceApplicator(),
+            BinaryOperatorWrapWhitespacesApplicator(config)
+        )
+    }
 
     fun format(tokens: List<Token>, ast: AST): Result {
         var result = tokens

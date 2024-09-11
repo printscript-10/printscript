@@ -14,6 +14,7 @@ class Linter(config: LinterConfig) {
     private val validators = listOf<Validator>(
         ExpressionInPrintValidator(config),
         NamingConventionValidator(config),
+        IfStatementValidator(config)
     )
 
     fun execute(ast: AST): Result {
