@@ -23,7 +23,9 @@ class ASTBuilder(val version: String) {
     fun build(tokens: List<Token>): Result {
         val astBuilders = builders[version]
         if (astBuilders == null) throw Error("Unsupported version $version")
-        if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
+        if (tokens[tokens.size - 1].type != TokenType.SEMICOLON &&
+            tokens[tokens.size - 1].type != TokenType.CLOSE_BRACE
+        ) {
             return BuildFailure(
                 "Line must finish with ;",
                 tokens.size - 1,

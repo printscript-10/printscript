@@ -1,5 +1,5 @@
 const a: string = "manu";
-a = "manuel";
-println(a);
+
+if(true){println("one level");if(true){println("second level");}}
 
 

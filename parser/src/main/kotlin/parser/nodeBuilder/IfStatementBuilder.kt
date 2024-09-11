@@ -99,9 +99,61 @@ class IfStatementBuilder : ASTNodeBuilder {
             index < tokens.size && tokens[index].type != TokenType.SEMICOLON &&
             tokens[index].type != TokenType.CLOSE_BRACE
         ) {
-            statementTokens.add(tokens[index])
-            index++
+            if (tokens[index].type == TokenType.IF) {
+                statementTokens.add(tokens[index])
+                index++
+
+                while (index < tokens.size && tokens[index].type != TokenType.CLOSE_BRACKET) {
+                    statementTokens.add(tokens[index])
+                    index++
+                }
+                if (index < tokens.size && tokens[index].type == TokenType.CLOSE_BRACKET) {
+                    statementTokens.add(tokens[index])
+                    index++
+                }
+
+                if (index < tokens.size && tokens[index].type == TokenType.OPEN_BRACE) {
+                    var braceCount = 1
+                    statementTokens.add(tokens[index])
+                    index++
+
+                    while (index < tokens.size && braceCount > 0) {
+                        if (tokens[index].type == TokenType.OPEN_BRACE) {
+                            braceCount++
+                        } else if (tokens[index].type == TokenType.CLOSE_BRACE) {
+                            braceCount--
+                        }
+                        statementTokens.add(tokens[index])
+                        index++
+                    }
+                }
+
+                if (index < tokens.size && tokens[index].type == TokenType.ELSE) {
+                    statementTokens.add(tokens[index])
+                    index++
+
+                    if (index < tokens.size && tokens[index].type == TokenType.OPEN_BRACE) {
+                        var braceCount = 1
+                        statementTokens.add(tokens[index])
+                        index++
+
+                        while (index < tokens.size && braceCount > 0) {
+                            if (tokens[index].type == TokenType.OPEN_BRACE) {
+                                braceCount++
+                            } else if (tokens[index].type == TokenType.CLOSE_BRACE) {
+                                braceCount--
+                            }
+                            statementTokens.add(tokens[index])
+                            index++
+                        }
+                    }
+                }
+            } else {
+                statementTokens.add(tokens[index])
+                index++
+            }
         }
+
         if (index < tokens.size && tokens[index].type == TokenType.SEMICOLON) {
             statementTokens.add(tokens[index])
         }
