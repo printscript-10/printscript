@@ -42,6 +42,7 @@ class FormatterTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
             StringLiteral(value = "b", dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val result = (formatter.format(tokens, ast) as FormatSuccess).result
@@ -72,6 +73,7 @@ class FormatterTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
             StringLiteral(value = "b", dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val result = (formatter.format(tokens, ast) as FormatSuccess).result
@@ -102,6 +104,7 @@ class FormatterTest {
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
             StringLiteral(value = "b", dummyPosition),
+            isFinal = false,
             dummyPosition,
         )
         val result = (formatter.format(tokens, ast) as FormatSuccess).result

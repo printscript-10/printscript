@@ -16,8 +16,8 @@ class TypeVisitor(private val variables: Map<String, VariableType>) : ASTExpress
     override fun visitLiteral(literal: Literal): SemanticAnalyzerResult {
         return when (literal) {
             is NumberLiteral -> VisitSuccess(VariableType.NUMBER)
-            is StringLiteral -> VisitSuccess(VariableType.STRING)
             is BooleanLiteral -> VisitSuccess(VariableType.BOOLEAN)
+            is StringLiteral -> VisitSuccess(VariableType.STRING)
         }
     }
 

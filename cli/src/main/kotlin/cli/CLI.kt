@@ -11,7 +11,7 @@ import kotlin.system.exitProcess
 const val filePath = "cli/src/main/resources/test.txt"
 const val configPath = "cli/src/main/resources/config.yml"
 
-private val runner = Runner()
+private val runner = Runner("1.1")
 private val errorHandler = CLIErrorHandler()
 private val outputProvider = CLIOutputProvider()
 
@@ -19,7 +19,7 @@ fun main() {
     val file = File(filePath)
     val configFile = File(configPath)
 
-    val version = "1.0"
+    val version = "1.1"
     while (true) {
         printGreen(appCli(version))
         printMenu()

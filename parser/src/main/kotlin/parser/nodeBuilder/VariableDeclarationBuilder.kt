@@ -20,8 +20,8 @@ class VariableDeclarationBuilder(private val version: String) : ASTNodeBuilder {
         ) {
             return BuildFailure("Invalid variable declaration format")
         }
-
         val identifier = IdentifierBuilder().build(tokens, idIndex).result as Identifier
+        val isFinal = if (tokens[position].value == "let") false else true
         val type = TypeBuilder().build(tokens, typeIndex).result as Type
         var value: Expression? = null
 
@@ -39,6 +39,8 @@ class VariableDeclarationBuilder(private val version: String) : ASTNodeBuilder {
             val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
             if (expressionResult is BuildFailure) return expressionResult
             value = (expressionResult as BuildSuccess).result as Expression
+        } else if (isFinal) {
+            return BuildFailure("Const declaration cannot have empty value")
         }
 
         return BuildSuccess(
@@ -46,6 +48,7 @@ class VariableDeclarationBuilder(private val version: String) : ASTNodeBuilder {
                 id = identifier,
                 init = value,
                 type = type,
+                isFinal = isFinal,
                 position = tokens[position].position,
             ),
             position = position,

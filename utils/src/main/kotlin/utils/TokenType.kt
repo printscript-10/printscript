@@ -19,4 +19,7 @@ enum class TokenType {
     CLOSE_BRACE,
     BINARY_OPERATOR,
     ASSIGN,
+    IF,
+    ELSE,
+    BOOLEAN,
 }

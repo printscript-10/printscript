@@ -1,4 +1,5 @@
-let notSnake : number = 2 + readInput("hola" + (2+5)*2) + 4;
+const a: string = "manu";
+a = "manuel";
+println(a);
 
 
-println(notSnake);

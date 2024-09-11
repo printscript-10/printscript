@@ -1,3 +1,5 @@
+package astBuilderTests
+
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildSuccess

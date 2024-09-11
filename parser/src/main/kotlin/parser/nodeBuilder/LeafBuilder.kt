@@ -71,7 +71,7 @@ class TypeBuilder : ASTNodeBuilder {
         val token = tokens[position]
         return BuildSuccess(
             result = Type(
-                name = VariableType.valueOf(token.value.toUpperCase()),
+                name = VariableType.valueOf(token.value.uppercase()),
                 position = token.position,
             ),
             position = position,

@@ -44,12 +44,20 @@ data class VariableDeclaration(
     val id: Identifier,
     val type: Type,
     val init: Expression?,
+    val isFinal: Boolean,
     override val position: Position,
 ) : Declaration
 
 data class VariableAssignation(
     val id: Identifier,
     val value: Expression,
+    override val position: Position,
+) : Declaration
+
+data class IfStatement(
+    val condition: Expression,
+    val thenStatements: List<AST>,
+    val elseStatements: List<AST>,
     override val position: Position,
 ) : Declaration
 
