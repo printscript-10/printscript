@@ -1,4 +1,4 @@
-let notSnake : number = (2 + 8) * 4 / (2 * 4 + (2 - 1));
+let notSnake : number = 2 + readInput("hola" + (2+5)*2) + 4;
 
 
 println(notSnake);

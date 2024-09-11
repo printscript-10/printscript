@@ -20,8 +20,8 @@ import utils.Token
 import utils.VariableType
 import java.io.InputStream
 
-class Runner {
-    private val lexer = Lexer()
+class Runner(version: String) {
+    private val lexer = Lexer(version)
 
     fun validate(input: InputStream, handler: ErrorHandler) {
         processInput(input, handler) { _, _ -> return@processInput }

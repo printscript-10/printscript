@@ -27,6 +27,8 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
         val type = ast.type.name
         if (ast.init == null) return Success(variables)
 
+        if (variables.containsKey(ast.id.name)) return Failure("${ast.id.name} has already been declared")
+
         val expressionType = ast.init!!.accept(TypeVisitor(variables))
         if (expressionType is VisitSuccess && type == expressionType.type) {
             return Success(

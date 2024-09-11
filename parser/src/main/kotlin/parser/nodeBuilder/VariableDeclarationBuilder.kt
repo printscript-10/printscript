@@ -7,8 +7,7 @@ import utils.Token
 import utils.TokenType
 import utils.Type
 import utils.VariableDeclaration
-// manuel
-class VariableDeclarationBuilder : ASTNodeBuilder {
+class VariableDeclarationBuilder(private val version: String) : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {
         val idIndex = position + 1
         val typeIndex = position + 3
@@ -19,10 +18,7 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
             (tokens[position + 2].type != TokenType.COLON) ||
             (tokens[typeIndex].type != TokenType.TYPE)
         ) {
-            return BuildFailure(
-                error = "Invalid variable declaration format",
-                position = position,
-            )
+            return BuildFailure("Invalid variable declaration format")
         }
 
         val identifier = IdentifierBuilder().build(tokens, idIndex).result as Identifier
@@ -36,14 +32,11 @@ class VariableDeclarationBuilder : ASTNodeBuilder {
                 listOf()
             }
         if (tokens[assignIndex].type == TokenType.ASSIGN && expressionTokens.isEmpty()) {
-            return BuildFailure(
-                error = "Expression cannot be empty",
-                position = position,
-            )
+            return BuildFailure("Expression cannot be empty")
         }
 
         if (expressionTokens.isNotEmpty()) {
-            val expressionResult = ExpressionBuilder().build(expressionTokens, position)
+            val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
             if (expressionResult is BuildFailure) return expressionResult
             value = (expressionResult as BuildSuccess).result as Expression
         }

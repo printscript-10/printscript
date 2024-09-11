@@ -11,12 +11,15 @@ import utils.Result
 import utils.Token
 import utils.VariableType
 
-class Parser(variables: Map<String, VariableType>) {
+class Parser(
+    private val version: String,
+    variables: Map<String, VariableType>
+) {
 
     private val semanticAnalyzer = SemanticAnalyzer(variables)
 
     fun buildAST(tokens: List<Token>): Result {
-        val astResult = ASTBuilder().build(tokens)
+        val astResult = ASTBuilder(version).build(tokens)
         return if (astResult is BuildFailure) {
             ParseFailure(astResult.error)
         } else {

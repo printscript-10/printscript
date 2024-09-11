@@ -6,7 +6,7 @@ import utils.Result
 import utils.Token
 import utils.TokenType
 
-class PrintBuilder : ASTNodeBuilder {
+class PrintBuilder(private val version: String) : ASTNodeBuilder {
 
     override fun build(tokens: List<Token>, position: Int): Result {
         val openBraceIndex = position + 1
@@ -16,21 +16,13 @@ class PrintBuilder : ASTNodeBuilder {
             (tokens[openBraceIndex].type != TokenType.OPEN_BRACKET) ||
             (tokens[closingBraceIndex].type != TokenType.CLOSE_BRACKET)
         ) {
-            return BuildFailure(
-                error = "Invalid print function format",
-                position = position,
-            )
+            return BuildFailure("Invalid print function format")
         }
 
         val expressionTokens = tokens.subList(openBraceIndex + 1, closingBraceIndex)
-        if (expressionTokens.isEmpty()) {
-            return BuildFailure(
-                error = "Print function cannot be empty",
-                position = position,
-            )
-        }
+        if (expressionTokens.isEmpty()) return BuildFailure("Print function cannot be empty")
 
-        val expressionResult = ExpressionBuilder().build(expressionTokens, position)
+        val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
         if (expressionResult is BuildFailure) return expressionResult
 
         return BuildSuccess(
