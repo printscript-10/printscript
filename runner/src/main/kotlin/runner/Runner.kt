@@ -20,8 +20,8 @@ import utils.Token
 import utils.VariableType
 import java.io.InputStream
 
-class Runner {
-    private val lexer = Lexer()
+class Runner(private val version: String) {
+    private val lexer = Lexer(version)
 
     fun validate(input: InputStream, handler: ErrorHandler) {
         processInput(input, handler) { _, _ -> return@processInput }
@@ -79,7 +79,7 @@ class Runner {
                     if (lexingResult is Failure) return handler.reportError(lexingResult.error)
                     val tokens = (lexingResult as LexingSuccess).tokens
 
-                    val parser = Parser(variableTypes)
+                    val parser = Parser(variableTypes, version)
                     val buildResult = parser.buildAST(tokens)
                     if (buildResult is Failure) return handler.reportError(buildResult.error)
                     variableTypes = (buildResult as ParseSuccess).variables

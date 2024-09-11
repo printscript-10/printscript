@@ -12,6 +12,11 @@ enum class TokenType {
     SEMICOLON,
     OPEN_BRACKET,
     CLOSE_BRACKET,
+    OPEN_BRACE,
+    CLOSE_BRACE,
     BINARY_OPERATOR,
     ASSIGN,
+    IF,
+    ELSE,
+    BOOLEAN,
 }

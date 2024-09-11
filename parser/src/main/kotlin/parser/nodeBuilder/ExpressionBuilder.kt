@@ -28,6 +28,9 @@ class ExpressionBuilder : ASTNodeBuilder {
                 TokenType.IDENTIFIER -> {
                     output.add(IdentifierBuilder().build(tokens, tokenIndex).result as Expression)
                 }
+                TokenType.BOOLEAN -> {
+                    output.add(BooleanLiteralBuilder().build(tokens, tokenIndex).result as Expression)
+                }
                 TokenType.STRING -> {
                     output.add(StringLiteralBuilder().build(tokens, tokenIndex).result as Expression)
                 }

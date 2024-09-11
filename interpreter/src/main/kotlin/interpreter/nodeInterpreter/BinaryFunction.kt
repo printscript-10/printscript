@@ -11,7 +11,7 @@ sealed interface BinaryFunction {
 data object Sum : BinaryFunction {
     override fun execute(left: Variable, right: Variable): Variable {
         if (left is NumericVariable && right is NumericVariable) return left + right
-        return StringVariable(left.value.toString() + right.value.toString())
+        return StringVariable(left.value.toString() + right.value.toString(), false)
     }
 }
 

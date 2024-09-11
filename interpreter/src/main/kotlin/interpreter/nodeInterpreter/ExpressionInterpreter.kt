@@ -2,6 +2,7 @@ package interpreter.nodeInterpreter
 
 import interpreter.Variable
 import utils.BinaryOperation
+import utils.BooleanLiteral
 import utils.Expression
 import utils.Identifier
 import utils.NumberLiteral
@@ -14,6 +15,7 @@ class ExpressionInterpreter(private val variables: Map<String, Variable>) : ASTE
             is NumberLiteral -> NumericLiteralInterpreter().execute(ast)
             is StringLiteral -> StringLiteralInterpreter().execute(ast)
             is Identifier -> IdentifierInterpreter(variables).execute(ast)
+            is BooleanLiteral -> BooleanLiteralInterpreter().execute(ast)
         }
     }
 }

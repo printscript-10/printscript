@@ -45,7 +45,7 @@ class LinterTest {
         val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("snake_case", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
-        val variableDeclaration = VariableDeclaration(identifier, type, init = null, dummyPosition)
+        val variableDeclaration = VariableDeclaration(identifier, type, init = null, isFinal = false, dummyPosition)
         val result = linter.execute(variableDeclaration)
         assertTrue(result is Failure)
     }

@@ -1,5 +1,7 @@
 package interpreter.nodeInterpreter
 
+import interpreter.BooleanVariable
+import interpreter.InterpretFailure
 import interpreter.InterpretSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
@@ -13,14 +15,20 @@ class VariableAssignationInterpreter(
     override fun execute(ast: VariableAssignation): Result {
         val currentVariable = variables[ast.id.name]!!
 
+        if (currentVariable.isFinal) return InterpretFailure("${ast.id.name} cannot be reassigned")
+
         val result = when (currentVariable) {
             is NumericVariable -> {
                 val value = ExpressionInterpreter(variables).execute(ast.value).value as Number
-                NumericVariable(value)
+                NumericVariable(value, false)
             }
             is StringVariable -> {
                 val value = ExpressionInterpreter(variables).execute(ast.value).value as String
-                StringVariable(value)
+                StringVariable(value, false)
+            }
+            is BooleanVariable -> {
+                val value = ExpressionInterpreter(variables).execute(ast.value).value as Boolean
+                BooleanVariable(value, false)
             }
         }
 

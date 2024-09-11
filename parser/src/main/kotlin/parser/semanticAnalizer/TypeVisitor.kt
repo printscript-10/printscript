@@ -3,16 +3,20 @@ package parser.semanticAnalizer
 import utils.ASTExpressionVisitor
 import utils.BinaryOperation
 import utils.BinaryOperators
+import utils.BooleanLiteral
 import utils.Identifier
 import utils.Literal
 import utils.NumberLiteral
+import utils.StringLiteral
 import utils.VariableType
 
 class TypeVisitor(private val variables: Map<String, VariableType>) : ASTExpressionVisitor<SemanticAnalyzerResult> {
     override fun visitLiteral(literal: Literal): SemanticAnalyzerResult {
-        if (literal is NumberLiteral) return VisitSuccess(VariableType.NUMBER)
-
-        return VisitSuccess(VariableType.STRING)
+        return when (literal) {
+            is NumberLiteral -> VisitSuccess(VariableType.NUMBER)
+            is BooleanLiteral -> VisitSuccess(VariableType.BOOLEAN)
+            is StringLiteral -> VisitSuccess(VariableType.STRING)
+        }
     }
 
     override fun visitBinaryOperation(binaryOperation: BinaryOperation): SemanticAnalyzerResult {
@@ -21,6 +25,10 @@ class TypeVisitor(private val variables: Map<String, VariableType>) : ASTExpress
 
         if (left !is VisitSuccess) return left
         if (right !is VisitSuccess) return right
+
+        if (left.type == VariableType.BOOLEAN || right.type == VariableType.BOOLEAN) {
+            return Failure("Cant use boolean expressions in binary operations")
+        }
 
         if (left.type == VariableType.NUMBER && right.type == VariableType.NUMBER) {
             return VisitSuccess(VariableType.NUMBER)
