@@ -1,5 +1,4 @@
-let a: string;
-a = "test";
-println(a);
+let numberResult: number = 5 * 5 - 8;
+println(numberResult);
 
 
