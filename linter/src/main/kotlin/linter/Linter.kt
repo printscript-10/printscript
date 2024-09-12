@@ -33,7 +33,7 @@ class Linter(config: LinterConfig, version: String) {
         val baseList = listOf<Validator>(
             ExpressionInPrintValidator(config),
             NamingConventionValidator(config),
-
+            ExpressionInReadInputValidator(config),
         )
         return when (version) {
             "1.0" -> baseList
@@ -42,7 +42,6 @@ class Linter(config: LinterConfig, version: String) {
                     addAll(
                         listOf(
                             IfStatementValidator(config, version),
-                            ExpressionInReadInputValidator(config),
                         ),
                     )
                 }
