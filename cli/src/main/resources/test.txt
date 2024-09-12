@@ -1,1 +1,1 @@
-let a: string = readInput("hola" + "pedro");
+let camelCase_snakeCase: string = readInput("santy" + "santy");

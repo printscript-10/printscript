@@ -13,6 +13,7 @@ import utils.VariableDeclaration
 
 class ExpressionInReadInputValidator(private val config: LinterConfig) : Validator {
     override fun validate(ast: AST): LintingError? {
+        if (config.allow_expression_in_readinput == null) return null
         var value: Expression? = null
         if (ast is VariableDeclaration) {
             if (ast.init != null) {

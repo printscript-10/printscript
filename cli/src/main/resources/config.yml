@@ -8,4 +8,5 @@ formatter:
 linter:
   rules:
     allow_expression_in_println: false
-    naming_convention: snake_case
+    allow_expression_in_readInput: false
+
