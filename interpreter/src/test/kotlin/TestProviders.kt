@@ -11,7 +11,7 @@ class TestOutputProvider : OutputProvider {
 }
 
 class TestInputProvider(var input: String? = null) : InputProvider {
-    override fun readInput(): String? {
+    override fun readInput(message: String): String? {
         return input
     }
 }

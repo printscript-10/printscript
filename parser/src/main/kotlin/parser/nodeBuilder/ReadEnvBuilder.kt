@@ -14,7 +14,7 @@ class ReadEnvBuilder : ASTNodeBuilder {
         if (
             (tokens[position].type != TokenType.READ_ENV) ||
             (tokens[opeBracketIndex].type != TokenType.OPEN_BRACKET) ||
-            (tokens[variableIndex].type != TokenType.IDENTIFIER) ||
+            (tokens[variableIndex].type != TokenType.STRING) ||
             (tokens[closeBracketIndex].type != TokenType.CLOSE_BRACKET)
         ) {
             return BuildFailure("Invalid readEnv function format")

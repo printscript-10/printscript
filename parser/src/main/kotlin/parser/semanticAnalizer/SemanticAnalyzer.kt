@@ -21,16 +21,8 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
 
     private fun checkPrintFunction(printFunction: PrintFunction): SemanticAnalyzerResult {
         val result = printFunction.value.accept(TypeVisitor(variables))
-        return if (
-            result is VisitSuccess &&
-            (result.type == VariableType.STRING || result.type == VariableType.UNKNOWN)
-        ) {
-            Success(variables)
-        } else if (result is VisitSuccess) {
-            Failure("Print function can only print strings")
-        } else {
-            result
-        }
+        if (result is VisitSuccess) return Success(variables)
+        return result
     }
 
     private fun checkVariableDeclaration(ast: VariableDeclaration): SemanticAnalyzerResult {
