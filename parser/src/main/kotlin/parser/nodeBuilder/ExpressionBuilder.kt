@@ -30,7 +30,10 @@ class ExpressionBuilder(version: String) : ASTNodeBuilder {
             val token = tokens[tokenIndex]
 
             if (builders.containsKey(token.type)) {
-                val result = builders[token.type]?.build(tokens, tokenIndex) as BuildSuccess
+                val buildResult = builders[token.type]?.build(tokens, tokenIndex)
+                if (buildResult is BuildFailure) return buildResult
+
+                val result = buildResult as BuildSuccess
                 output.add(result.result as Expression)
                 tokenIndex = result.position
             } else {

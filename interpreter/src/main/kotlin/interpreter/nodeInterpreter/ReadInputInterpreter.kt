@@ -29,8 +29,7 @@ class ReadInputInterpreter(
         ).execute(ast.message)
         if (message is ExpressionFailure) return ExpressionFailure(message.error)
 
-        outputProvider.print((message as ExpressionSuccess).value.value.toString())
-        val result = inputProvider.readInput()
+        val result = inputProvider.readInput((message as ExpressionSuccess).value.value.toString())
 
         if (result.isNullOrBlank()) return ExpressionFailure("No input provided")
 
