@@ -1,5 +1,5 @@
 package utils
 
 interface OutputProvider {
-    fun print(message: Any?)
+    fun print(message: String)
 }

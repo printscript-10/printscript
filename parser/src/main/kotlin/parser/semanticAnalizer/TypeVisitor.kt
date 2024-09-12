@@ -31,8 +31,12 @@ class TypeVisitor(private val variables: Map<String, VariableType>) : ASTExpress
         if (
             (left.type == VariableType.NUMBER || left.type == VariableType.UNKNOWN) &&
             (right.type == VariableType.NUMBER || right.type == VariableType.UNKNOWN)
-            ) {
-            return VisitSuccess(VariableType.NUMBER)
+        ) {
+            return if (binaryOperation.operator == BinaryOperators.PLUS) {
+                VisitSuccess(VariableType.UNKNOWN)
+            } else {
+                VisitSuccess(VariableType.NUMBER)
+            }
         }
 
         if (binaryOperation.operator != BinaryOperators.PLUS) {

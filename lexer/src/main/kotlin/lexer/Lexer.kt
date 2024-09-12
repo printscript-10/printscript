@@ -15,7 +15,7 @@ class Lexer(private val version: String) {
     private val tokenRegexes: List<TokenRegex>
 
     init {
-        this.tokenRegexes = getTokenRegexes(version)
+        this.tokenRegexes = getTokenRegexes()
     }
 
     fun tokenize(input: String, line: Int): Result {

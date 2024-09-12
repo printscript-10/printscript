@@ -2,37 +2,38 @@ package interpreter.nodeInterpreter
 
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
-import interpreter.InterpretFailure
-import interpreter.InterpretSuccess
 import interpreter.Variable
 import utils.EnvProvider
 import utils.InputProvider
 import utils.OutputProvider
-import utils.PrintFunction
+import utils.ReadInput
 import utils.Result
 import utils.VariableType
 
-class PrintInterpreter(
+class ReadInputInterpreter(
     private val version: String,
     private val variables: Map<String, Variable>,
     private val outputProvider: OutputProvider,
     private val inputProvider: InputProvider,
     private val envProvider: EnvProvider,
-) : ASTDeclarationInterpreter<PrintFunction> {
-
-    // P R I N T E R P R E T E R
-    override fun execute(ast: PrintFunction): Result {
-        val value = ExpressionInterpreter(
+    private val expected: VariableType,
+) : ASTExpressionInterpreter<ReadInput> {
+    override fun execute(ast: ReadInput): Result {
+        val message = ExpressionInterpreter(
             version,
             variables,
             outputProvider,
             inputProvider,
             envProvider,
             VariableType.STRING,
-        ).execute(ast.value)
-        if (value is ExpressionFailure) return InterpretFailure(value.error)
+        ).execute(ast.message)
+        if (message is ExpressionFailure) return ExpressionFailure(message.error)
 
-        outputProvider.print((value as ExpressionSuccess).value.value.toString())
-        return InterpretSuccess(variables)
+        outputProvider.print((message as ExpressionSuccess).value.value.toString())
+        val result = inputProvider.readInput()
+
+        if (result.isNullOrBlank()) return ExpressionFailure("No input provided")
+
+        return getVariable(expected, result)
     }
 }

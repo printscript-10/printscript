@@ -1,31 +1,51 @@
 package interpreter.nodeInterpreter
 
+import interpreter.ExpressionFailure
+import interpreter.ExpressionSuccess
 import interpreter.InterpretFailure
 import interpreter.InterpretSuccess
 import interpreter.Interpreter
 import interpreter.Variable
+import utils.EnvProvider
 import utils.IfStatement
+import utils.InputProvider
 import utils.OutputProvider
 import utils.Result
+import utils.VariableType
 
 class IfStatementInterpreter(
+    private val version: String,
     private val variables: Map<String, Variable>,
     private val outputProvider: OutputProvider,
+    private val inputProvider: InputProvider,
+    private val envProvider: EnvProvider,
 ) : ASTDeclarationInterpreter<IfStatement> {
 
     override fun execute(ast: IfStatement): Result {
+        val condition = ExpressionInterpreter(
+            version,
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.BOOLEAN,
+        ).execute(ast.condition)
+        if (condition is ExpressionFailure) return condition
         var innerContext = variables
-        val condition = ExpressionInterpreter(variables).execute(ast.condition).value
 
-        if (condition as Boolean) {
+        if ((condition as ExpressionSuccess).value.value as Boolean) {
             for (thenStatement in ast.thenStatements) {
-                val result = Interpreter(innerContext, outputProvider).interpret(thenStatement)
+                val result = Interpreter(version, innerContext, outputProvider, inputProvider, envProvider).interpret(
+                    thenStatement,
+                )
                 if (result is InterpretFailure) return result
                 innerContext = (result as InterpretSuccess).result
             }
         } else {
             for (elseStatement in ast.elseStatements) {
-                val result = Interpreter(innerContext, outputProvider).interpret(elseStatement)
+                val result = Interpreter(version, innerContext, outputProvider, inputProvider, envProvider).interpret(
+                    elseStatement,
+                )
                 if (result is InterpretFailure) return result
                 innerContext = (result as InterpretSuccess).result
             }

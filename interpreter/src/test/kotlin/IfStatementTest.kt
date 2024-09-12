@@ -12,10 +12,12 @@ import utils.StringLiteral
 import utils.VariableAssignation
 
 class IfStatementTest {
+    private val outputProvider = TestOutputProvider()
+    private val inputProvider = TestInputProvider()
+    private val envProvider = TestEnvProvider()
 
     @Test
     fun `test simpleStringVariableAssignation`() {
-        val outputProvider = TestOutputProvider()
         val identifierName = "a"
         val conditionalName = "condition"
         val variables: Map<String, Variable> = mutableMapOf(
@@ -34,14 +36,15 @@ class IfStatementTest {
         )
         val expected = InterpretSuccess(expectedVariables)
 
-        val result = IfStatementInterpreter(variables, outputProvider).execute(astNodeIfStatement)
+        val result = IfStatementInterpreter("1.1", variables, outputProvider, inputProvider, envProvider).execute(
+            astNodeIfStatement,
+        )
 
         assertEquals(expected, result)
     }
 
     @Test
     fun `test simpleElseVariableAssignation`() {
-        val outputProvider = TestOutputProvider()
         val identifierName = "a"
         val conditionalName = "condition"
         val variables: Map<String, Variable> = mutableMapOf(
@@ -60,7 +63,9 @@ class IfStatementTest {
         )
         val expected = InterpretSuccess(expectedVariables)
 
-        val result = IfStatementInterpreter(variables, outputProvider).execute(astNodeIfStatement)
+        val result = IfStatementInterpreter("1.1", variables, outputProvider, inputProvider, envProvider).execute(
+            astNodeIfStatement,
+        )
 
         assertEquals(expected, result)
     }

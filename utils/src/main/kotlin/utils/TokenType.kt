@@ -21,5 +21,4 @@ enum class TokenType {
     ASSIGN,
     IF,
     ELSE,
-    BOOLEAN,
 }

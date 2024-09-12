@@ -13,7 +13,7 @@ import utils.VariableType
 
 class Parser(
     private val version: String,
-    variables: Map<String, VariableType>
+    variables: Map<String, VariableType>,
 ) {
 
     private val semanticAnalyzer = SemanticAnalyzer(variables)

@@ -21,8 +21,16 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
 
     private fun checkPrintFunction(printFunction: PrintFunction): SemanticAnalyzerResult {
         val result = printFunction.value.accept(TypeVisitor(variables))
-        if (result is Failure) return result
-        return Success(variables)
+        return if (
+            result is VisitSuccess &&
+            (result.type == VariableType.STRING || result.type == VariableType.UNKNOWN)
+        ) {
+            Success(variables)
+        } else if (result is VisitSuccess) {
+            Failure("Print function can only print strings")
+        } else {
+            result
+        }
     }
 
     private fun checkVariableDeclaration(ast: VariableDeclaration): SemanticAnalyzerResult {
@@ -32,7 +40,10 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
         if (variables.containsKey(ast.id.name)) return Failure("${ast.id.name} has already been declared")
 
         val expressionType = ast.init!!.accept(TypeVisitor(variables))
-        if (expressionType is VisitSuccess && type == expressionType.type) {
+        if (
+            expressionType is VisitSuccess &&
+            (type == expressionType.type || VariableType.UNKNOWN == expressionType.type)
+        ) {
             return Success(
                 variables.toMutableMap().apply {
                     this[ast.id.name] = ast.type.name
@@ -49,7 +60,14 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
         val type = variables[ast.id.name] ?: return Failure("${ast.id.name} hasnt been declared")
 
         val expressionType = ast.value.accept(TypeVisitor(variables))
-        if (expressionType is VisitSuccess && type == expressionType.type) return Success(variables)
+        if (
+            expressionType is VisitSuccess &&
+            (type == expressionType.type || VariableType.UNKNOWN == expressionType.type)
+        ) {
+            return Success(
+                variables,
+            )
+        }
 
         if (expressionType is VisitSuccess) return Failure("Cannot assign a ${expressionType.type} to a $type")
 

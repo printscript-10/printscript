@@ -25,7 +25,7 @@ data class PrintFunction(
 data class ReadEnv(
     val variable: String,
     override val position: Position,
-): Expression {
+) : Expression {
     override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
         return visitor.visitReadEnv(this)
     }
@@ -34,7 +34,7 @@ data class ReadEnv(
 data class ReadInput(
     val message: Expression,
     override val position: Position,
-): Expression {
+) : Expression {
     override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
         return visitor.visitReadInput(this)
     }

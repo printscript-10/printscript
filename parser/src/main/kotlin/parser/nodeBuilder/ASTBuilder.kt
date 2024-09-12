@@ -13,7 +13,10 @@ class ASTBuilder(version: String) {
     }
 
     fun build(tokens: List<Token>): Result {
-        if (tokens[tokens.size - 1].type != TokenType.SEMICOLON) {
+        if (
+            tokens[tokens.size - 1].type != TokenType.SEMICOLON &&
+            tokens[tokens.size - 1].type != TokenType.CLOSE_BRACE
+        ) {
             return BuildFailure("Line must finish with ;")
         }
 
@@ -32,9 +35,11 @@ class ASTBuilder(version: String) {
             "1.0" -> baseMap
             "1.1" -> {
                 baseMap.toMutableMap().apply {
-                    putAll(mapOf(
-                        TokenType.IF to IfStatementBuilder()
-                    ))
+                    putAll(
+                        mapOf(
+                            TokenType.IF to IfStatementBuilder(version),
+                        ),
+                    )
                 }.toMap()
             }
             else -> throw IllegalArgumentException("Invalid version")

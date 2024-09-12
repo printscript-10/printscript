@@ -14,6 +14,9 @@ import utils.StringLiteral
 import utils.VariableAssignation
 
 class VariableAssignationTest {
+    private val outputProvider = TestOutputProvider()
+    private val inputProvider = TestInputProvider()
+    private val envProvider = TestEnvProvider()
 
     @Test
     fun `test simpleStringVariableAssignation`() {
@@ -28,7 +31,13 @@ class VariableAssignationTest {
         val expectedVariable = StringVariable(value.value, false)
         val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
 
-        val result = VariableAssignationInterpreter(variables).execute(astNodeVariable)
+        val result = VariableAssignationInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+        ).execute(astNodeVariable)
 
         assertEquals(expected, result)
     }
@@ -46,7 +55,13 @@ class VariableAssignationTest {
         val expectedVariable = NumericVariable(value.value, false)
         val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
 
-        val result = VariableAssignationInterpreter(variables).execute(astNodeVariable)
+        val result = VariableAssignationInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+        ).execute(astNodeVariable)
 
         assertEquals(expected, result)
     }
@@ -62,7 +77,13 @@ class VariableAssignationTest {
         val value = NumberLiteral(4, position)
         val astNodeVariable = VariableAssignation(id, value, position)
 
-        val result = VariableAssignationInterpreter(variables).execute(astNodeVariable)
+        val result = VariableAssignationInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+        ).execute(astNodeVariable)
 
         assertTrue(result is InterpretFailure)
     }

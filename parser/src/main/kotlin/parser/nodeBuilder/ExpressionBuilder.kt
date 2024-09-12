@@ -25,35 +25,42 @@ class ExpressionBuilder(version: String) : ASTNodeBuilder {
         val output = mutableListOf<Expression>()
         val operators = mutableListOf<Token>()
 
-        for ((tokenIndex, token) in tokens.withIndex()) {
-            if (builders.containsKey(token.type)) {
-                output.add((builders[token.type]?.build(tokens, tokenIndex) as BuildSuccess).result as Expression)
-            }
-            else when (token.type) {
-                TokenType.BINARY_OPERATOR -> {
-                    while (operators.isNotEmpty() && shouldPopOperator(operators.last(), token)) {
-                        popOperatorToOutput(operators, output)
-                    }
-                    operators.add(token)
-                }
-                TokenType.OPEN_BRACKET -> {
-                    operators.add(token)
-                }
-                TokenType.CLOSE_BRACKET -> {
-                    while (operators.isNotEmpty() && operators.last().type != TokenType.OPEN_BRACKET) {
-                        popOperatorToOutput(operators, output)
-                    }
-                    if (operators.isNotEmpty() && operators.last().type == TokenType.OPEN_BRACKET) {
-                        operators.removeAt(operators.lastIndex)
-                    } else {
-                        return BuildFailure("Mismatched parentheses")
-                    }
-                }
+        var tokenIndex = 0
+        while (tokenIndex < tokens.size) {
+            val token = tokens[tokenIndex]
 
-                else -> {
-                    return BuildFailure("Invalid token type: ${token.type} in expression at position")
+            if (builders.containsKey(token.type)) {
+                val result = builders[token.type]?.build(tokens, tokenIndex) as BuildSuccess
+                output.add(result.result as Expression)
+                tokenIndex = result.position
+            } else {
+                when (token.type) {
+                    TokenType.BINARY_OPERATOR -> {
+                        while (operators.isNotEmpty() && shouldPopOperator(operators.last(), token)) {
+                            popOperatorToOutput(operators, output)
+                        }
+                        operators.add(token)
+                    }
+                    TokenType.OPEN_BRACKET -> {
+                        operators.add(token)
+                    }
+                    TokenType.CLOSE_BRACKET -> {
+                        while (operators.isNotEmpty() && operators.last().type != TokenType.OPEN_BRACKET) {
+                            popOperatorToOutput(operators, output)
+                        }
+                        if (operators.isNotEmpty() && operators.last().type == TokenType.OPEN_BRACKET) {
+                            operators.removeAt(operators.lastIndex)
+                        } else {
+                            return BuildFailure("Mismatched parentheses")
+                        }
+                    }
+
+                    else -> {
+                        return BuildFailure("Invalid token type: ${token.type} in expression at position")
+                    }
                 }
             }
+            tokenIndex++
         }
 
         while (operators.isNotEmpty()) {
@@ -86,15 +93,17 @@ class ExpressionBuilder(version: String) : ASTNodeBuilder {
             TokenType.IDENTIFIER to IdentifierBuilder(),
             TokenType.STRING to StringLiteralBuilder(),
         )
-        return when(version) {
+        return when (version) {
             "1.0" -> baseMap
             "1.1" -> {
                 baseMap.toMutableMap().apply {
-                    putAll(mapOf(
-                        TokenType.BOOLEAN to BooleanLiteralBuilder(),
-                        TokenType.READ_ENV to ReadEnvBuilder(),
-                        TokenType.READ_INPUT to ReadInputBuilder(version),
-                    ))
+                    putAll(
+                        mapOf(
+                            TokenType.BOOLEAN to BooleanLiteralBuilder(),
+                            TokenType.READ_ENV to ReadEnvBuilder(),
+                            TokenType.READ_INPUT to ReadInputBuilder(version),
+                        ),
+                    )
                 }.toMap()
             }
             else -> throw IllegalArgumentException("Invalid version")

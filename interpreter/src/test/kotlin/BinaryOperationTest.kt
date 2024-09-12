@@ -1,3 +1,4 @@
+import interpreter.ExpressionSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
 import interpreter.Variable
@@ -9,8 +10,13 @@ import utils.BinaryOperators
 import utils.NumberLiteral
 import utils.Position
 import utils.StringLiteral
+import utils.VariableType
 
 class BinaryOperationTest {
+    private val outputProvider = TestOutputProvider()
+    private val inputProvider = TestInputProvider()
+    private val envProvider = TestEnvProvider()
+
     @Test
     fun `test simpleSum`() {
         val variables: Map<String, Variable> = mapOf()
@@ -21,8 +27,15 @@ class BinaryOperationTest {
         val sum = BinaryOperation(right, left, operator, position)
         val expected = NumericVariable(value = 7, false)
 
-        val result = ExpressionInterpreter(variables).execute(sum)
-        assertEquals(expected, result)
+        val result = ExpressionInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.NUMBER,
+        ).execute(sum)
+        assertEquals(expected, (result as ExpressionSuccess).value)
     }
 
     @Test
@@ -40,8 +53,15 @@ class BinaryOperationTest {
         val sum = BinaryOperation(sub, leftSum, sumOperator, position)
 
         val expected = NumericVariable(value = 2, false)
-        val result = ExpressionInterpreter(variables).execute(sum)
-        assertEquals(expected, result)
+        val result = ExpressionInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.NUMBER,
+        ).execute(sum)
+        assertEquals(expected, (result as ExpressionSuccess).value)
     }
 
     @Test
@@ -55,8 +75,15 @@ class BinaryOperationTest {
         val sum = BinaryOperation(rightSub, leftSub, operator, position)
 
         val expected = StringVariable(value = "a1", false)
-        val result = ExpressionInterpreter(variables).execute(sum)
-        assertEquals(expected, result)
+        val result = ExpressionInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.STRING,
+        ).execute(sum)
+        assertEquals(expected, (result as ExpressionSuccess).value)
     }
 
     @Test
@@ -70,8 +97,15 @@ class BinaryOperationTest {
         val sum = BinaryOperation(rightSub, leftSub, operator, position)
 
         val expected = StringVariable(value = "a1", false)
-        val result = ExpressionInterpreter(variables).execute(sum)
-        assertEquals(expected, result)
+        val result = ExpressionInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.STRING,
+        ).execute(sum)
+        assertEquals(expected, (result as ExpressionSuccess).value)
     }
 
     @Test
@@ -84,8 +118,15 @@ class BinaryOperationTest {
         val sum = BinaryOperation(right, left, operator, position)
         val expected = NumericVariable(value = 12, false)
 
-        val result = ExpressionInterpreter(variables).execute(sum)
-        assertEquals(expected, result)
+        val result = ExpressionInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.NUMBER,
+        ).execute(sum)
+        assertEquals(expected, (result as ExpressionSuccess).value)
     }
 
     @Test
@@ -98,7 +139,14 @@ class BinaryOperationTest {
         val sum = BinaryOperation(right, left, operator, position)
         val expected = NumericVariable(value = 2, false)
 
-        val result = ExpressionInterpreter(variables).execute(sum)
-        assertEquals(expected, result)
+        val result = ExpressionInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+            VariableType.NUMBER,
+        ).execute(sum)
+        assertEquals(expected, (result as ExpressionSuccess).value)
     }
 }
