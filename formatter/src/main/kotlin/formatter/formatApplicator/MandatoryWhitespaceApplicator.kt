@@ -9,18 +9,20 @@ class MandatoryWhitespaceApplicator : FormatApplicator {
 
     private val mandatoryWhitespacePairs: List<Pair<TokenType, TokenType>> = listOf(
         Pair(TokenType.VARIABLE_DECLARATOR, TokenType.IDENTIFIER),
+        Pair(TokenType.IF, TokenType.OPEN_BRACKET),
+        Pair(TokenType.CLOSE_BRACKET, TokenType.OPEN_BRACE),
+        Pair(TokenType.CLOSE_BRACE, TokenType.ELSE),
+        Pair(TokenType.ELSE, TokenType.OPEN_BRACE),
     )
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
         val resultTokens = tokens.toMutableList()
 
-        for (i in 0 until tokens.size - 1) {
-            val currentToken = tokens[i]
-            val nextToken = tokens[i + 1]
+        for (i in 0 until resultTokens.size - 1) {
+            val currentToken = resultTokens[i]
+            val nextToken = resultTokens[i + 1]
 
             if (mandatoryWhitespacePairs.any { it.first == currentToken.type && it.second == nextToken.type }) {
-                if (nextToken.type != TokenType.WHITESPACE) {
-                    resultTokens.add(i + 1, Token(TokenType.WHITESPACE, " ", nextToken.position))
-                }
+                resultTokens.add(i + 1, Token(TokenType.WHITESPACE, " ", nextToken.position))
             }
         }
 
