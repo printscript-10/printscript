@@ -27,8 +27,13 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
 
     private fun checkVariableDeclaration(ast: VariableDeclaration): SemanticAnalyzerResult {
         val type = ast.type.name
-        if (ast.init == null) return Success(variables)
-
+        if (ast.init == null) {
+            return Success(
+                variables.toMutableMap().apply {
+                    this[ast.id.name] = ast.type.name
+                }.toMap(),
+            )
+        }
         if (variables.containsKey(ast.id.name)) return Failure("${ast.id.name} has already been declared")
 
         val expressionType = ast.init!!.accept(TypeVisitor(variables))
