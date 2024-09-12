@@ -4,25 +4,23 @@ import formatter.formatApplicator.AssignationEqualWrapWhitespacesApplicator
 import formatter.formatApplicator.BinaryOperatorWrapWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonLeadingWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonTrailingWhitespacesApplicator
+import formatter.formatApplicator.FormatApplicator
+import formatter.formatApplicator.IfBlockIndentApplicator
 import formatter.formatApplicator.MandatoryWhitespaceApplicator
 import formatter.formatApplicator.PrintTrailingLineJumpApplicator
 import utils.AST
-import utils.Result
 import utils.Token
 import utils.TokenType
 
-class Formatter(private val config: FormatterConfig) {
+class Formatter(config: FormatterConfig, version: String) {
 
-    private val formatters = listOf(
-        AssignationEqualWrapWhitespacesApplicator(config),
-        DeclarationColonLeadingWhitespacesApplicator(config),
-        DeclarationColonTrailingWhitespacesApplicator(config),
-        PrintTrailingLineJumpApplicator(config),
-        MandatoryWhitespaceApplicator(config),
-        BinaryOperatorWrapWhitespacesApplicator(config),
-    )
+    private val formatters: List<FormatApplicator>
 
-    fun format(tokens: List<Token>, ast: AST): Result {
+    init {
+        formatters = getFormatters(config, version)
+    }
+
+    fun format(tokens: List<Token>, ast: AST): FormatApplicatorResult {
         var result = tokens
         val errors: MutableList<FormatApplicatorError> = mutableListOf()
         for (formatter in formatters) {
@@ -33,11 +31,11 @@ class Formatter(private val config: FormatterConfig) {
                 errors.add(formatResult)
             }
         }
-        if (errors.isNotEmpty()) return FormatFailure(errors.joinToString("\n") { it.message })
-        return FormatSuccess(concatenateTokenValues(result))
+        if (errors.isNotEmpty()) return FormatApplicatorError(errors.joinToString("\n") { it.message })
+        return FormatApplicatorSuccess(result)
     }
 
-    private fun concatenateTokenValues(tokens: List<Token>): String {
+    fun concatenateTokenValues(tokens: List<Token>): String {
         return tokens.joinToString("") { token ->
             if (token.type == TokenType.STRING) {
                 "\"${token.value}\""
@@ -45,5 +43,23 @@ class Formatter(private val config: FormatterConfig) {
                 token.value
             }
         } + "\n"
+    }
+
+    private fun getFormatters(config: FormatterConfig, version: String): List<FormatApplicator> {
+        val baseFormatters: List<FormatApplicator> = listOf(
+            AssignationEqualWrapWhitespacesApplicator(config),
+            DeclarationColonLeadingWhitespacesApplicator(config),
+            DeclarationColonTrailingWhitespacesApplicator(config),
+            PrintTrailingLineJumpApplicator(config),
+            MandatoryWhitespaceApplicator(version),
+            BinaryOperatorWrapWhitespacesApplicator(config),
+        )
+        return when (version) {
+            "1.0" -> baseFormatters
+            "1.1" -> listOf<FormatApplicator>(
+                IfBlockIndentApplicator(config, version),
+            ).toMutableList().apply { addAll(baseFormatters) }
+            else -> throw IllegalArgumentException("Invalid version $version")
+        }
     }
 }

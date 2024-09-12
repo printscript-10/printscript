@@ -1,3 +1,5 @@
+package astBuilderTests
+
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildSuccess
@@ -11,14 +13,13 @@ import utils.Token
 import utils.TokenType
 
 class ExpressionBuilderTest {
-
     @Test
     fun `test simpleStringExpression`() {
         val dummyPosition = Position(0, 0, 0)
         val tokens = listOf<Token>(
             Token(type = TokenType.STRING, value = "a", dummyPosition),
         )
-        val result = ExpressionBuilder().build(tokens, 0)
+        val result = ExpressionBuilder("1.0").build(tokens, 0)
         val expectedResult = StringLiteral(value = "a", dummyPosition)
         val expected = BuildSuccess(result = expectedResult, 0)
         assertEquals(expected, result)
@@ -30,7 +31,7 @@ class ExpressionBuilderTest {
         val tokens = listOf<Token>(
             Token(type = TokenType.NUMBER, value = "2", dummyPosition),
         )
-        val result = ExpressionBuilder().build(tokens, 0)
+        val result = ExpressionBuilder("1.0").build(tokens, 0)
         val expectedResult = NumberLiteral(value = 2, dummyPosition)
         val expected = BuildSuccess(result = expectedResult, 0)
         assertEquals(expected, result)
@@ -44,7 +45,7 @@ class ExpressionBuilderTest {
             Token(type = TokenType.BINARY_OPERATOR, value = "+", dummyPosition),
             Token(type = TokenType.NUMBER, value = "3", dummyPosition),
         )
-        val result = ExpressionBuilder().build(tokens, 0)
+        val result = ExpressionBuilder("1.0").build(tokens, 0)
         val expectedResult = BinaryOperation(
             right = NumberLiteral(value = 3, dummyPosition),
             left = NumberLiteral(value = 2, dummyPosition),
@@ -67,7 +68,7 @@ class ExpressionBuilderTest {
             Token(type = TokenType.BINARY_OPERATOR, value = "+", dummyPosition),
             Token(type = TokenType.NUMBER, value = "4", dummyPosition),
         )
-        val result = ExpressionBuilder().build(tokens, 0)
+        val result = ExpressionBuilder("1.0").build(tokens, 0)
         val expectedLeft = BinaryOperation(
             right = NumberLiteral(value = 3, dummyPosition),
             left = NumberLiteral(value = 2, dummyPosition),
@@ -94,7 +95,7 @@ class ExpressionBuilderTest {
             Token(type = TokenType.BINARY_OPERATOR, value = "+", dummyPosition),
             Token(type = TokenType.NUMBER, value = "4", dummyPosition),
         )
-        val result = ExpressionBuilder().build(tokens, 0)
+        val result = ExpressionBuilder("1.0").build(tokens, 0)
         val expectedLeft = BinaryOperation(
             right = NumberLiteral(value = 3, dummyPosition),
             left = NumberLiteral(value = 2, dummyPosition),

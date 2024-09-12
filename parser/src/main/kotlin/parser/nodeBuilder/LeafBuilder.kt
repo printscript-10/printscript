@@ -1,5 +1,6 @@
 package parser.nodeBuilder
 
+import utils.BooleanLiteral
 import utils.Identifier
 import utils.NumberLiteral
 import utils.StringLiteral
@@ -36,6 +37,20 @@ class NumericLiteralBuilder : ASTNodeBuilder {
     }
 }
 
+class BooleanLiteralBuilder : ASTNodeBuilder {
+    override fun build(tokens: List<Token>, position: Int): BuildSuccess {
+        val token = tokens[position]
+        val value = token.value.toBoolean()
+        return BuildSuccess(
+            result = BooleanLiteral(
+                value = value,
+                position = token.position,
+            ),
+            position = position,
+        )
+    }
+}
+
 class IdentifierBuilder : ASTNodeBuilder {
 
     override fun build(tokens: List<Token>, position: Int): BuildSuccess {
@@ -56,7 +71,7 @@ class TypeBuilder : ASTNodeBuilder {
         val token = tokens[position]
         return BuildSuccess(
             result = Type(
-                name = VariableType.valueOf(token.value.toUpperCase()),
+                name = VariableType.valueOf(token.value.uppercase()),
                 position = token.position,
             ),
             position = position,

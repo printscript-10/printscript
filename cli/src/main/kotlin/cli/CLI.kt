@@ -11,48 +11,58 @@ import kotlin.system.exitProcess
 const val filePath = "cli/src/main/resources/test.txt"
 const val configPath = "cli/src/main/resources/config.yml"
 
-private val runner = Runner()
 private val errorHandler = CLIErrorHandler()
 private val outputProvider = CLIOutputProvider()
+private val inputProvider = CLIInputProvider()
+private val envProvider = CLIEnvProvider()
 
 fun main() {
     val file = File(filePath)
     val configFile = File(configPath)
-
-    val version = "1.0"
+    val version = getVersion()
+    val runner = Runner(version)
     while (true) {
         printGreen(appCli(version))
         printMenu()
         val number = readlnOrNull() ?: throw IllegalArgumentException("Choose a valid option!")
         when (number) {
-            "1" -> validate(file)
-            "2" -> execute(file)
-            "3" -> format(file, configFile)
-            "4" -> analyze(file, configFile)
+            "1" -> validate(file, runner)
+            "2" -> execute(file, runner)
+            "3" -> format(file, configFile, runner)
+            "4" -> analyze(file, configFile, runner)
             "5" -> exitProcess(0)
             else -> invalidOption(version)
         }
     }
 }
 
-private fun validate(file: File) {
+private fun getVersion(): String {
+    println("Input version (1.0, 1.1)")
+    while (true) {
+        val answer = readlnOrNull() ?: throw IllegalArgumentException("Choose a valid version!")
+        if (answer == "1.0" || answer == "1.1") return answer
+        println("Choose a valid option!")
+    }
+}
+
+private fun validate(file: File, runner: Runner) {
     runner.validate(file.inputStream(), errorHandler)
     handleResult("Validated")
 }
 
-private fun execute(file: File) {
-    runner.execute(file.inputStream(), outputProvider, errorHandler)
+private fun execute(file: File, runner: Runner) {
+    runner.execute(file.inputStream(), outputProvider, errorHandler, inputProvider, envProvider)
     handleResult("Executed")
 }
 
-private fun format(file: File, configFile: File) {
+private fun format(file: File, configFile: File, runner: Runner) {
     val formatterConfig = loadFormatConfig(configFile.inputStream())
     val newSnippet = runner.format(file.inputStream(), errorHandler, formatterConfig)
     if (newSnippet != null) file.writeText(newSnippet)
     handleResult("Formatted")
 }
 
-private fun analyze(file: File, configFile: File) {
+private fun analyze(file: File, configFile: File, runner: Runner) {
     val linterConfig = loadLinterConfig(configFile.inputStream())
     runner.analyze(file.inputStream(), errorHandler, linterConfig)
     handleResult("Analyzed")

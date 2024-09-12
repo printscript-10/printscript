@@ -1,4 +1,32 @@
-let notSnake : number = (2 + 8) * 4 / (2 * 4 + (2 - 1));
+let a: boolean
+=
+true;
+let b:
+ string
+  =         "caca";
 
 
-println(notSnake);
+if (a)
+
+
+
+{
+
+
+
+
+  b =
+
+  "a is true"
+
+  ;
+}
+else {
+  b = "a is false";
+}
+
+
+
+println(b);
+
+

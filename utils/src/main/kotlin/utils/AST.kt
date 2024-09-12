@@ -14,22 +14,50 @@ interface ASTExpressionVisitor<T> {
     fun visitLiteral(literal: Literal): T
     fun visitBinaryOperation(binaryOperation: BinaryOperation): T
     fun visitIdentifier(id: Identifier): T
+    fun visitReadEnv(readEnv: ReadEnv): T
+    fun visitReadInput(readInput: ReadInput): T
 }
 data class PrintFunction(
     val value: Expression,
     override val position: Position,
 ) : Declaration
 
+data class ReadEnv(
+    val variable: String,
+    override val position: Position,
+) : Expression {
+    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
+        return visitor.visitReadEnv(this)
+    }
+}
+
+data class ReadInput(
+    val message: Expression,
+    override val position: Position,
+) : Expression {
+    override fun <T> accept(visitor: ASTExpressionVisitor<T>): T {
+        return visitor.visitReadInput(this)
+    }
+}
+
 data class VariableDeclaration(
     val id: Identifier,
     val type: Type,
     val init: Expression?,
+    val isFinal: Boolean,
     override val position: Position,
 ) : Declaration
 
 data class VariableAssignation(
     val id: Identifier,
     val value: Expression,
+    override val position: Position,
+) : Declaration
+
+data class IfStatement(
+    val condition: Expression,
+    val thenStatements: List<AST>,
+    val elseStatements: List<AST>,
     override val position: Position,
 ) : Declaration
 
@@ -71,5 +99,10 @@ data class NumberLiteral(
 
 data class StringLiteral(
     val value: String,
+    override val position: Position,
+) : Literal
+
+data class BooleanLiteral(
+    val value: Boolean,
     override val position: Position,
 ) : Literal

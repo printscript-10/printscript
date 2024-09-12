@@ -6,31 +6,25 @@ import utils.Result
 import utils.Token
 import utils.TokenType
 
-class PrintBuilder : ASTNodeBuilder {
+class PrintBuilder(private val version: String) : ASTNodeBuilder {
 
     override fun build(tokens: List<Token>, position: Int): Result {
-        val openBraceIndex = position + 1
-        val closingBraceIndex = tokens.size - 2
+        val openBracketIndex = position + 1
+        val closingBracketIndex = findClosingBracket(tokens, openBracketIndex)
+        if (closingBracketIndex == -1) return BuildFailure("Mismatched parentheses")
+
         if (
             (tokens[position].type != TokenType.PRINT) ||
-            (tokens[openBraceIndex].type != TokenType.OPEN_BRACKET) ||
-            (tokens[closingBraceIndex].type != TokenType.CLOSE_BRACKET)
+            (tokens[openBracketIndex].type != TokenType.OPEN_BRACKET) ||
+            (closingBracketIndex != tokens.size - 2)
         ) {
-            return BuildFailure(
-                error = "Invalid print function format",
-                position = position,
-            )
+            return BuildFailure("Invalid print function format")
         }
 
-        val expressionTokens = tokens.subList(openBraceIndex + 1, closingBraceIndex)
-        if (expressionTokens.isEmpty()) {
-            return BuildFailure(
-                error = "Print function cannot be empty",
-                position = position,
-            )
-        }
+        val expressionTokens = tokens.subList(openBracketIndex + 1, closingBracketIndex)
+        if (expressionTokens.isEmpty()) return BuildFailure("Print function cannot be empty")
 
-        val expressionResult = ExpressionBuilder().build(expressionTokens, position)
+        val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
         if (expressionResult is BuildFailure) return expressionResult
 
         return BuildSuccess(
@@ -40,5 +34,21 @@ class PrintBuilder : ASTNodeBuilder {
             ),
             position = position,
         )
+    }
+
+    private fun findClosingBracket(tokens: List<Token>, openBracketIndex: Int): Int {
+        var bracketCount = 1
+
+        for (i in openBracketIndex + 1 until tokens.size) {
+            val token = tokens[i]
+
+            if (token.type == TokenType.OPEN_BRACKET) {
+                bracketCount++
+            } else if (token.type == TokenType.CLOSE_BRACKET) bracketCount--
+
+            if (bracketCount == 0) return i
+        }
+
+        return -1
     }
 }

@@ -1,6 +1,5 @@
 package interpreter.nodeInterpreter
 
-import interpreter.Variable
 import utils.AST
 import utils.Declaration
 import utils.Expression
@@ -14,6 +13,6 @@ sealed interface ASTDeclarationInterpreter<B : Declaration> : ASTNodeInterpreter
     override fun execute(ast: B): Result
 }
 
-sealed interface ASTExpressionInterpreter<B : Expression> : ASTNodeInterpreter<Variable, B> {
-    override fun execute(ast: B): Variable
+sealed interface ASTExpressionInterpreter<B : Expression> : ASTNodeInterpreter<Result, B> {
+    override fun execute(ast: B): Result
 }
