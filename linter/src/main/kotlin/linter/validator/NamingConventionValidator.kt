@@ -7,6 +7,7 @@ import utils.VariableDeclaration
 
 class NamingConventionValidator(private val config: LinterConfig) : Validator {
     override fun validate(ast: AST): LintingError? {
+        if (config.naming_convention == null) return null
         if (ast is VariableDeclaration) {
             val namingConvention = config.naming_convention
             if (namingConvention != "camel_case" && namingConvention != "snake_case") {

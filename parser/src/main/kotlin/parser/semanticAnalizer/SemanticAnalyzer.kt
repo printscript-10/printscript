@@ -21,22 +21,19 @@ class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
 
     private fun checkPrintFunction(printFunction: PrintFunction): SemanticAnalyzerResult {
         val result = printFunction.value.accept(TypeVisitor(variables))
-        return if (
-            result is VisitSuccess &&
-            (result.type == VariableType.STRING || result.type == VariableType.UNKNOWN)
-        ) {
-            Success(variables)
-        } else if (result is VisitSuccess) {
-            Failure("Print function can only print strings")
-        } else {
-            result
-        }
+        if (result is VisitSuccess) return Success(variables)
+        return result
     }
 
     private fun checkVariableDeclaration(ast: VariableDeclaration): SemanticAnalyzerResult {
         val type = ast.type.name
-        if (ast.init == null) return Success(variables)
-
+        if (ast.init == null) {
+            return Success(
+                variables.toMutableMap().apply {
+                    this[ast.id.name] = ast.type.name
+                }.toMap(),
+            )
+        }
         if (variables.containsKey(ast.id.name)) return Failure("${ast.id.name} has already been declared")
 
         val expressionType = ast.init!!.accept(TypeVisitor(variables))

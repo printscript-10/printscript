@@ -30,23 +30,26 @@ class Linter(config: LinterConfig, version: String) {
     }
 
     private fun getValidators(config: LinterConfig, version: String): List<Validator> {
-        val baseList = listOf<Validator>(
-            ExpressionInPrintValidator(config),
-            NamingConventionValidator(config),
-
+        val baseList: List<Validator> = listOfNotNull(
+            config.naming_convention?.let {
+                NamingConventionValidator(config)
+            },
+            config.allow_expression_in_println?.let {
+                ExpressionInPrintValidator(config)
+            },
         )
+
         return when (version) {
             "1.0" -> baseList
             "1.1" -> {
                 baseList.toMutableList().apply {
-                    addAll(
-                        listOf(
-                            IfStatementValidator(config, version),
-                            ExpressionInReadInputValidator(config),
-                        ),
-                    )
+                    config.allow_expression_in_readinput?.let {
+                        add(ExpressionInReadInputValidator(config))
+                    }
+                    add(IfStatementValidator(config, version))
                 }
             }
+
             else -> throw IllegalArgumentException("Invalid version")
         }
     }

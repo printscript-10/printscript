@@ -21,6 +21,7 @@ class LinterTest {
     fun `test expressionInPrinterReturnsError`() {
         val linterConfig = LinterConfig(
             allow_expression_in_println = false,
+            allow_expression_in_readinput = null,
             naming_convention = "camel_case",
         )
         val linter = Linter(linterConfig, "1.1")
@@ -39,6 +40,7 @@ class LinterTest {
     fun `test violationInNamingConvetionReturnsError`() {
         val linterConfig = LinterConfig(
             allow_expression_in_println = false,
+            allow_expression_in_readinput = null,
             naming_convention = "camel_case",
         )
         val linter = Linter(linterConfig, "1.1")

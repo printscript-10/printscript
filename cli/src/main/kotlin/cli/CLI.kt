@@ -91,8 +91,9 @@ private fun loadLinterConfig(input: InputStream): LinterConfig {
     val linterConfig = (configMap["linter"] as Map<*, *>)["rules"] as Map<*, *>
 
     return LinterConfig(
-        allow_expression_in_println = linterConfig["allow_expression_in_println"] as Boolean? ?: true,
-        naming_convention = linterConfig["naming_convention"] as String? ?: "camel_case",
+        allow_expression_in_println = linterConfig["allow_expression_in_println"] as Boolean?,
+        allow_expression_in_readinput = linterConfig["allow_expression_in_readInput"] as Boolean?,
+        naming_convention = linterConfig["naming_convention"] as String?,
     )
 }
 

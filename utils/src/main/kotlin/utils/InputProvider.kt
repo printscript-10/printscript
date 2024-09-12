@@ -1,5 +1,5 @@
 package utils
 
 interface InputProvider {
-    fun readInput(): String?
+    fun readInput(name: String): String?
 }

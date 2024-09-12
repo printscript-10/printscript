@@ -34,8 +34,6 @@ class ReadInputTest {
 
         assert(result is ExpressionSuccess)
         assertEquals((result as ExpressionSuccess).value.value, "Test Input")
-
-        assertEquals(outputProvider.output, "Please enter something")
     }
 
     @Test
