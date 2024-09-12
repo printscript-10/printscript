@@ -1,78 +1,78 @@
-package parser.nodeBuilder
+package formatter.formatApplicator
 
+import formatter.FormatApplicatorError
+import formatter.FormatApplicatorResult
+import formatter.FormatApplicatorSuccess
+import formatter.Formatter
+import formatter.FormatterConfig
 import utils.AST
-import utils.Expression
 import utils.IfStatement
-import utils.Result
 import utils.Token
 import utils.TokenType
 
-class IfStatementBuilder(private val version: String) : ASTNodeBuilder {
-    override fun build(tokens: List<Token>, position: Int): Result {
-        val openBracketIndex = position + 1
-        val closingBracketIndex = position + 3
-        val openingBraceIndex = position + 4
+class IfBlockIndentApplicator(private val config: FormatterConfig) : FormatApplicator {
+    override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorResult {
+        if (ast !is IfStatement) return FormatApplicatorSuccess(tokens)
 
-        if (
-            tokens[position].type != TokenType.IF ||
-            tokens[openBracketIndex].type != TokenType.OPEN_BRACKET ||
-            tokens[closingBracketIndex].type != TokenType.CLOSE_BRACKET ||
-            tokens[openingBraceIndex].type != TokenType.OPEN_BRACE
-        ) {
-            return BuildFailure("Invalid if statement format")
+        val indentSpaces = config.if_block_indent_spaces
+        val result: MutableList<Token> = mutableListOf()
+        val errors = mutableListOf<FormatApplicatorError>()
+
+        val openBraceIndex = tokens.indexOfFirst { it.type == TokenType.OPEN_BRACE }
+
+        if (openBraceIndex != -1) {
+            result.addAll(tokens.subList(0, openBraceIndex + 1))
+            result.add(Token(TokenType.WHITESPACE, "\n", tokens[openBraceIndex].position))
         }
-        val expressionTokens = tokens.subList(openBracketIndex + 1, closingBracketIndex)
-        val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
-        if (expressionResult is BuildFailure) return expressionResult
 
-        var currentIndex = openingBraceIndex + 1
-        val thenStatements = mutableListOf<AST>()
-
-        while (tokens[currentIndex].type != TokenType.CLOSE_BRACE) {
+        var currentIndex = openBraceIndex + 1
+        var astIndex = 0
+        val updatedConfig = config.copy(if_block_indent_spaces = config.if_block_indent_spaces + 1)
+        while (tokens[currentIndex].type != TokenType.CLOSE_BRACE && currentIndex < tokens.size) {
             val statementTokens = extractStatement(tokens, currentIndex)
-            val thenStatementResult = ASTBuilder(version).build(statementTokens)
+            val thenStatementResult = Formatter(updatedConfig).format(statementTokens, ast.thenStatements[astIndex])
 
-            if (thenStatementResult is BuildFailure) {
-                return BuildFailure("Invalid then statement: ${thenStatementResult.error}")
+            if (thenStatementResult is FormatApplicatorError) {
+                errors.add(thenStatementResult)
+            } else {
+                result.add(Token(TokenType.WHITESPACE, " ".repeat(indentSpaces), tokens[currentIndex].position))
+                result.addAll((thenStatementResult as FormatApplicatorSuccess).tokens)
+                result.add(Token(TokenType.WHITESPACE, "\n", tokens[currentIndex].position))
             }
-            thenStatements.add((thenStatementResult as BuildSuccess).result)
             currentIndex += statementTokens.size
+            astIndex++
         }
-        if (thenStatements.isEmpty()) {
-            return BuildFailure("If statement cannot have empty body")
-        }
-
+        result.add(Token(TokenType.CLOSE_BRACE, " ".repeat(indentSpaces - 1) + "}", tokens[currentIndex - 1].position))
         currentIndex++
-        val elseStatements = mutableListOf<AST>()
-        if (currentIndex < tokens.size && tokens[currentIndex].type == TokenType.ELSE) {
-            currentIndex++
-            if (tokens[currentIndex].type != TokenType.OPEN_BRACE) {
-                return BuildFailure("Invalid else statement format")
-            }
-            currentIndex++
+        astIndex = 0
 
+        if (currentIndex < tokens.size && tokens[currentIndex].type == TokenType.ELSE) {
+            result.addAll(tokens.subList(currentIndex, currentIndex + 2))
+            result.add(Token(TokenType.WHITESPACE, "\n", tokens[openBraceIndex].position))
+            currentIndex += 2
             while (tokens[currentIndex].type != TokenType.CLOSE_BRACE) {
                 val statementTokens = extractStatement(tokens, currentIndex)
-                val elseStatementResult = ASTBuilder("1.1").build(statementTokens)
+                val elseStatementResult = Formatter(updatedConfig).format(statementTokens, ast.elseStatements[astIndex])
 
-                if (elseStatementResult is BuildFailure) {
-                    return BuildFailure("Invalid else statement: ${elseStatementResult.error}")
+                if (elseStatementResult is FormatApplicatorError) {
+                    errors.add(elseStatementResult)
+                } else {
+                    result.add(Token(TokenType.WHITESPACE, " ".repeat(indentSpaces), tokens[currentIndex].position))
+                    result.addAll((elseStatementResult as FormatApplicatorSuccess).tokens)
+                    result.add(Token(TokenType.WHITESPACE, "\n", tokens[currentIndex].position))
                 }
-
-                elseStatements.add((elseStatementResult as BuildSuccess).result)
                 currentIndex += statementTokens.size
+                astIndex++
             }
+            result.add(
+                Token(TokenType.CLOSE_BRACE, " ".repeat(indentSpaces - 1) + "}", tokens[currentIndex - 1].position),
+            )
         }
-
-        return BuildSuccess(
-            result = IfStatement(
-                condition = (expressionResult as BuildSuccess).result as Expression,
-                thenStatements = thenStatements,
-                elseStatements = elseStatements,
-                position = tokens[position].position,
-            ),
-            position = position,
-        )
+        return if (errors.isEmpty()) {
+            FormatApplicatorSuccess(result)
+        } else {
+            FormatApplicatorError(errors.joinToString("\n"))
+        }
     }
 
     private fun extractStatement(tokens: List<Token>, startIndex: Int): List<Token> {

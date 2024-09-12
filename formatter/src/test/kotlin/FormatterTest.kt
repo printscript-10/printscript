@@ -1,4 +1,4 @@
-import formatter.FormatSuccess
+import formatter.FormatApplicatorSuccess
 import formatter.Formatter
 import formatter.FormatterConfig
 import org.junit.jupiter.api.Test
@@ -45,7 +45,8 @@ class FormatterTest {
             isFinal = false,
             dummyPosition,
         )
-        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val tokensResult = (formatter.format(tokens, ast) as FormatApplicatorSuccess)
+        val result = formatter.concatenateTokenValues(tokensResult.tokens)
         val expected = "let a : string = \"b\";\n"
         assertEquals(expected, result)
     }
@@ -76,7 +77,8 @@ class FormatterTest {
             isFinal = false,
             dummyPosition,
         )
-        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val tokensResult = (formatter.format(tokens, ast) as FormatApplicatorSuccess)
+        val result = formatter.concatenateTokenValues(tokensResult.tokens)
         val expected = "let a :string = \"b\";\n"
         assertEquals(expected, result)
     }
@@ -107,7 +109,8 @@ class FormatterTest {
             isFinal = false,
             dummyPosition,
         )
-        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val tokensResult = (formatter.format(tokens, ast) as FormatApplicatorSuccess)
+        val result = formatter.concatenateTokenValues(tokensResult.tokens)
         val expected = "let a: string = \"b\";\n"
         assertEquals(expected, result)
     }
@@ -133,7 +136,8 @@ class FormatterTest {
             value = StringLiteral("b", dummyPosition),
             dummyPosition,
         )
-        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val tokensResult = (formatter.format(tokens, ast) as FormatApplicatorSuccess)
+        val result = formatter.concatenateTokenValues(tokensResult.tokens)
         val expected = "a = \"b\";\n"
         assertEquals(expected, result)
     }
@@ -159,7 +163,8 @@ class FormatterTest {
             value = StringLiteral("b", dummyPosition),
             dummyPosition,
         )
-        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val tokensResult = (formatter.format(tokens, ast) as FormatApplicatorSuccess)
+        val result = formatter.concatenateTokenValues(tokensResult.tokens)
         val expected = "\n\nprintln(\"b\");\n"
         assertEquals(expected, result)
     }
@@ -196,7 +201,8 @@ class FormatterTest {
             operator = BinaryOperators.PLUS,
             position = dummyPosition,
         )
-        val result = (formatter.format(tokens, ast) as FormatSuccess).result
+        val tokensResult = (formatter.format(tokens, ast) as FormatApplicatorSuccess)
+        val result = formatter.concatenateTokenValues(tokensResult.tokens)
         val expected = "(2 + 3) + 4;\n"
         assertEquals(expected, result)
     }

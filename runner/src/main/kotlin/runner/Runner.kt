@@ -1,6 +1,7 @@
 package runner
 
-import formatter.FormatSuccess
+import formatter.FormatApplicatorError
+import formatter.FormatApplicatorSuccess
 import formatter.Formatter
 import formatter.FormatterConfig
 import interpreter.InterpretSuccess
@@ -51,12 +52,13 @@ class Runner(private val version: String) {
         val formatter = Formatter(config)
         val formattingErrors = mutableListOf<String>()
         var formattedSnippet = ""
-
         processInput(input, handler) { tokens, ast ->
-            val formatResult = formatter.format(tokens, ast)
-            if (formatResult is Failure) {
-                formattingErrors.add(formatResult.error)
-            } else formattedSnippet += (formatResult as FormatSuccess).result
+            val tokensResult = formatter.format(tokens, ast)
+            if (tokensResult is FormatApplicatorError) {
+                formattingErrors.add(tokensResult.message)
+            } else {
+                formattedSnippet += formatter.concatenateTokenValues((tokensResult as FormatApplicatorSuccess).tokens)
+            }
         }
         if (formattingErrors.isNotEmpty()) {
             handler.reportError(formattingErrors.joinToString("\n"))

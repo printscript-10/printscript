@@ -4,25 +4,27 @@ import formatter.formatApplicator.AssignationEqualWrapWhitespacesApplicator
 import formatter.formatApplicator.BinaryOperatorWrapWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonLeadingWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonTrailingWhitespacesApplicator
+import formatter.formatApplicator.FormatApplicator
+import formatter.formatApplicator.IfBlockIndentApplicator
 import formatter.formatApplicator.MandatoryWhitespaceApplicator
 import formatter.formatApplicator.PrintTrailingLineJumpApplicator
 import utils.AST
-import utils.Result
 import utils.Token
 import utils.TokenType
 
 class Formatter(private val config: FormatterConfig) {
 
-    private val formatters = listOf(
+    private val formatters: List<FormatApplicator> = listOf(
+        IfBlockIndentApplicator(config),
         AssignationEqualWrapWhitespacesApplicator(config),
         DeclarationColonLeadingWhitespacesApplicator(config),
         DeclarationColonTrailingWhitespacesApplicator(config),
         PrintTrailingLineJumpApplicator(config),
-        MandatoryWhitespaceApplicator(config),
+        MandatoryWhitespaceApplicator(),
         BinaryOperatorWrapWhitespacesApplicator(config),
     )
 
-    fun format(tokens: List<Token>, ast: AST): Result {
+    fun format(tokens: List<Token>, ast: AST): FormatApplicatorResult {
         var result = tokens
         val errors: MutableList<FormatApplicatorError> = mutableListOf()
         for (formatter in formatters) {
@@ -33,11 +35,11 @@ class Formatter(private val config: FormatterConfig) {
                 errors.add(formatResult)
             }
         }
-        if (errors.isNotEmpty()) return FormatFailure(errors.joinToString("\n") { it.message })
-        return FormatSuccess(concatenateTokenValues(result))
+        if (errors.isNotEmpty()) return FormatApplicatorError(errors.joinToString("\n") { it.message })
+        return FormatApplicatorSuccess(result)
     }
 
-    private fun concatenateTokenValues(tokens: List<Token>): String {
+    fun concatenateTokenValues(tokens: List<Token>): String {
         return tokens.joinToString("") { token ->
             if (token.type == TokenType.STRING) {
                 "\"${token.value}\""
