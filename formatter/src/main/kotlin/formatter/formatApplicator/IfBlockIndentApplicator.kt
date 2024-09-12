@@ -10,7 +10,8 @@ import utils.IfStatement
 import utils.Token
 import utils.TokenType
 
-class IfBlockIndentApplicator(private val config: FormatterConfig) : FormatApplicator {
+class IfBlockIndentApplicator(private val config: FormatterConfig, private val version: String) : FormatApplicator {
+
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorResult {
         if (ast !is IfStatement) return FormatApplicatorSuccess(tokens)
 
@@ -30,7 +31,10 @@ class IfBlockIndentApplicator(private val config: FormatterConfig) : FormatAppli
         val updatedConfig = config.copy(if_block_indent_spaces = config.if_block_indent_spaces + 1)
         while (tokens[currentIndex].type != TokenType.CLOSE_BRACE && currentIndex < tokens.size) {
             val statementTokens = extractStatement(tokens, currentIndex)
-            val thenStatementResult = Formatter(updatedConfig).format(statementTokens, ast.thenStatements[astIndex])
+            val thenStatementResult = Formatter(updatedConfig, version).format(
+                statementTokens,
+                ast.thenStatements[astIndex],
+            )
 
             if (thenStatementResult is FormatApplicatorError) {
                 errors.add(thenStatementResult)
@@ -52,7 +56,10 @@ class IfBlockIndentApplicator(private val config: FormatterConfig) : FormatAppli
             currentIndex += 2
             while (tokens[currentIndex].type != TokenType.CLOSE_BRACE) {
                 val statementTokens = extractStatement(tokens, currentIndex)
-                val elseStatementResult = Formatter(updatedConfig).format(statementTokens, ast.elseStatements[astIndex])
+                val elseStatementResult = Formatter(updatedConfig, version).format(
+                    statementTokens,
+                    ast.elseStatements[astIndex],
+                )
 
                 if (elseStatementResult is FormatApplicatorError) {
                     errors.add(elseStatementResult)

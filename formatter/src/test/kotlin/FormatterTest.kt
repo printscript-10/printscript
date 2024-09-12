@@ -28,7 +28,7 @@ class FormatterTest {
             assignation_equal_wrap_whitespaces = true,
             println_trailing_line_jump = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.0")
         val tokens = listOf(
             Token(type = TokenType.VARIABLE_DECLARATOR, value = "let", dummyPosition),
             Token(type = TokenType.IDENTIFIER, value = "a", dummyPosition),
@@ -60,7 +60,7 @@ class FormatterTest {
             assignation_equal_wrap_whitespaces = true,
             println_trailing_line_jump = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.0")
         val tokens = listOf(
             Token(type = TokenType.VARIABLE_DECLARATOR, value = "let", dummyPosition),
             Token(type = TokenType.IDENTIFIER, value = "a", dummyPosition),
@@ -92,7 +92,7 @@ class FormatterTest {
             assignation_equal_wrap_whitespaces = true,
             println_trailing_line_jump = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.0")
         val tokens = listOf(
             Token(type = TokenType.VARIABLE_DECLARATOR, value = "let", dummyPosition),
             Token(type = TokenType.IDENTIFIER, value = "a", dummyPosition),
@@ -124,7 +124,7 @@ class FormatterTest {
             assignation_equal_wrap_whitespaces = true,
             println_trailing_line_jump = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.0")
         val tokens = listOf(
             Token(type = TokenType.IDENTIFIER, value = "a", dummyPosition),
             Token(type = TokenType.ASSIGN, value = "=", dummyPosition),
@@ -151,7 +151,7 @@ class FormatterTest {
             assignation_equal_wrap_whitespaces = true,
             println_trailing_line_jump = 2,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.0")
         val tokens = listOf<Token>(
             Token(type = TokenType.PRINT, value = "println", dummyPosition),
             Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
@@ -178,7 +178,7 @@ class FormatterTest {
             assignation_equal_wrap_whitespaces = true,
             println_trailing_line_jump = 2,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.0")
         val tokens = listOf<Token>(
             Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
             Token(type = TokenType.NUMBER, value = "2", dummyPosition),

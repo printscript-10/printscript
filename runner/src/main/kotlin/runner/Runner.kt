@@ -49,7 +49,7 @@ class Runner(private val version: String) {
     }
 
     fun format(input: InputStream, handler: ErrorHandler, config: FormatterConfig): String? {
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, version)
         val formattingErrors = mutableListOf<String>()
         var formattedSnippet = ""
         processInput(input, handler) { tokens, ast ->
@@ -68,7 +68,7 @@ class Runner(private val version: String) {
     }
 
     fun analyze(input: InputStream, handler: ErrorHandler, config: LinterConfig) {
-        val linter = Linter(config)
+        val linter = Linter(config, version)
         val lintingErrors = mutableListOf<String>()
 
         processInput(input, handler) { _, ast ->

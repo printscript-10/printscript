@@ -18,7 +18,7 @@ class ValidatorTest {
             allow_expression_in_println = false,
             naming_convention = "camel_case",
         )
-        val linter = Linter(linterConfig)
+        val linter = Linter(linterConfig, "1.1")
         val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("camelCase", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
@@ -34,7 +34,7 @@ class ValidatorTest {
             allow_expression_in_println = false,
             naming_convention = "camel_case",
         )
-        val linter = Linter(linterConfig)
+        val linter = Linter(linterConfig, "1.1")
         val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("camel_case", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
@@ -50,7 +50,7 @@ class ValidatorTest {
             allow_expression_in_println = false,
             naming_convention = "snake_case",
         )
-        val linter = Linter(linterConfig)
+        val linter = Linter(linterConfig, "1.1")
         val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("snake_case_identifier", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)
@@ -66,7 +66,7 @@ class ValidatorTest {
             allow_expression_in_println = false,
             naming_convention = "snake_case",
         )
-        val linter = Linter(linterConfig)
+        val linter = Linter(linterConfig, "1.1")
         val dummyPosition = Position(0, 0, 0)
         val identifier = Identifier("snakeCase", dummyPosition)
         val type = Type(VariableType.STRING, dummyPosition)

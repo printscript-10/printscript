@@ -25,7 +25,7 @@ class IfStatementFormatterTest {
             println_trailing_line_jump = 1,
             if_block_indent_spaces = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.1")
         val tokens = listOf<Token>(
             Token(type = TokenType.IF, value = "if", dummyPosition),
             Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
@@ -72,7 +72,7 @@ class IfStatementFormatterTest {
             println_trailing_line_jump = 1,
             if_block_indent_spaces = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.1")
         val tokens = listOf<Token>(
             Token(type = TokenType.IF, value = "if", dummyPosition),
             Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
@@ -133,7 +133,7 @@ class IfStatementFormatterTest {
             println_trailing_line_jump = 1,
             if_block_indent_spaces = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.1")
         val tokens = listOf<Token>(
             Token(type = TokenType.IF, value = "if", dummyPosition),
             Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
@@ -194,7 +194,7 @@ class IfStatementFormatterTest {
             println_trailing_line_jump = 1,
             if_block_indent_spaces = 1,
         )
-        val formatter = Formatter(config)
+        val formatter = Formatter(config, "1.1")
         val tokens = listOf<Token>(
             Token(type = TokenType.IF, value = "if", dummyPosition),
             Token(type = TokenType.OPEN_BRACKET, value = "(", dummyPosition),
