@@ -4,8 +4,11 @@ enum class TokenType {
     WHITESPACE,
     STRING,
     VARIABLE_DECLARATOR,
+    BOOLEAN,
     TYPE,
     PRINT,
+    READ_INPUT,
+    READ_ENV,
     IDENTIFIER,
     NUMBER,
     COLON,
@@ -18,5 +21,4 @@ enum class TokenType {
     ASSIGN,
     IF,
     ELSE,
-    BOOLEAN,
 }

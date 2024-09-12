@@ -12,6 +12,9 @@ import utils.VariableDeclaration
 import utils.VariableType
 
 class VariableDeclarationTest {
+    private val outputProvider = TestOutputProvider()
+    private val inputProvider = TestInputProvider()
+    private val envProvider = TestEnvProvider()
 
     @Test
     fun `test simpleVariableDeclaration`() {
@@ -24,7 +27,13 @@ class VariableDeclarationTest {
         val expectedVariable = StringVariable(value.value, false)
         val expected = InterpretSuccess(mapOf(id.name to expectedVariable))
 
-        val result = VariableDeclarationInterpreter(variables).execute(astNodeVariable)
+        val result = VariableDeclarationInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+        ).execute(astNodeVariable)
 
         assertEquals(expected, result)
     }

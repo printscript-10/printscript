@@ -7,7 +7,7 @@ import utils.Result
 import utils.Token
 import utils.TokenType
 
-class IfStatementBuilder : ASTNodeBuilder {
+class IfStatementBuilder(private val version: String) : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {
         val openBracketIndex = position + 1
         val closingBracketIndex = position + 3
@@ -19,13 +19,10 @@ class IfStatementBuilder : ASTNodeBuilder {
             tokens[closingBracketIndex].type != TokenType.CLOSE_BRACKET ||
             tokens[openingBraceIndex].type != TokenType.OPEN_BRACE
         ) {
-            return BuildFailure(
-                error = "Invalid if statement format",
-                position = position,
-            )
+            return BuildFailure("Invalid if statement format")
         }
         val expressionTokens = tokens.subList(openBracketIndex + 1, closingBracketIndex)
-        val expressionResult = ExpressionBuilder().build(expressionTokens, position)
+        val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
         if (expressionResult is BuildFailure) return expressionResult
 
         var currentIndex = openingBraceIndex + 1
@@ -33,23 +30,16 @@ class IfStatementBuilder : ASTNodeBuilder {
 
         while (tokens[currentIndex].type != TokenType.CLOSE_BRACE) {
             val statementTokens = extractStatement(tokens, currentIndex)
-            // TODO sacar el 1.1 ese
-            val thenStatementResult = ASTBuilder("1.1").build(statementTokens)
+            val thenStatementResult = ASTBuilder(version).build(statementTokens)
 
             if (thenStatementResult is BuildFailure) {
-                return BuildFailure(
-                    error = "Invalid then statement: ${thenStatementResult.error}",
-                    position = currentIndex,
-                )
+                return BuildFailure("Invalid then statement: ${thenStatementResult.error}")
             }
             thenStatements.add((thenStatementResult as BuildSuccess).result)
             currentIndex += statementTokens.size
         }
         if (thenStatements.isEmpty()) {
-            return BuildFailure(
-                error = "If statement cannot have empty body",
-                position = currentIndex,
-            )
+            return BuildFailure("If statement cannot have empty body")
         }
 
         currentIndex++
@@ -57,10 +47,7 @@ class IfStatementBuilder : ASTNodeBuilder {
         if (currentIndex < tokens.size && tokens[currentIndex].type == TokenType.ELSE) {
             currentIndex++
             if (tokens[currentIndex].type != TokenType.OPEN_BRACE) {
-                return BuildFailure(
-                    error = "Invalid else statement format",
-                    position = currentIndex,
-                )
+                return BuildFailure("Invalid else statement format")
             }
             currentIndex++
 
@@ -69,10 +56,7 @@ class IfStatementBuilder : ASTNodeBuilder {
                 val elseStatementResult = ASTBuilder("1.1").build(statementTokens)
 
                 if (elseStatementResult is BuildFailure) {
-                    return BuildFailure(
-                        error = "Invalid else statement: ${elseStatementResult.error}",
-                        position = currentIndex,
-                    )
+                    return BuildFailure("Invalid else statement: ${elseStatementResult.error}")
                 }
 
                 elseStatements.add((elseStatementResult as BuildSuccess).result)

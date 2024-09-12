@@ -1,5 +1,32 @@
-const a: string = "manu";
+let a: boolean
+=
+true;
+let b:
+ string
+  =         "caca";
 
-if(true){println("one level");if(true){println("second level");}}
+
+if (a)
+
+
+
+{
+
+
+
+
+  b =
+
+  "a is true"
+
+  ;
+}
+else {
+  b = "a is false";
+}
+
+
+
+println(b);
 
 

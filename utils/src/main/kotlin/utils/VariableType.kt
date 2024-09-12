@@ -4,4 +4,5 @@ enum class VariableType {
     STRING,
     NUMBER,
     BOOLEAN,
+    UNKNOWN,
 }

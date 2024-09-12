@@ -4,36 +4,45 @@ import utils.Result
 import utils.Token
 import utils.TokenType
 
-class ASTBuilder(val version: String) {
+class ASTBuilder(version: String) {
 
-    private val builders: Map<String, Map<TokenType, ASTNodeBuilder>> = mapOf(
-        "1.0" to mapOf(
-            TokenType.VARIABLE_DECLARATOR to VariableDeclarationBuilder(),
-            TokenType.IDENTIFIER to VariableAssignationBuilder(),
-            TokenType.PRINT to PrintBuilder(),
-        ),
-        "1.1" to mapOf(
-            TokenType.VARIABLE_DECLARATOR to VariableDeclarationBuilder(),
-            TokenType.IDENTIFIER to VariableAssignationBuilder(),
-            TokenType.PRINT to PrintBuilder(),
-            TokenType.IF to IfStatementBuilder(),
-        ),
-    )
+    private val builders: Map<TokenType, ASTNodeBuilder>
+
+    init {
+        builders = getBuilders(version)
+    }
 
     fun build(tokens: List<Token>): Result {
-        val astBuilders = builders[version]
-        if (astBuilders == null) throw Error("Unsupported version $version")
-        if (tokens[tokens.size - 1].type != TokenType.SEMICOLON &&
+        if (
+            tokens[tokens.size - 1].type != TokenType.SEMICOLON &&
             tokens[tokens.size - 1].type != TokenType.CLOSE_BRACE
         ) {
-            return BuildFailure(
-                "Line must finish with ;",
-                tokens.size - 1,
-            )
+            return BuildFailure("Line must finish with ;")
         }
 
-        val builder = astBuilders[tokens[0].type] ?: return BuildFailure("Invalid line", tokens.first().position.line)
+        val builder = builders[tokens[0].type] ?: return BuildFailure("Invalid line")
 
         return (builder.build(tokens, 0))
+    }
+
+    private fun getBuilders(version: String): Map<TokenType, ASTNodeBuilder> {
+        val baseMap = mapOf(
+            TokenType.VARIABLE_DECLARATOR to VariableDeclarationBuilder(version),
+            TokenType.IDENTIFIER to VariableAssignationBuilder(version),
+            TokenType.PRINT to PrintBuilder(version),
+        )
+        return when (version) {
+            "1.0" -> baseMap
+            "1.1" -> {
+                baseMap.toMutableMap().apply {
+                    putAll(
+                        mapOf(
+                            TokenType.IF to IfStatementBuilder(version),
+                        ),
+                    )
+                }.toMap()
+            }
+            else -> throw IllegalArgumentException("Invalid version")
+        }
     }
 }

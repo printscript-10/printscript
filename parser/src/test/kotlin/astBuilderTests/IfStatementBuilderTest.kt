@@ -34,7 +34,7 @@ class IfStatementBuilderTest {
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
             Token(type = TokenType.CLOSE_BRACE, value = "}", dummyPosition),
         )
-        val result = IfStatementBuilder().build(tokens, 0)
+        val result = IfStatementBuilder("1.1").build(tokens, 0)
         val expectedThenStatemets = listOf(
             VariableDeclaration(
                 Identifier(name = "b", dummyPosition),
@@ -82,7 +82,7 @@ class IfStatementBuilderTest {
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
             Token(type = TokenType.CLOSE_BRACE, value = "}", dummyPosition),
         )
-        val result = IfStatementBuilder().build(tokens, 0)
+        val result = IfStatementBuilder("1.1").build(tokens, 0)
         val expectedThenStatemets = listOf(
             VariableDeclaration(
                 Identifier(name = "b", dummyPosition),
@@ -135,7 +135,7 @@ class IfStatementBuilderTest {
             Token(type = TokenType.CLOSE_BRACE, value = "}", dummyPosition),
             Token(type = TokenType.CLOSE_BRACE, value = "}", dummyPosition),
         )
-        val result = IfStatementBuilder().build(tokens, 0)
+        val result = IfStatementBuilder("1.1").build(tokens, 0)
         val expectedInnerThenStatemets = listOf(
             VariableDeclaration(
                 Identifier(name = "b", dummyPosition),
