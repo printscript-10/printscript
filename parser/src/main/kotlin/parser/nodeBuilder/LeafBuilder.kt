@@ -38,14 +38,9 @@ class NumericLiteralBuilder : ASTNodeBuilder {
 }
 
 class BooleanLiteralBuilder : ASTNodeBuilder {
-
     override fun build(tokens: List<Token>, position: Int): BuildSuccess {
         val token = tokens[position]
-        val value = when (token.value) {
-            "true" -> true
-            "false" -> false
-            else -> throw Error("Unexpected boolean token value:  ${token.value}")
-        }
+        val value = token.value.toBoolean()
         return BuildSuccess(
             result = BooleanLiteral(
                 value = value,

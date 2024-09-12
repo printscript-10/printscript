@@ -1,38 +1,37 @@
 package parser.nodeBuilder
 
 import utils.Expression
-import utils.PrintFunction
+import utils.ReadInput
 import utils.Result
 import utils.Token
 import utils.TokenType
 
-class PrintBuilder(private val version: String) : ASTNodeBuilder {
-
+class ReadInputBuilder(private val version: String) : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {
         val openBracketIndex = position + 1
-        val closingBracketIndex = findClosingBracket(tokens, openBracketIndex)
-        if (closingBracketIndex == -1) return BuildFailure("Mismatched parentheses")
-
         if (
-            (tokens[position].type != TokenType.PRINT) ||
-            (tokens[openBracketIndex].type != TokenType.OPEN_BRACKET) ||
-            (closingBracketIndex != tokens.size - 2)
+            (tokens[position].type != TokenType.READ_INPUT) ||
+            (tokens[openBracketIndex].type != TokenType.OPEN_BRACKET)
         ) {
-            return BuildFailure("Invalid print function format")
+            return BuildFailure("Invalid readInput function format")
         }
+        val closeBracketIndex = findClosingBracket(tokens, openBracketIndex)
+        if (closeBracketIndex == -1) return BuildFailure("Mismatched parentheses")
 
-        val expressionTokens = tokens.subList(openBracketIndex + 1, closingBracketIndex)
-        if (expressionTokens.isEmpty()) return BuildFailure("Print function cannot be empty")
+        val expressionTokens = tokens.subList(openBracketIndex + 1, closeBracketIndex)
+        if (expressionTokens.isEmpty()) {
+            return BuildFailure("ReadInput function cannot be empty")
+        }
 
         val expressionResult = ExpressionBuilder(version).build(expressionTokens, position)
         if (expressionResult is BuildFailure) return expressionResult
 
         return BuildSuccess(
-            result = PrintFunction(
-                value = (expressionResult as BuildSuccess).result as Expression,
+            result = ReadInput(
+                message = (expressionResult as BuildSuccess).result as Expression,
                 position = tokens[position].position,
             ),
-            position = position,
+            position = closeBracketIndex,
         )
     }
 

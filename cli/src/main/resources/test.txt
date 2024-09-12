@@ -1,5 +1,32 @@
-const a: string = "manu";
-a = "manuel";
-println(a);
+let a: boolean
+=
+true;
+let b:
+ string
+  =         "caca";
+
+
+if (a)
+
+
+
+{
+
+
+
+
+  b =
+
+  "a is true"
+
+  ;
+}
+else {
+  b = "a is false";
+}
+
+
+
+println(b);
 
 

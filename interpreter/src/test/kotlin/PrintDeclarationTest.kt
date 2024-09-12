@@ -8,10 +8,13 @@ import utils.Position
 import utils.PrintFunction
 
 class PrintDeclarationTest {
+    private val outputProvider = TestOutputProvider()
+    private val inputProvider = TestInputProvider()
+    private val envProvider = TestEnvProvider()
+
     @Test
     fun `test printOutputsExpectedValue`() {
         val identifierName = "a"
-        val outputProvider = TestOutputProvider()
         val variables: MutableMap<String, Variable> = mutableMapOf(
             identifierName to StringVariable("Hello world", false),
         )
@@ -19,7 +22,13 @@ class PrintDeclarationTest {
         val id = Identifier(identifierName, position)
         val astNodeVariable = PrintFunction(id, position)
 
-        PrintInterpreter(variables, outputProvider).execute(astNodeVariable)
+        PrintInterpreter(
+            "1.0",
+            variables,
+            outputProvider,
+            inputProvider,
+            envProvider,
+        ).execute(astNodeVariable)
 
         Assertions.assertEquals(outputProvider.output, variables[identifierName]?.value)
     }

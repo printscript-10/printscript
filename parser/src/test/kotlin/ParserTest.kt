@@ -33,7 +33,7 @@ class ParserTest {
             Token(type = TokenType.STRING, value = "b", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = Parser(variables, version).buildAST(tokens)
+        val result = Parser(version, variables).buildAST(tokens)
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
@@ -59,7 +59,7 @@ class ParserTest {
             Token(type = TokenType.STRING, value = "b", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = Parser(variables, version).buildAST(tokens)
+        val result = Parser(version, variables).buildAST(tokens)
         val expectedResult = VariableAssignation(
             Identifier(name = "a", dummyPosition),
             value = StringLiteral("b", dummyPosition),
@@ -84,7 +84,7 @@ class ParserTest {
             Token(type = TokenType.CLOSE_BRACKET, value = ")", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = Parser(variables, version).buildAST(tokens)
+        val result = Parser(version, variables).buildAST(tokens)
         val expectedResult = PrintFunction(
             value = StringLiteral("b", dummyPosition),
             dummyPosition,

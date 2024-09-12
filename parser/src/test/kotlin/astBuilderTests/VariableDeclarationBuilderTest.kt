@@ -29,7 +29,7 @@ class VariableDeclarationBuilderTest {
             Token(type = TokenType.STRING, value = "b", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = VariableDeclarationBuilder().build(tokens, 0)
+        val result = VariableDeclarationBuilder("1.1").build(tokens, 0)
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.STRING, dummyPosition),
@@ -53,7 +53,7 @@ class VariableDeclarationBuilderTest {
             Token(type = TokenType.NUMBER, value = "2", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = VariableDeclarationBuilder().build(tokens, 0)
+        val result = VariableDeclarationBuilder("1.1").build(tokens, 0)
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.NUMBER, dummyPosition),
@@ -77,7 +77,7 @@ class VariableDeclarationBuilderTest {
             Token(type = TokenType.BOOLEAN, value = "true", dummyPosition),
             Token(type = TokenType.SEMICOLON, value = ";", dummyPosition),
         )
-        val result = VariableDeclarationBuilder().build(tokens, 0)
+        val result = VariableDeclarationBuilder("1.1").build(tokens, 0)
         val expectedResult = VariableDeclaration(
             Identifier(name = "a", dummyPosition),
             Type(name = VariableType.BOOLEAN, dummyPosition),

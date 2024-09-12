@@ -11,7 +11,10 @@ import utils.Result
 import utils.Token
 import utils.VariableType
 
-class Parser(variables: Map<String, VariableType>, val version: String) {
+class Parser(
+    private val version: String,
+    variables: Map<String, VariableType>,
+) {
 
     private val semanticAnalyzer = SemanticAnalyzer(variables)
 

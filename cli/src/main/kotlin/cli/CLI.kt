@@ -14,6 +14,8 @@ const val configPath = "cli/src/main/resources/config.yml"
 private val runner = Runner("1.1")
 private val errorHandler = CLIErrorHandler()
 private val outputProvider = CLIOutputProvider()
+private val inputProvider = CLIInputProvider()
+private val envProvider = CLIEnvProvider()
 
 fun main() {
     val file = File(filePath)
@@ -41,7 +43,7 @@ private fun validate(file: File) {
 }
 
 private fun execute(file: File) {
-    runner.execute(file.inputStream(), outputProvider, errorHandler)
+    runner.execute(file.inputStream(), outputProvider, errorHandler, inputProvider, envProvider)
     handleResult("Executed")
 }
 

@@ -24,6 +24,14 @@
     "regex": "\\b(println)\\b"
   },
   {
+    "token": "READ_INPUT",
+    "regex": "\\b(readInput)\\b"
+  },
+  {
+    "token": "READ_ENV",
+    "regex": "\\b(readEnv)\\b"
+  },
+  {
     "token": "IF",
     "regex": "\\b(if)\\b"
   },
