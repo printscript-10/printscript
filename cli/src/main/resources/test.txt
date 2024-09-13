@@ -1,1 +1,17 @@
-let camelCase_snakeCase: string = readInput("santy" + "santy");
+let a: string = "hola";
+if (true) {
+println("hola if 1");
+a="if 1";
+    if (false) {
+        println("hola if 2");
+    } else {
+    println("aca esta a: " + a);
+        println("hola else 2");
+    }
+
+} else {
+    println("hola else 1");
+}
+
+
+let b: string = "chau";

@@ -102,7 +102,7 @@ class Runner(private val version: String) {
                             break
                         } else {
                             val tokens = tokenBuffer.subList(0, statement + 1)
-                            tokenBuffer = tokenBuffer.subList(statement + 1, tokenBuffer.size)
+                            tokenBuffer = tokenBuffer.subList(statement + 1, tokenBuffer.size).toMutableList()
                             actualIndex = 0
 
                             val parser = Parser(version, variableTypes)
@@ -119,8 +119,6 @@ class Runner(private val version: String) {
             }
 
             if (braceCount != 0 || tokenBuffer.isNotEmpty()) {
-                println("braceCount: " + braceCount)
-                println("tokenBuffer: " + tokenBuffer)
                 return handler.reportError("Mismatched braces or unclosed statement")
             }
         }
@@ -130,7 +128,12 @@ class Runner(private val version: String) {
         var updatedBraceCount = braceCount
         var i = actualIndex
 
-        if (i != 0 && tokens[i - 1].type == TokenType.CLOSE_BRACE && tokens[i].type != TokenType.ELSE) {
+        if (
+            i != 0 &&
+            braceCount == 0 &&
+            tokens[i - 1].type == TokenType.CLOSE_BRACE &&
+            tokens[i].type != TokenType.ELSE
+        ) {
             return Pair(i - 1, updatedBraceCount)
         }
 
