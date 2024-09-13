@@ -102,7 +102,7 @@ class Runner(private val version: String) {
                             break
                         } else {
                             val tokens = tokenBuffer.subList(0, statement + 1)
-                            tokenBuffer = tokenBuffer.subList(statement + 1, tokenBuffer.size)
+                            tokenBuffer = tokenBuffer.subList(statement + 1, tokenBuffer.size).toMutableList()
                             actualIndex = 0
 
                             val parser = Parser(version, variableTypes)
