@@ -101,7 +101,7 @@ class Runner(private val version: String) {
                             actualIndex = tokenBuffer.size
                             break
                         } else {
-                            val tokens = tokenBuffer.subList(0, statement + 1)
+                            val tokens = tokenBuffer.subList(0, statement + 1).toList()
                             tokenBuffer = tokenBuffer.subList(statement + 1, tokenBuffer.size).toMutableList()
                             actualIndex = 0
 

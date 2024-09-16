@@ -18,7 +18,13 @@ class PrintTrailingLineJumpApplicator(private val config: FormatterConfig) : For
         val resultTokens = tokens.toMutableList()
         resultTokens.add(
             0,
-            Token(TokenType.WHITESPACE, ("\n").repeat(lineJumpAmount), Position(tokens.first().position.line, 0, 0)),
+            Token(
+                TokenType.WHITESPACE,
+                ("\n").repeat(lineJumpAmount) + (" ").repeat(
+                    config.if_block_indent_spaces * (config.base_indent_level - 1),
+                ),
+                Position(tokens.first().position.line, 0, 0),
+            ),
         )
         return FormatApplicatorSuccess(resultTokens)
     }

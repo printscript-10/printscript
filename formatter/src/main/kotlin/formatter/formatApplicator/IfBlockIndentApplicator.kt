@@ -15,7 +15,7 @@ class IfBlockIndentApplicator(private val config: FormatterConfig, private val v
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorResult {
         if (ast !is IfStatement) return FormatApplicatorSuccess(tokens)
 
-        val indentSpaces = config.if_block_indent_spaces
+        val indentSpaces = config.if_block_indent_spaces * config.base_indent_level
         val result: MutableList<Token> = mutableListOf()
         val errors = mutableListOf<FormatApplicatorError>()
 
@@ -28,7 +28,8 @@ class IfBlockIndentApplicator(private val config: FormatterConfig, private val v
 
         var currentIndex = openBraceIndex + 1
         var astIndex = 0
-        val updatedConfig = config.copy(if_block_indent_spaces = config.if_block_indent_spaces + 1)
+        // TODO cambiar el update del config
+        val updatedConfig = config.copy(base_indent_level = config.base_indent_level + 1)
         while (tokens[currentIndex].type != TokenType.CLOSE_BRACE && currentIndex < tokens.size) {
             val statementTokens = extractStatement(tokens, currentIndex)
             val thenStatementResult = Formatter(updatedConfig, version).format(
@@ -46,7 +47,13 @@ class IfBlockIndentApplicator(private val config: FormatterConfig, private val v
             currentIndex += statementTokens.size
             astIndex++
         }
-        result.add(Token(TokenType.CLOSE_BRACE, " ".repeat(indentSpaces - 1) + "}", tokens[currentIndex - 1].position))
+        result.add(
+            Token(
+                TokenType.CLOSE_BRACE,
+                " ".repeat(indentSpaces - config.if_block_indent_spaces) + "}",
+                tokens[currentIndex - 1].position,
+            ),
+        )
         currentIndex++
         astIndex = 0
 
@@ -72,7 +79,11 @@ class IfBlockIndentApplicator(private val config: FormatterConfig, private val v
                 astIndex++
             }
             result.add(
-                Token(TokenType.CLOSE_BRACE, " ".repeat(indentSpaces - 1) + "}", tokens[currentIndex - 1].position),
+                Token(
+                    TokenType.CLOSE_BRACE,
+                    " ".repeat(indentSpaces - config.if_block_indent_spaces) + "}",
+                    tokens[currentIndex - 1].position,
+                ),
             )
         }
         return if (errors.isEmpty()) {

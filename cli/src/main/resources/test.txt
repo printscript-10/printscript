@@ -1,17 +1,21 @@
-let a: string = "hola";
+let a : string = "hola";
 if (true) {
-println("hola if 1");
-a="if 1";
+    a = "if 1";
+    
+
+    println("pedro2");
     if (false) {
-        println("hola if 2");
+        let b : string;
+        
+
+        println("pedro");
+        if (true) {
+            let j : string;
+        }
     } else {
-    println("aca esta a: " + a);
-        println("hola else 2");
+        let b : string;
     }
-
 } else {
-    println("hola else 1");
+    let c : string;
 }
-
-
-let b: string = "chau";
+let n : string = "chau";

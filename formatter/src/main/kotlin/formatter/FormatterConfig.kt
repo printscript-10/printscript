@@ -6,4 +6,5 @@ data class FormatterConfig(
     val assignation_equal_wrap_whitespaces: Boolean = false,
     val println_trailing_line_jump: Int = 0,
     val if_block_indent_spaces: Int = 1,
+    val base_indent_level: Int = 1,
 )

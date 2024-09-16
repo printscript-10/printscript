@@ -112,6 +112,8 @@ private fun loadFormatConfig(input: InputStream): FormatterConfig {
             formatterConfig["assignation_equal_wrap_whitespaces"] as Boolean? ?: false,
         println_trailing_line_jump =
             formatterConfig["println_trailing_line_jump"] as Int? ?: 0,
+        if_block_indent_spaces =
+            formatterConfig["if_block_indent_spaces"] as Int? ?: 1,
     )
 }
 
