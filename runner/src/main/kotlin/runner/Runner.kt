@@ -23,12 +23,13 @@ import utils.Token
 import utils.TokenType
 import utils.VariableType
 import java.io.InputStream
+import kotlin.math.roundToInt
 
 class Runner(private val version: String) {
     private val lexer = Lexer(version)
 
     fun validate(input: InputStream, handler: ErrorHandler) {
-        processInput(input, handler) { _, _ -> return@processInput }
+        processInput(input, handler) { _, _, _ -> return@processInput }
     }
 
     fun execute(
@@ -40,7 +41,7 @@ class Runner(private val version: String) {
     ) {
         var variableMap: Map<String, Variable> = mapOf()
 
-        processInput(input, handler) { _, ast ->
+        processInput(input, handler) { _, ast, _ ->
             val interpreter = Interpreter(version, variableMap, outputProvider, inputProvider, envProvider)
             val interpretResult = interpreter.interpret(ast)
             if (interpretResult is Failure) return@processInput handler.reportError(interpretResult.error)
@@ -48,37 +49,71 @@ class Runner(private val version: String) {
         }
     }
 
-    fun format(input: InputStream, handler: ErrorHandler, config: FormatterConfig): String? {
+    fun format(
+        input: InputStream,
+        handler: ErrorHandler,
+        config: FormatterConfig,
+        outputProvider: OutputProvider,
+    ): String? {
         val formatter = Formatter(config, version)
         val formattingErrors = mutableListOf<String>()
-        var formattedSnippet = ""
-        processInput(input, handler) { tokens, ast ->
+        var formattedSnippet: String? = ""
+
+        val hasError = MutableBoolean()
+        val inputString = input.bufferedReader().use { it.readText() }
+        val totalLines = inputString.lines().size
+
+        processInput(inputString.byteInputStream(), handler, hasError) { tokens, ast, line ->
+
             val tokensResult = formatter.format(tokens, ast)
             if (tokensResult is FormatApplicatorError) {
                 formattingErrors.add(tokensResult.message)
             } else {
                 formattedSnippet += formatter.concatenateTokenValues((tokensResult as FormatApplicatorSuccess).tokens)
             }
+
+            val percentage = ((line.toDouble() / totalLines) * 100).roundToInt()
+            outputProvider.print("\rProgress: |${progressBar(percentage)}| $percentage% formatted")
         }
+        if (hasError.value) return null
+
         if (formattingErrors.isNotEmpty()) {
             handler.reportError(formattingErrors.joinToString("\n"))
             return null
         }
+
+        outputProvider.print("\rProgress: |${progressBar(100)}| 100% linted")
         return formattedSnippet
     }
 
-    fun analyze(input: InputStream, handler: ErrorHandler, config: LinterConfig) {
+    fun analyze(input: InputStream, handler: ErrorHandler, config: LinterConfig, outputProvider: OutputProvider) {
         val linter = Linter(config, version)
         val lintingErrors = mutableListOf<String>()
 
-        processInput(input, handler) { _, ast ->
+        val hasError = MutableBoolean()
+        val inputString = input.bufferedReader().use { it.readText() }
+        val totalLines = inputString.lines().size
+
+        processInput(inputString.byteInputStream(), handler, hasError) { _, ast, line ->
             val lintResult = linter.execute(ast)
             if (lintResult is Failure) lintingErrors.add(lintResult.error)
+
+            val percentage = ((line.toDouble() / totalLines) * 100).roundToInt()
+            outputProvider.print("\rProgress: |${progressBar(percentage)}| $percentage% linted")
         }
+        if (hasError.value) return
+
         if (lintingErrors.isNotEmpty()) return handler.reportError(lintingErrors.joinToString("\n"))
+
+        outputProvider.print("\rProgress: |${progressBar(100)}| 100% linted")
     }
 
-    private fun processInput(input: InputStream, handler: ErrorHandler, function: (List<Token>, AST) -> Unit) {
+    private fun processInput(
+        input: InputStream,
+        handler: ErrorHandler,
+        hasError: MutableBoolean? = null,
+        function: (List<Token>, AST, Int) -> Unit,
+    ) {
         var variableTypes: Map<String, VariableType> = mapOf()
         var tokenBuffer = mutableListOf<Token>()
         var braceCount = 0
@@ -90,7 +125,10 @@ class Runner(private val version: String) {
             while (line != null) {
                 if (line.isNotBlank()) {
                     val lexingResult = lexer.tokenize(line, lineCounter)
-                    if (lexingResult is Failure) return handler.reportError(lexingResult.error)
+                    if (lexingResult is Failure) {
+                        if (hasError != null) hasError.value = true
+                        return handler.reportError(lexingResult.error)
+                    }
                     tokenBuffer.addAll((lexingResult as LexingSuccess).tokens)
 
                     while (true) {
@@ -107,10 +145,13 @@ class Runner(private val version: String) {
 
                             val parser = Parser(version, variableTypes)
                             val buildResult = parser.buildAST(tokens)
-                            if (buildResult is Failure) return handler.reportError(buildResult.error)
+                            if (buildResult is Failure) {
+                                if (hasError != null) hasError.value = true
+                                return handler.reportError(buildResult.error)
+                            }
                             variableTypes = (buildResult as ParseSuccess).variables
 
-                            function(tokens, buildResult.result)
+                            function(tokens, buildResult.result, lineCounter + 1)
                         }
                     }
                 }
@@ -119,6 +160,7 @@ class Runner(private val version: String) {
             }
 
             if (braceCount != 0 || tokenBuffer.isNotEmpty()) {
+                if (hasError != null) hasError.value = true
                 return handler.reportError("Mismatched braces or unclosed statement")
             }
         }
@@ -153,5 +195,11 @@ class Runner(private val version: String) {
             i++
         }
         return Pair(null, updatedBraceCount)
+    }
+
+    private fun progressBar(percentage: Int): String {
+        val barLength = 50 // Total length of the progress bar
+        val filledLength = (barLength * percentage) / 100
+        return "█".repeat(filledLength) + "-".repeat(barLength - filledLength)
     }
 }

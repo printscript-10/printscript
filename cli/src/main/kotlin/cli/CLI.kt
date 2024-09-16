@@ -57,14 +57,14 @@ private fun execute(file: File, runner: Runner) {
 
 private fun format(file: File, configFile: File, runner: Runner) {
     val formatterConfig = loadFormatConfig(configFile.inputStream())
-    val newSnippet = runner.format(file.inputStream(), errorHandler, formatterConfig)
+    val newSnippet = runner.format(file.inputStream(), errorHandler, formatterConfig, outputProvider)
     if (newSnippet != null) file.writeText(newSnippet)
     handleResult("Formatted")
 }
 
 private fun analyze(file: File, configFile: File, runner: Runner) {
     val linterConfig = loadLinterConfig(configFile.inputStream())
-    runner.analyze(file.inputStream(), errorHandler, linterConfig)
+    runner.analyze(file.inputStream(), errorHandler, linterConfig, outputProvider)
     handleResult("Analyzed")
 }
 
