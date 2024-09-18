@@ -9,7 +9,7 @@ import utils.VariableDeclaration
 
 class DeclarationColonTrailingWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
-        if (ast !is VariableDeclaration || !config.declaration_colon_trailing_whitespaces) {
+        if (ast !is VariableDeclaration || config.declaration_colon_trailing_whitespaces != true) {
             return FormatApplicatorSuccess(tokens)
         }
 

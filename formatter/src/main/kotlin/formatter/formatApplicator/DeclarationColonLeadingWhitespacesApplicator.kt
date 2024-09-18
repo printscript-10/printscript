@@ -9,7 +9,7 @@ import utils.VariableDeclaration
 
 class DeclarationColonLeadingWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
-        if (ast !is VariableDeclaration || !config.declaration_colon_leading_whitespaces) {
+        if (ast !is VariableDeclaration || config.declaration_colon_leading_whitespaces != true) {
             return FormatApplicatorSuccess(tokens)
         }
 

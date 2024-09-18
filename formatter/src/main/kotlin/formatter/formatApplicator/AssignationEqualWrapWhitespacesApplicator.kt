@@ -9,7 +9,7 @@ import utils.VariableAssignation
 
 class AssignationEqualWrapWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
-        if (ast !is VariableAssignation && !config.assignation_equal_wrap_whitespaces) {
+        if (ast !is VariableAssignation && config.assignation_equal_wrap_whitespaces != true) {
             return FormatApplicatorSuccess(tokens)
         }
 

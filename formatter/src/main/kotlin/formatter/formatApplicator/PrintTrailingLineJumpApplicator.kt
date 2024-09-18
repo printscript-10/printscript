@@ -12,6 +12,7 @@ import utils.TokenType
 
 class PrintTrailingLineJumpApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorResult {
+        if (config.println_trailing_line_jump == null) return FormatApplicatorSuccess(tokens)
         if (ast !is PrintFunction) return FormatApplicatorSuccess(tokens)
         val lineJumpAmount = config.println_trailing_line_jump
         if (lineJumpAmount < 0 || lineJumpAmount > 2) return FormatApplicatorError("Invalid line jump amount")
