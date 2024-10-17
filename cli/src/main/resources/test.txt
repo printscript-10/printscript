@@ -1,21 +1,4 @@
-let a : string = "hola";
-if (true) {
-    a = "if 1";
-    
+let a : number = "s";
 
-    println("pedro2");
-    if (false) {
-        let b : string;
-        
 
-        println("pedro");
-        if (true) {
-            let j : string;
-        }
-    } else {
-        let b : string;
-    }
-} else {
-    let c : string;
-}
-let n : string = "chau";
+println(a);

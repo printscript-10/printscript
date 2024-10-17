@@ -29,7 +29,7 @@ class Runner(private val version: String) {
     private val lexer = Lexer(version)
 
     fun validate(input: InputStream, handler: ErrorHandler) {
-        processInput(input, handler) { _, _, _ -> return@processInput }
+        processInput(input, handler) { _, _, _ -> false }
     }
 
     fun execute(
@@ -44,8 +44,12 @@ class Runner(private val version: String) {
         processInput(input, handler) { _, ast, _ ->
             val interpreter = Interpreter(version, variableMap, outputProvider, inputProvider, envProvider)
             val interpretResult = interpreter.interpret(ast)
-            if (interpretResult is Failure) return@processInput handler.reportError(interpretResult.error)
+            if (interpretResult is Failure) {
+                handler.reportError(interpretResult.error)
+                return@processInput true
+            }
             variableMap = (interpretResult as InterpretSuccess).result
+            return@processInput false
         }
     }
 
@@ -74,6 +78,7 @@ class Runner(private val version: String) {
 
             val percentage = ((line.toDouble() / totalLines) * 100).roundToInt()
             outputProvider.print("\rProgress: |${progressBar(percentage)}| $percentage% formatted")
+            return@processInput false
         }
         if (hasError.value) return null
 
@@ -100,6 +105,7 @@ class Runner(private val version: String) {
 
             val percentage = ((line.toDouble() / totalLines) * 100).roundToInt()
             outputProvider.print("\rProgress: |${progressBar(percentage)}| $percentage% linted")
+            return@processInput false
         }
         if (hasError.value) return
 
@@ -112,7 +118,7 @@ class Runner(private val version: String) {
         input: InputStream,
         handler: ErrorHandler,
         hasError: MutableBoolean? = null,
-        function: (List<Token>, AST, Int) -> Unit,
+        function: (List<Token>, AST, Int) -> Boolean,
     ) {
         var variableTypes: Map<String, VariableType> = mapOf()
         var tokenBuffer = mutableListOf<Token>()
@@ -151,7 +157,8 @@ class Runner(private val version: String) {
                             }
                             variableTypes = (buildResult as ParseSuccess).variables
 
-                            function(tokens, buildResult.result, lineCounter + 1)
+                            val cutExec: Boolean = function(tokens, buildResult.result, lineCounter + 1)
+                            if (cutExec) return
                         }
                     }
                 }
