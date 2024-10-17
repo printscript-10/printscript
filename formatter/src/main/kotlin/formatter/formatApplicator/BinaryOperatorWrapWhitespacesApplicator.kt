@@ -1,10 +1,10 @@
 package formatter.formatApplicator
 
+import ast.AST
 import formatter.FormatApplicatorSuccess
 import formatter.FormatterConfig
-import utils.AST
-import utils.Token
-import utils.TokenType
+import token.Token
+import token.TokenType
 
 class BinaryOperatorWrapWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {

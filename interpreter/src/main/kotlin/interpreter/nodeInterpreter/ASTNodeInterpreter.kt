@@ -1,9 +1,9 @@
 package interpreter.nodeInterpreter
 
-import utils.AST
-import utils.Declaration
-import utils.Expression
-import utils.Result
+import ast.AST
+import ast.Declaration
+import ast.Expression
+import result.Result
 
 sealed interface ASTNodeInterpreter<T, A : AST> {
     fun execute(ast: A): T

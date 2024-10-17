@@ -1,5 +1,7 @@
 package runner
 
+import ast.AST
+import ast.VariableType
 import formatter.FormatApplicatorError
 import formatter.FormatApplicatorSuccess
 import formatter.Formatter
@@ -13,15 +15,13 @@ import linter.Linter
 import linter.LinterConfig
 import parser.ParseSuccess
 import parser.Parser
-import utils.AST
-import utils.EnvProvider
-import utils.ErrorHandler
-import utils.Failure
-import utils.InputProvider
-import utils.OutputProvider
-import utils.Token
-import utils.TokenType
-import utils.VariableType
+import provider.EnvProvider
+import provider.ErrorHandler
+import provider.InputProvider
+import provider.OutputProvider
+import result.Failure
+import token.Token
+import token.TokenType
 import java.io.InputStream
 import kotlin.math.roundToInt
 

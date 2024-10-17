@@ -1,14 +1,14 @@
 package formatter.formatApplicator
 
+import ast.AST
+import ast.PrintFunction
 import formatter.FormatApplicatorError
 import formatter.FormatApplicatorResult
 import formatter.FormatApplicatorSuccess
 import formatter.FormatterConfig
-import utils.AST
-import utils.Position
-import utils.PrintFunction
-import utils.Token
-import utils.TokenType
+import position.Position
+import token.Token
+import token.TokenType
 
 class PrintTrailingLineJumpApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorResult {

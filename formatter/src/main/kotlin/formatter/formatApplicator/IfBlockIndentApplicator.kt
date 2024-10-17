@@ -1,14 +1,14 @@
 package formatter.formatApplicator
 
+import ast.AST
+import ast.IfStatement
 import formatter.FormatApplicatorError
 import formatter.FormatApplicatorResult
 import formatter.FormatApplicatorSuccess
 import formatter.Formatter
 import formatter.FormatterConfig
-import utils.AST
-import utils.IfStatement
-import utils.Token
-import utils.TokenType
+import token.Token
+import token.TokenType
 
 class IfBlockIndentApplicator(private val config: FormatterConfig, private val version: String) : FormatApplicator {
 

@@ -1,8 +1,8 @@
 package parser.nodeBuilder
 
-import utils.Result
-import utils.Token
-import utils.TokenType
+import result.Result
+import token.Token
+import token.TokenType
 
 class ASTBuilder(version: String) {
 

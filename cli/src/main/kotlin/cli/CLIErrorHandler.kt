@@ -1,6 +1,6 @@
 package cli
 
-import utils.ErrorHandler
+import provider.ErrorHandler
 
 class CLIErrorHandler : ErrorHandler {
     var errorMessage: String? = null

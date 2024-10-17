@@ -1,20 +1,20 @@
 package interpreter.nodeInterpreter
 
+import ast.BinaryOperation
+import ast.BooleanLiteral
+import ast.Expression
+import ast.Identifier
+import ast.NumberLiteral
+import ast.ReadEnv
+import ast.ReadInput
+import ast.StringLiteral
+import ast.VariableType
 import interpreter.ExpressionFailure
 import interpreter.Variable
-import utils.BinaryOperation
-import utils.BooleanLiteral
-import utils.EnvProvider
-import utils.Expression
-import utils.Identifier
-import utils.InputProvider
-import utils.NumberLiteral
-import utils.OutputProvider
-import utils.ReadEnv
-import utils.ReadInput
-import utils.Result
-import utils.StringLiteral
-import utils.VariableType
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
+import result.Result
 import kotlin.reflect.KClass
 
 class ExpressionInterpreter(

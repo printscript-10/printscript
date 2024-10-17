@@ -1,6 +1,6 @@
-import utils.EnvProvider
-import utils.InputProvider
-import utils.OutputProvider
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
 
 class TestOutputProvider : OutputProvider {
     var output: String? = null

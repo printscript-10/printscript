@@ -1,15 +1,15 @@
 package semanticAnalizerTests
 
+import ast.Identifier
+import ast.StringLiteral
+import ast.VariableAssignation
+import ast.VariableType
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import parser.semanticAnalizer.Failure
 import parser.semanticAnalizer.SemanticAnalyzer
 import parser.semanticAnalizer.Success
-import utils.Identifier
-import utils.Position
-import utils.StringLiteral
-import utils.VariableAssignation
-import utils.VariableType
+import position.Position
 import kotlin.test.assertEquals
 
 class VariableAssignationTest {

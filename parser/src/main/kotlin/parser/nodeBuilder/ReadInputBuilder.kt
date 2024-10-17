@@ -1,10 +1,10 @@
 package parser.nodeBuilder
 
-import utils.Expression
-import utils.ReadInput
-import utils.Result
-import utils.Token
-import utils.TokenType
+import ast.Expression
+import ast.ReadInput
+import result.Result
+import token.Token
+import token.TokenType
 
 class ReadInputBuilder(private val version: String) : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {

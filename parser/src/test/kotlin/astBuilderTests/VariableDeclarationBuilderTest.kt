@@ -1,19 +1,19 @@
 package astBuilderTests
 
+import ast.BooleanLiteral
+import ast.Identifier
+import ast.NumberLiteral
+import ast.StringLiteral
+import ast.Type
+import ast.VariableDeclaration
+import ast.VariableType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildSuccess
 import parser.nodeBuilder.VariableDeclarationBuilder
-import utils.BooleanLiteral
-import utils.Identifier
-import utils.NumberLiteral
-import utils.Position
-import utils.StringLiteral
-import utils.Token
-import utils.TokenType
-import utils.Type
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
+import token.Token
+import token.TokenType
 
 class VariableDeclarationBuilderTest {
 

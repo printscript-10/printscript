@@ -1,12 +1,12 @@
 package semanticAnalizerTests
 
+import ast.Identifier
+import ast.PrintFunction
+import ast.VariableType
 import org.junit.jupiter.api.Test
 import parser.semanticAnalizer.SemanticAnalyzer
 import parser.semanticAnalizer.Success
-import utils.Identifier
-import utils.Position
-import utils.PrintFunction
-import utils.VariableType
+import position.Position
 import kotlin.test.assertEquals
 
 class PrintDeclarationTest {

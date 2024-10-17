@@ -1,19 +1,19 @@
-import lexer.linter.LinterFailure
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.Identifier
+import ast.NumberLiteral
+import ast.PrintFunction
+import ast.Type
+import ast.VariableDeclaration
+import ast.VariableType
 import linter.Linter
 import linter.LinterConfig
+import linter.LinterFailure
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.Failure
-import utils.Identifier
-import utils.NumberLiteral
-import utils.Position
-import utils.PrintFunction
-import utils.Type
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
+import result.Failure
 
 class LinterTest {
 

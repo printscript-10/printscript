@@ -1,16 +1,16 @@
 package interpreter.nodeInterpreter
 
+import ast.PrintFunction
+import ast.VariableType
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
 import interpreter.InterpretFailure
 import interpreter.InterpretSuccess
 import interpreter.Variable
-import utils.EnvProvider
-import utils.InputProvider
-import utils.OutputProvider
-import utils.PrintFunction
-import utils.Result
-import utils.VariableType
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
+import result.Result
 
 class PrintInterpreter(
     private val version: String,

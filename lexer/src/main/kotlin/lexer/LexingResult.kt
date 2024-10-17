@@ -1,8 +1,8 @@
 package lexer
 
-import utils.Failure
-import utils.Success
-import utils.Token
+import result.Failure
+import result.Success
+import token.Token
 
 data class LexingSuccess(val tokens: List<Token>) : Success
 data class LexingFailure(override val error: String) : Failure

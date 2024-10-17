@@ -1,5 +1,6 @@
 package formatter
 
+import ast.AST
 import formatter.formatApplicator.AssignationEqualWrapWhitespacesApplicator
 import formatter.formatApplicator.BinaryOperatorWrapWhitespacesApplicator
 import formatter.formatApplicator.DeclarationColonLeadingWhitespacesApplicator
@@ -8,9 +9,8 @@ import formatter.formatApplicator.FormatApplicator
 import formatter.formatApplicator.IfBlockIndentApplicator
 import formatter.formatApplicator.MandatoryWhitespaceApplicator
 import formatter.formatApplicator.PrintTrailingLineJumpApplicator
-import utils.AST
-import utils.Token
-import utils.TokenType
+import token.Token
+import token.TokenType
 
 class Formatter(config: FormatterConfig, version: String) {
 

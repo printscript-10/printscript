@@ -2,8 +2,11 @@ plugins {
     id 'printscript-conventions'
 }
 
-version = '1.1.3'
+version = '1.1.4'
 
 dependencies {
-  implementation project(':utils')
+  implementation project(':ast')
+  implementation project(':result')
+
+  testImplementation project(':position')
 }

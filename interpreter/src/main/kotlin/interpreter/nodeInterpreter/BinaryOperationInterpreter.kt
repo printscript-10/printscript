@@ -1,15 +1,15 @@
 package interpreter.nodeInterpreter
 
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.VariableType
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
 import interpreter.Variable
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.EnvProvider
-import utils.InputProvider
-import utils.OutputProvider
-import utils.Result
-import utils.VariableType
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
+import result.Result
 
 class BinaryOperationInterpreter(
     private val version: String,

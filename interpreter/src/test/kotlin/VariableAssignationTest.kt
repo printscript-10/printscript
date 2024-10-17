@@ -1,3 +1,7 @@
+import ast.Identifier
+import ast.NumberLiteral
+import ast.StringLiteral
+import ast.VariableAssignation
 import interpreter.InterpretFailure
 import interpreter.InterpretSuccess
 import interpreter.NumericVariable
@@ -7,11 +11,7 @@ import interpreter.nodeInterpreter.VariableAssignationInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import utils.Identifier
-import utils.NumberLiteral
-import utils.Position
-import utils.StringLiteral
-import utils.VariableAssignation
+import position.Position
 
 class VariableAssignationTest {
     private val outputProvider = TestOutputProvider()

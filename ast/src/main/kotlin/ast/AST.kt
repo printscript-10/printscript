@@ -1,4 +1,6 @@
-package utils
+package ast
+
+import position.Position
 
 sealed interface AST {
     val position: Position

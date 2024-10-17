@@ -1,16 +1,16 @@
 package semanticAnalizerTests
 
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.NumberLiteral
+import ast.PrintFunction
+import ast.StringLiteral
+import ast.VariableType
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import parser.semanticAnalizer.Failure
 import parser.semanticAnalizer.SemanticAnalyzer
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.NumberLiteral
-import utils.Position
-import utils.PrintFunction
-import utils.StringLiteral
-import utils.VariableType
+import position.Position
 
 class BinaryOperationTest {
     @Test

@@ -1,16 +1,16 @@
+import ast.BooleanLiteral
+import ast.Identifier
+import ast.IfStatement
+import ast.Type
+import ast.VariableDeclaration
+import ast.VariableType
 import linter.Linter
 import linter.LinterConfig
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import utils.BooleanLiteral
-import utils.Failure
-import utils.Identifier
-import utils.IfStatement
-import utils.Position
-import utils.Success
-import utils.Type
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
+import result.Failure
+import result.Success
 
 class IfStatementLinterTest {
 

@@ -1,12 +1,12 @@
+import ast.ReadInput
+import ast.StringLiteral
+import ast.VariableType
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
 import interpreter.nodeInterpreter.ReadInputInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import utils.Position
-import utils.ReadInput
-import utils.StringLiteral
-import utils.VariableType
+import position.Position
 
 class ReadInputTest {
     private val outputProvider = TestOutputProvider()

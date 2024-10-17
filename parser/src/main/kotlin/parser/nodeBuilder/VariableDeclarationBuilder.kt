@@ -1,12 +1,13 @@
 package parser.nodeBuilder
 
-import utils.Expression
-import utils.Identifier
-import utils.Result
-import utils.Token
-import utils.TokenType
-import utils.Type
-import utils.VariableDeclaration
+import ast.Expression
+import ast.Identifier
+import ast.Type
+import ast.VariableDeclaration
+import result.Result
+import token.Token
+import token.TokenType
+
 class VariableDeclarationBuilder(private val version: String) : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {
         val idIndex = position + 1

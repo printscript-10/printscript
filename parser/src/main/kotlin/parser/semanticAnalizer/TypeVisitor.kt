@@ -1,16 +1,16 @@
 package parser.semanticAnalizer
 
-import utils.ASTExpressionVisitor
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.BooleanLiteral
-import utils.Identifier
-import utils.Literal
-import utils.NumberLiteral
-import utils.ReadEnv
-import utils.ReadInput
-import utils.StringLiteral
-import utils.VariableType
+import ast.ASTExpressionVisitor
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.BooleanLiteral
+import ast.Identifier
+import ast.Literal
+import ast.NumberLiteral
+import ast.ReadEnv
+import ast.ReadInput
+import ast.StringLiteral
+import ast.VariableType
 
 class TypeVisitor(private val variables: Map<String, VariableType>) : ASTExpressionVisitor<SemanticAnalyzerResult> {
     override fun visitLiteral(literal: Literal): SemanticAnalyzerResult {

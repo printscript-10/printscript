@@ -1,7 +1,7 @@
 package linter.validator
 
-import lexer.linter.LintingError
-import utils.AST
+import ast.AST
+import linter.LintingError
 
 interface Validator {
     fun validate(ast: AST): LintingError?

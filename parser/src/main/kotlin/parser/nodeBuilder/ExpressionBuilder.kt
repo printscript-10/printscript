@@ -1,11 +1,11 @@
 package parser.nodeBuilder
 
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.Expression
-import utils.Result
-import utils.Token
-import utils.TokenType
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.Expression
+import result.Result
+import token.Token
+import token.TokenType
 
 class ExpressionBuilder(version: String) : ASTNodeBuilder {
 

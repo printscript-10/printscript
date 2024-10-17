@@ -1,0 +1,10 @@
+plugins {
+  id 'printscript-conventions'
+}
+
+version = '1.1.4'
+
+dependencies {
+  implementation project(':position')
+}
+

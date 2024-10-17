@@ -1,18 +1,18 @@
 package astBuilderTests
 
+import ast.Identifier
+import ast.IfStatement
+import ast.StringLiteral
+import ast.Type
+import ast.VariableDeclaration
+import ast.VariableType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildSuccess
 import parser.nodeBuilder.IfStatementBuilder
-import utils.Identifier
-import utils.IfStatement
-import utils.Position
-import utils.StringLiteral
-import utils.Token
-import utils.TokenType
-import utils.Type
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
+import token.Token
+import token.TokenType
 
 class IfStatementBuilderTest {
 

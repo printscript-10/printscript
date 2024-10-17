@@ -1,3 +1,8 @@
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.NumberLiteral
+import ast.StringLiteral
+import ast.VariableType
 import interpreter.ExpressionSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
@@ -5,12 +10,7 @@ import interpreter.Variable
 import interpreter.nodeInterpreter.ExpressionInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.NumberLiteral
-import utils.Position
-import utils.StringLiteral
-import utils.VariableType
+import position.Position
 
 class BinaryOperationTest {
     private val outputProvider = TestOutputProvider()

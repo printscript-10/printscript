@@ -1,4 +1,4 @@
-package utils
+package token
 
 enum class TokenType {
     WHITESPACE,

@@ -1,11 +1,11 @@
 package linter.validator
 
-import lexer.linter.LintingError
+import ast.AST
+import ast.IfStatement
 import linter.Linter
 import linter.LinterConfig
-import utils.AST
-import utils.Failure
-import utils.IfStatement
+import linter.LintingError
+import result.Failure
 
 class IfStatementValidator(private val config: LinterConfig, private val version: String) : Validator {
     override fun validate(ast: AST): LintingError? {

@@ -1,11 +1,11 @@
+import ast.Identifier
+import ast.PrintFunction
 import interpreter.StringVariable
 import interpreter.Variable
 import interpreter.nodeInterpreter.PrintInterpreter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import utils.Identifier
-import utils.Position
-import utils.PrintFunction
+import position.Position
 
 class PrintDeclarationTest {
     private val outputProvider = TestOutputProvider()

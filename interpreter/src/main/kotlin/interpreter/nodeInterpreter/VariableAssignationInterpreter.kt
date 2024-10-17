@@ -1,5 +1,7 @@
 package interpreter.nodeInterpreter
 
+import ast.VariableAssignation
+import ast.VariableType
 import interpreter.BooleanVariable
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
@@ -8,12 +10,10 @@ import interpreter.InterpretSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
 import interpreter.Variable
-import utils.EnvProvider
-import utils.InputProvider
-import utils.OutputProvider
-import utils.Result
-import utils.VariableAssignation
-import utils.VariableType
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
+import result.Result
 
 class VariableAssignationInterpreter(
     private val version: String,

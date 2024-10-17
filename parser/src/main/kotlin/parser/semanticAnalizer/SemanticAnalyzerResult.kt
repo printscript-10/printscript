@@ -1,6 +1,6 @@
 package parser.semanticAnalizer
 
-import utils.VariableType
+import ast.VariableType
 
 sealed interface SemanticAnalyzerResult
 

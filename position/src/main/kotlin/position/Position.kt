@@ -1,4 +1,4 @@
-package utils
+package position
 
 data class Position(
     val line: Int,
