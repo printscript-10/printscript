@@ -1,11 +1,11 @@
 package parser.nodeBuilder
 
-import utils.AST
-import utils.Expression
-import utils.IfStatement
-import utils.Result
-import utils.Token
-import utils.TokenType
+import ast.AST
+import ast.Expression
+import ast.IfStatement
+import result.Result
+import token.Token
+import token.TokenType
 
 class IfStatementBuilder(private val version: String) : ASTNodeBuilder {
     override fun build(tokens: List<Token>, position: Int): Result {

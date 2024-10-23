@@ -1,12 +1,12 @@
 package parser.nodeBuilder
 
-import utils.BooleanLiteral
-import utils.Identifier
-import utils.NumberLiteral
-import utils.StringLiteral
-import utils.Token
-import utils.Type
-import utils.VariableType
+import ast.BooleanLiteral
+import ast.Identifier
+import ast.NumberLiteral
+import ast.StringLiteral
+import ast.Type
+import ast.VariableType
+import token.Token
 
 class StringLiteralBuilder : ASTNodeBuilder {
 

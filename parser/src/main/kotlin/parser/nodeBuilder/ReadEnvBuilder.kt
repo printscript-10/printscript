@@ -1,9 +1,9 @@
 package parser.nodeBuilder
 
-import utils.ReadEnv
-import utils.Result
-import utils.Token
-import utils.TokenType
+import ast.ReadEnv
+import result.Result
+import token.Token
+import token.TokenType
 
 class ReadEnvBuilder : ASTNodeBuilder {
 

@@ -1,17 +1,17 @@
+import ast.Identifier
+import ast.PrintFunction
+import ast.StringLiteral
+import ast.Type
+import ast.VariableAssignation
+import ast.VariableDeclaration
+import ast.VariableType
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import parser.ParseSuccess
 import parser.Parser
-import utils.Identifier
-import utils.Position
-import utils.PrintFunction
-import utils.StringLiteral
-import utils.Token
-import utils.TokenType
-import utils.Type
-import utils.VariableAssignation
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
+import token.Token
+import token.TokenType
 
 class ParserTest {
 

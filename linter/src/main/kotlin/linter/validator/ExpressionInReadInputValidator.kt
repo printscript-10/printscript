@@ -1,15 +1,15 @@
 package linter.validator
 
-import lexer.linter.LintingError
+import ast.AST
+import ast.Expression
+import ast.Identifier
+import ast.Literal
+import ast.PrintFunction
+import ast.ReadInput
+import ast.VariableAssignation
+import ast.VariableDeclaration
 import linter.LinterConfig
-import utils.AST
-import utils.Expression
-import utils.Identifier
-import utils.Literal
-import utils.PrintFunction
-import utils.ReadInput
-import utils.VariableAssignation
-import utils.VariableDeclaration
+import linter.LintingError
 
 class ExpressionInReadInputValidator(private val config: LinterConfig) : Validator {
     override fun validate(ast: AST): LintingError? {

@@ -1,14 +1,14 @@
 package interpreter.nodeInterpreter
 
+import ast.ReadInput
+import ast.VariableType
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
 import interpreter.Variable
-import utils.EnvProvider
-import utils.InputProvider
-import utils.OutputProvider
-import utils.ReadInput
-import utils.Result
-import utils.VariableType
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
+import result.Result
 
 class ReadInputInterpreter(
     private val version: String,

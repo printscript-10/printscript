@@ -1,9 +1,9 @@
 package linter.validator
 
-import lexer.linter.LintingError
+import ast.AST
+import ast.VariableDeclaration
 import linter.LinterConfig
-import utils.AST
-import utils.VariableDeclaration
+import linter.LintingError
 
 class NamingConventionValidator(private val config: LinterConfig) : Validator {
     override fun validate(ast: AST): LintingError? {

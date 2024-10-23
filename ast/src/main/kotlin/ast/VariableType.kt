@@ -1,4 +1,4 @@
-package utils
+package ast
 
 enum class VariableType {
     STRING,

@@ -1,15 +1,15 @@
 package formatter.formatApplicator
 
+import ast.AST
+import ast.VariableAssignation
 import formatter.FormatApplicatorSuccess
 import formatter.FormatterConfig
-import utils.AST
-import utils.Token
-import utils.TokenType
-import utils.VariableAssignation
+import token.Token
+import token.TokenType
 
 class AssignationEqualWrapWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
-        if (ast !is VariableAssignation && !config.assignation_equal_wrap_whitespaces) {
+        if (ast !is VariableAssignation && config.assignation_equal_wrap_whitespaces != true) {
             return FormatApplicatorSuccess(tokens)
         }
 

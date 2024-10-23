@@ -1,4 +1,6 @@
-package utils
+package token
+
+import position.Position
 
 data class Token(
     val type: TokenType,

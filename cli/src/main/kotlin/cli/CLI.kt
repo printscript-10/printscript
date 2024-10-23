@@ -57,14 +57,14 @@ private fun execute(file: File, runner: Runner) {
 
 private fun format(file: File, configFile: File, runner: Runner) {
     val formatterConfig = loadFormatConfig(configFile.inputStream())
-    val newSnippet = runner.format(file.inputStream(), errorHandler, formatterConfig)
+    val newSnippet = runner.format(file.inputStream(), errorHandler, formatterConfig, outputProvider)
     if (newSnippet != null) file.writeText(newSnippet)
     handleResult("Formatted")
 }
 
 private fun analyze(file: File, configFile: File, runner: Runner) {
     val linterConfig = loadLinterConfig(configFile.inputStream())
-    runner.analyze(file.inputStream(), errorHandler, linterConfig)
+    runner.analyze(file.inputStream(), errorHandler, linterConfig, outputProvider)
     handleResult("Analyzed")
 }
 
@@ -112,6 +112,8 @@ private fun loadFormatConfig(input: InputStream): FormatterConfig {
             formatterConfig["assignation_equal_wrap_whitespaces"] as Boolean? ?: false,
         println_trailing_line_jump =
             formatterConfig["println_trailing_line_jump"] as Int? ?: 0,
+        if_block_indent_spaces =
+            formatterConfig["if_block_indent_spaces"] as Int? ?: 1,
     )
 }
 

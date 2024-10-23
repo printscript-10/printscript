@@ -4,9 +4,9 @@ import lexer.LexingSuccess
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import utils.Position
-import utils.Token
-import utils.TokenType
+import position.Position
+import token.Token
+import token.TokenType
 
 class LexerTests {
 

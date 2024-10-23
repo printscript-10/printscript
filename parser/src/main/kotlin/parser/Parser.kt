@@ -1,15 +1,15 @@
 package parser
 
+import ast.AST
+import ast.VariableType
 import parser.nodeBuilder.ASTBuilder
 import parser.nodeBuilder.BuildFailure
 import parser.nodeBuilder.BuildSuccess
 import parser.semanticAnalizer.Failure
 import parser.semanticAnalizer.SemanticAnalyzer
 import parser.semanticAnalizer.Success
-import utils.AST
-import utils.Result
-import utils.Token
-import utils.VariableType
+import result.Result
+import token.Token
 
 class Parser(
     private val version: String,

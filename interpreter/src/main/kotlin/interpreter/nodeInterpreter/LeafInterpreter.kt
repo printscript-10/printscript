@@ -1,14 +1,14 @@
 package interpreter.nodeInterpreter
 
+import ast.BooleanLiteral
+import ast.Identifier
+import ast.NumberLiteral
+import ast.StringLiteral
 import interpreter.BooleanVariable
 import interpreter.ExpressionSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
 import interpreter.Variable
-import utils.BooleanLiteral
-import utils.Identifier
-import utils.NumberLiteral
-import utils.StringLiteral
 
 class StringLiteralInterpreter : ASTExpressionInterpreter<StringLiteral> {
     override fun execute(ast: StringLiteral): ExpressionSuccess {

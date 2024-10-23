@@ -1,20 +1,20 @@
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.Identifier
+import ast.NumberLiteral
+import ast.PrintFunction
+import ast.StringLiteral
+import ast.Type
+import ast.VariableAssignation
+import ast.VariableDeclaration
+import ast.VariableType
 import formatter.FormatApplicatorSuccess
 import formatter.Formatter
 import formatter.FormatterConfig
 import org.junit.jupiter.api.Test
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.Identifier
-import utils.NumberLiteral
-import utils.Position
-import utils.PrintFunction
-import utils.StringLiteral
-import utils.Token
-import utils.TokenType
-import utils.Type
-import utils.VariableAssignation
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
+import token.Token
+import token.TokenType
 import kotlin.test.assertEquals
 
 class FormatterTest {

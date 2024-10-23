@@ -1,15 +1,15 @@
 package astBuilderTests
 
+import ast.ReadInput
+import ast.StringLiteral
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildFailure
 import parser.nodeBuilder.BuildSuccess
 import parser.nodeBuilder.ReadInputBuilder
-import utils.Position
-import utils.ReadInput
-import utils.StringLiteral
-import utils.Token
-import utils.TokenType
+import position.Position
+import token.Token
+import token.TokenType
 import kotlin.test.assertEquals
 
 class ReadInputBuilderTest {

@@ -1,10 +1,10 @@
 package parser.nodeBuilder
 
-import utils.Expression
-import utils.PrintFunction
-import utils.Result
-import utils.Token
-import utils.TokenType
+import ast.Expression
+import ast.PrintFunction
+import result.Result
+import token.Token
+import token.TokenType
 
 class PrintBuilder(private val version: String) : ASTNodeBuilder {
 

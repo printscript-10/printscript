@@ -1,12 +1,12 @@
 package interpreter.nodeInterpreter
 
+import ast.VariableType
 import interpreter.BooleanVariable
 import interpreter.ExpressionFailure
 import interpreter.ExpressionSuccess
 import interpreter.NumericVariable
 import interpreter.StringVariable
-import utils.Result
-import utils.VariableType
+import result.Result
 
 fun isBoolean(string: String): Boolean {
     return string == "true" || string == "false"

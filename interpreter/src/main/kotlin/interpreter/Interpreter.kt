@@ -1,20 +1,20 @@
 package interpreter
 
+import ast.AST
+import ast.Declaration
+import ast.IfStatement
+import ast.PrintFunction
+import ast.VariableAssignation
+import ast.VariableDeclaration
 import interpreter.nodeInterpreter.ASTDeclarationInterpreter
 import interpreter.nodeInterpreter.IfStatementInterpreter
 import interpreter.nodeInterpreter.PrintInterpreter
 import interpreter.nodeInterpreter.VariableAssignationInterpreter
 import interpreter.nodeInterpreter.VariableDeclarationInterpreter
-import utils.AST
-import utils.Declaration
-import utils.EnvProvider
-import utils.IfStatement
-import utils.InputProvider
-import utils.OutputProvider
-import utils.PrintFunction
-import utils.Result
-import utils.VariableAssignation
-import utils.VariableDeclaration
+import provider.EnvProvider
+import provider.InputProvider
+import provider.OutputProvider
+import result.Result
 import kotlin.reflect.KClass
 
 class Interpreter(

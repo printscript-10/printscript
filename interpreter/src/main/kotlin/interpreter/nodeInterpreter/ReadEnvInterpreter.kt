@@ -1,10 +1,10 @@
 package interpreter.nodeInterpreter
 
+import ast.ReadEnv
+import ast.VariableType
 import interpreter.ExpressionFailure
-import utils.EnvProvider
-import utils.ReadEnv
-import utils.Result
-import utils.VariableType
+import provider.EnvProvider
+import result.Result
 
 class ReadEnvInterpreter(
     private val envProvider: EnvProvider,

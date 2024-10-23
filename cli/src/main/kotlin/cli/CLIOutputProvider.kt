@@ -1,6 +1,6 @@
 package cli
 
-import utils.OutputProvider
+import provider.OutputProvider
 
 class CLIOutputProvider : OutputProvider {
     override fun print(message: String) {

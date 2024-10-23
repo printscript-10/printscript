@@ -1,4 +1,4 @@
-package utils
+package result
 
 sealed interface Result
 

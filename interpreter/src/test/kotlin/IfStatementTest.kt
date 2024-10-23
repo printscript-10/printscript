@@ -1,3 +1,7 @@
+import ast.Identifier
+import ast.IfStatement
+import ast.StringLiteral
+import ast.VariableAssignation
 import interpreter.BooleanVariable
 import interpreter.InterpretSuccess
 import interpreter.StringVariable
@@ -5,11 +9,7 @@ import interpreter.Variable
 import interpreter.nodeInterpreter.IfStatementInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import utils.Identifier
-import utils.IfStatement
-import utils.Position
-import utils.StringLiteral
-import utils.VariableAssignation
+import position.Position
 
 class IfStatementTest {
     private val outputProvider = TestOutputProvider()

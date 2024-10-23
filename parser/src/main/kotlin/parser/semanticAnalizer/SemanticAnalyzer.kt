@@ -1,11 +1,11 @@
 package parser.semanticAnalizer
 
-import utils.AST
-import utils.IfStatement
-import utils.PrintFunction
-import utils.VariableAssignation
-import utils.VariableDeclaration
-import utils.VariableType
+import ast.AST
+import ast.IfStatement
+import ast.PrintFunction
+import ast.VariableAssignation
+import ast.VariableDeclaration
+import ast.VariableType
 
 class SemanticAnalyzer(private val variables: Map<String, VariableType>) {
 

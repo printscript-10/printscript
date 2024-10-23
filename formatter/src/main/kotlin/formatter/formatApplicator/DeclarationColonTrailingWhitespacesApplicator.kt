@@ -1,15 +1,15 @@
 package formatter.formatApplicator
 
+import ast.AST
+import ast.VariableDeclaration
 import formatter.FormatApplicatorSuccess
 import formatter.FormatterConfig
-import utils.AST
-import utils.Token
-import utils.TokenType
-import utils.VariableDeclaration
+import token.Token
+import token.TokenType
 
 class DeclarationColonTrailingWhitespacesApplicator(private val config: FormatterConfig) : FormatApplicator {
     override fun apply(tokens: List<Token>, ast: AST): FormatApplicatorSuccess {
-        if (ast !is VariableDeclaration || !config.declaration_colon_trailing_whitespaces) {
+        if (ast !is VariableDeclaration || config.declaration_colon_trailing_whitespaces != true) {
             return FormatApplicatorSuccess(tokens)
         }
 

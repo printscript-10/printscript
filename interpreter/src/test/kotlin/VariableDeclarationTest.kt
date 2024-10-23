@@ -1,15 +1,15 @@
+import ast.Identifier
+import ast.StringLiteral
+import ast.Type
+import ast.VariableDeclaration
+import ast.VariableType
 import interpreter.InterpretSuccess
 import interpreter.StringVariable
 import interpreter.Variable
 import interpreter.nodeInterpreter.VariableDeclarationInterpreter
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import utils.Identifier
-import utils.Position
-import utils.StringLiteral
-import utils.Type
-import utils.VariableDeclaration
-import utils.VariableType
+import position.Position
 
 class VariableDeclarationTest {
     private val outputProvider = TestOutputProvider()

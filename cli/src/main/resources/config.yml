@@ -3,6 +3,7 @@ formatter:
     declaration_colon_trailing_whitespaces: true
     declaration_colon_leading_whitespaces: true
     assignation_equal_wrap_whitespaces: true
+    if_block_indent_spaces: 4
     println_trailing_line_jump: 2
 
 linter:

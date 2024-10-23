@@ -1,6 +1,6 @@
 package cli
 
-import utils.EnvProvider
+import provider.EnvProvider
 
 class CLIEnvProvider() : EnvProvider {
     override fun getEnv(variable: String): String? {

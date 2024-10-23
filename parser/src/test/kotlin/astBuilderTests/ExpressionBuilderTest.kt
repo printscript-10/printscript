@@ -1,16 +1,16 @@
 package astBuilderTests
 
+import ast.BinaryOperation
+import ast.BinaryOperators
+import ast.NumberLiteral
+import ast.StringLiteral
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import parser.nodeBuilder.BuildSuccess
 import parser.nodeBuilder.ExpressionBuilder
-import utils.BinaryOperation
-import utils.BinaryOperators
-import utils.NumberLiteral
-import utils.Position
-import utils.StringLiteral
-import utils.Token
-import utils.TokenType
+import position.Position
+import token.Token
+import token.TokenType
 
 class ExpressionBuilderTest {
     @Test

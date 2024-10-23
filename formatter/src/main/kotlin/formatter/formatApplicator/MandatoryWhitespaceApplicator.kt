@@ -1,9 +1,9 @@
 package formatter.formatApplicator
 
+import ast.AST
 import formatter.FormatApplicatorSuccess
-import utils.AST
-import utils.Token
-import utils.TokenType
+import token.Token
+import token.TokenType
 
 class MandatoryWhitespaceApplicator(version: String) : FormatApplicator {
 

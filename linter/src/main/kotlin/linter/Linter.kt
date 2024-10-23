@@ -1,15 +1,12 @@
 package linter
 
-import lexer.linter.LinterFailure
-import lexer.linter.LinterSuccess
-import lexer.linter.LintingError
+import ast.AST
 import linter.validator.ExpressionInPrintValidator
 import linter.validator.ExpressionInReadInputValidator
 import linter.validator.IfStatementValidator
 import linter.validator.NamingConventionValidator
 import linter.validator.Validator
-import utils.AST
-import utils.Result
+import result.Result
 
 class Linter(config: LinterConfig, version: String) {
 
